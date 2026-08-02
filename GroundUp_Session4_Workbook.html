@@ -1,0 +1,1093 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ground Up — Session 4: Leadership & Personal Development</title>
+<style>
+:root {
+  --forest:   #2C5F2D;
+  --moss:     #6B9E3F;
+  --gold:     #C8963E;
+  --cream:    #F7F4EF;
+  --sand:     #EDE8DC;
+  --charcoal: #2E2E2E;
+  --white:    #FFFFFF;
+  --border:   #D5D0C8;
+  --navy:     #1a1a2e;
+  --muted:    #666666;
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: 'Segoe UI', Arial, sans-serif; background: var(--cream); color: var(--charcoal); font-size: 16px; line-height: 1.6; }
+
+.site-header { background: var(--forest); }
+.header-top { max-width: 860px; margin: 0 auto; padding: 24px 24px 16px; }
+.program-eyebrow { font-size: 10px; letter-spacing: 3px; text-transform: uppercase; color: var(--gold); font-weight: 700; margin-bottom: 6px; }
+.site-header h1 { font-family: Georgia, serif; font-size: 30px; color: var(--white); font-weight: 700; line-height: 1.2; margin-bottom: 4px; }
+.site-header .tagline { font-style: italic; color: #a8c4a8; font-size: 14px; }
+
+.session-banner { background: var(--gold); padding: 14px 24px; }
+.session-banner-inner { max-width: 860px; margin: 0 auto; display: flex; align-items: center; gap: 16px; }
+.session-circle { background: var(--forest); color: var(--white); width: 48px; height: 48px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-family: Georgia, serif; font-size: 20px; font-weight: 700; flex-shrink: 0; }
+.session-title { font-family: Georgia, serif; font-size: 20px; font-weight: 700; color: var(--forest); }
+.session-subtitle { font-size: 13px; color: var(--forest); opacity: 0.75; margin-top: 2px; }
+
+.idea-banner { background: var(--navy); border-bottom: 3px solid var(--gold); }
+.idea-banner-inner { max-width: 860px; margin: 0 auto; padding: 14px 24px; display: flex; align-items: center; gap: 16px; flex-wrap: wrap; }
+.idea-label { font-size: 10px; letter-spacing: 2px; text-transform: uppercase; color: var(--gold); font-weight: 700; white-space: nowrap; flex-shrink: 0; }
+.idea-label span { display: block; font-size: 9px; color: #888; letter-spacing: 1px; margin-top: 2px; font-weight: 400; }
+.idea-input { flex: 1; min-width: 200px; background: rgba(255,255,255,0.08); border: 1px solid rgba(200,150,62,0.4); border-radius: 4px; padding: 8px 12px; font-size: 14px; color: var(--white); font-family: inherit; font-style: italic; }
+.idea-input::placeholder { color: #666; }
+.idea-input:focus { outline: none; border-color: var(--gold); }
+
+.week-nav { background: var(--forest); padding: 0 24px; overflow-x: auto; -webkit-overflow-scrolling: touch; }
+.week-nav-inner { display: flex; max-width: 860px; margin: 0 auto; gap: 2px; }
+.tab-btn { background: transparent; border: none; color: #7a9e7a; padding: 12px 16px; font-size: 13px; font-weight: 600; cursor: pointer; border-bottom: 3px solid transparent; white-space: nowrap; transition: all 0.2s; font-family: inherit; }
+.tab-btn:hover { color: var(--white); }
+.tab-btn.active { color: var(--gold); border-bottom-color: var(--gold); }
+.tab-btn.complete::after { content: ' ✓'; color: var(--moss); }
+
+.progress-wrap { background: var(--sand); padding: 12px 24px; border-bottom: 1px solid var(--border); }
+.progress-inner { max-width: 860px; margin: 0 auto; }
+.progress-label { font-size: 12px; color: var(--forest); font-weight: 600; margin-bottom: 6px; display: flex; justify-content: space-between; }
+.progress-track { background: var(--border); height: 7px; border-radius: 4px; overflow: hidden; }
+.progress-fill { background: linear-gradient(90deg, var(--moss), var(--gold)); height: 100%; border-radius: 4px; width: 0%; transition: width 0.5s ease; }
+
+.main { max-width: 860px; margin: 0 auto; padding: 32px 24px 80px; }
+.week-section { display: none; }
+.week-section.active { display: block; }
+
+.week-header { margin-bottom: 28px; }
+.week-eyebrow { font-size: 10px; letter-spacing: 3px; color: var(--gold); font-weight: 700; text-transform: uppercase; margin-bottom: 8px; }
+.week-header h2 { font-family: Georgia, serif; font-size: 26px; color: var(--forest); margin-bottom: 10px; }
+.week-objective { background: var(--forest); color: var(--white); padding: 14px 18px; border-radius: 6px; font-size: 14px; line-height: 1.6; }
+.week-objective strong { color: var(--gold); display: block; font-size: 10px; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 4px; }
+
+.card { background: var(--white); border: 1px solid var(--border); border-radius: 8px; margin-bottom: 20px; overflow: hidden; }
+.card-header { background: var(--sand); padding: 12px 18px; display: flex; align-items: center; gap: 10px; border-bottom: 1px solid var(--border); }
+.card-icon { font-size: 18px; }
+.card-header h3 { font-size: 13px; font-weight: 700; color: var(--forest); text-transform: uppercase; letter-spacing: 1px; }
+.card-body { padding: 20px; }
+
+.concept-item { display: flex; gap: 14px; margin-bottom: 16px; padding-bottom: 16px; border-bottom: 1px solid var(--sand); }
+.concept-item:last-child { border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
+.concept-dot { width: 8px; height: 8px; background: var(--gold); border-radius: 50%; margin-top: 8px; flex-shrink: 0; }
+.concept-text strong { display: block; color: var(--forest); font-size: 15px; margin-bottom: 3px; }
+.concept-text span { font-size: 14px; color: #555; }
+
+.stat-row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 20px; }
+.stat-box { background: var(--forest); border-radius: 8px; padding: 18px; display: flex; align-items: center; gap: 14px; }
+.stat-number { font-family: Georgia, serif; font-size: 38px; font-weight: 700; color: var(--gold); flex-shrink: 0; line-height: 1; }
+.stat-label { font-size: 13px; color: #c8d8c8; line-height: 1.5; }
+
+.ai-section { background: var(--navy); border-radius: 8px; overflow: hidden; margin-bottom: 20px; }
+.ai-section-header { padding: 10px 18px; border-bottom: 1px solid rgba(255,255,255,0.08); display: flex; align-items: center; gap: 10px; }
+.ai-section-header h3 { font-size: 11px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: var(--gold); }
+.ai-tracks { display: grid; grid-template-columns: 1fr 1fr; }
+.ai-track { padding: 16px 18px; }
+.ai-track + .ai-track { border-left: 1px solid rgba(255,255,255,0.08); }
+.ai-track-label { font-size: 11px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; margin-bottom: 8px; }
+.ai-track.basics .ai-track-label { color: #6ab187; }
+.ai-track.deeper .ai-track-label { color: #7b9fd4; }
+.ai-track p { font-size: 13px; color: #b8c8b8; line-height: 1.6; }
+.ai-track.deeper p { color: #b0c0d8; }
+.ai-exercise { margin-top: 10px; background: rgba(255,255,255,0.05); border-radius: 4px; padding: 10px 12px; font-size: 13px; color: #c8d8c8; line-height: 1.5; }
+.ai-exercise strong { display: block; font-size: 10px; letter-spacing: 1px; text-transform: uppercase; color: var(--gold); margin-bottom: 4px; }
+
+.resource-link { display: flex; align-items: flex-start; gap: 12px; padding: 12px 0; border-bottom: 1px solid var(--sand); text-decoration: none; color: inherit; }
+.resource-link:last-child { border-bottom: none; }
+.resource-link:hover .resource-title { color: var(--forest); text-decoration: underline; }
+.resource-type { background: var(--forest); color: var(--white); font-size: 10px; font-weight: 700; letter-spacing: 1px; padding: 3px 8px; border-radius: 3px; white-space: nowrap; flex-shrink: 0; margin-top: 2px; }
+.resource-type.video { background: #8B1A1A; }
+.resource-type.article { background: var(--moss); }
+.resource-type.tool { background: var(--gold); color: var(--forest); }
+.resource-title { font-size: 14px; color: var(--charcoal); font-weight: 600; }
+.resource-desc { font-size: 12px; color: #888; margin-top: 2px; }
+
+.exercise-item { background: var(--cream); border-left: 4px solid var(--gold); padding: 14px 16px; margin-bottom: 14px; border-radius: 0 6px 6px 0; }
+.exercise-item h4 { font-size: 14px; color: var(--forest); font-weight: 700; margin-bottom: 6px; }
+.exercise-item p { font-size: 13px; color: #555; line-height: 1.6; }
+.plan-tag { display: inline-block; background: var(--gold); color: var(--forest); font-size: 9px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; padding: 2px 7px; border-radius: 3px; margin-bottom: 6px; }
+
+.reflection-label { font-size: 13px; font-weight: 700; color: var(--forest); margin-bottom: 6px; display: block; }
+.reflection-hint { font-size: 12px; color: var(--muted); margin-bottom: 6px; display: block; font-style: italic; }
+textarea { width: 100%; border: 1px solid var(--border); border-radius: 6px; padding: 12px; font-family: inherit; font-size: 14px; resize: vertical; min-height: 90px; background: #fafaf8; margin-bottom: 16px; color: var(--charcoal); line-height: 1.6; }
+textarea:focus { outline: none; border-color: var(--moss); background: var(--white); }
+
+.save-reminder { background: #f0f7f0; border: 1px solid #b8d4b8; border-radius: 6px; padding: 12px 16px; margin-bottom: 16px; font-size: 13px; color: var(--forest); display: flex; gap: 10px; }
+.save-reminder strong { display: block; margin-bottom: 2px; }
+
+.deliverable-card { background: var(--forest); color: var(--white); border-radius: 8px; padding: 22px; margin-bottom: 20px; }
+.deliverable-eyebrow { font-size: 10px; letter-spacing: 3px; color: var(--gold); font-weight: 700; text-transform: uppercase; margin-bottom: 8px; }
+.deliverable-card h4 { font-family: Georgia, serif; font-size: 20px; margin-bottom: 8px; }
+.deliverable-card p { font-size: 13px; color: #c8d8c8; line-height: 1.6; margin-bottom: 16px; }
+.checklist-item { display: flex; gap: 10px; align-items: flex-start; margin-bottom: 8px; font-size: 13px; color: #c8d8c8; }
+.checklist-item::before { content: '□'; color: var(--gold); font-size: 16px; line-height: 1.2; flex-shrink: 0; }
+.submit-btn { background: var(--gold); color: var(--forest); border: none; padding: 12px 24px; border-radius: 6px; font-size: 14px; font-weight: 700; cursor: pointer; transition: opacity 0.2s; font-family: inherit; }
+.submit-btn:hover { opacity: 0.88; }
+
+.plan-thread { background: var(--navy); border: 1px solid rgba(200,150,62,0.3); border-radius: 8px; padding: 18px 20px; margin-bottom: 20px; }
+.plan-thread-label { font-size: 10px; letter-spacing: 2px; text-transform: uppercase; color: var(--gold); font-weight: 700; margin-bottom: 6px; }
+.plan-thread h4 { font-family: Georgia, serif; font-size: 17px; color: var(--white); margin-bottom: 8px; }
+.plan-thread p { font-size: 13px; color: #b0b8c8; line-height: 1.6; }
+
+.scenario-box { background: #f0f7f0; border: 1px solid #b8d4b8; border-left: 4px solid var(--moss); border-radius: 0 6px 6px 0; padding: 14px 16px; margin-bottom: 14px; font-size: 13px; color: var(--charcoal); line-height: 1.7; }
+.scenario-box strong { color: var(--forest); display: block; margin-bottom: 4px; font-size: 12px; letter-spacing: 1px; text-transform: uppercase; }
+
+/* Session 4 specific — assembly tracker */
+.assembly-tracker { background: var(--sand); border: 1px solid var(--border); border-radius: 8px; padding: 20px; margin-bottom: 20px; }
+.assembly-tracker h4 { font-size: 13px; font-weight: 700; color: var(--forest); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 14px; }
+.assembly-row { display: flex; align-items: center; gap: 14px; margin-bottom: 12px; padding-bottom: 12px; border-bottom: 1px solid var(--border); }
+.assembly-row:last-child { border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
+.assembly-num { background: var(--forest); color: var(--gold); width: 32px; height: 32px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-family: Georgia, serif; font-size: 15px; font-weight: 700; flex-shrink: 0; }
+.assembly-text strong { display: block; font-size: 14px; color: var(--forest); }
+.assembly-text span { font-size: 12px; color: #777; }
+.assembly-check { margin-left: auto; }
+.assembly-check input[type="checkbox"] { width: 20px; height: 20px; cursor: pointer; accent-color: var(--moss); }
+
+/* Graduation */
+.graduation-banner { background: linear-gradient(135deg, var(--forest) 0%, #1a3d1b 50%, #0d2410 100%); border-radius: 12px; padding: 36px 28px; margin-bottom: 24px; text-align: center; border: 2px solid var(--gold); position: relative; overflow: hidden; }
+.graduation-banner::before { content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: radial-gradient(ellipse at center, rgba(200,150,62,0.08) 0%, transparent 70%); }
+.graduation-banner .badge { font-size: 52px; margin-bottom: 14px; display: block; }
+.graduation-banner h2 { font-family: Georgia, serif; font-size: 28px; color: var(--gold); margin-bottom: 10px; line-height: 1.3; }
+.graduation-banner .subtitle { font-size: 16px; color: #c8d8c8; line-height: 1.6; max-width: 580px; margin: 0 auto 16px; }
+.graduation-banner .program-name { font-size: 13px; color: #7a9e7a; letter-spacing: 2px; text-transform: uppercase; }
+
+.capstone-intro { background: var(--sand); border: 1px solid var(--border); border-radius: 8px; padding: 20px; margin-bottom: 20px; }
+.capstone-intro h3 { font-family: Georgia, serif; font-size: 20px; color: var(--forest); margin-bottom: 8px; }
+.capstone-intro p { font-size: 14px; color: #555; line-height: 1.6; }
+
+.toast { position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%) translateY(80px); background: var(--forest); color: var(--white); padding: 14px 24px; border-radius: 8px; font-size: 14px; font-weight: 600; z-index: 999; transition: transform 0.3s ease; box-shadow: 0 4px 20px rgba(0,0,0,0.25); pointer-events: none; }
+.toast.show { transform: translateX(-50%) translateY(0); }
+
+@media print {
+  .week-nav, .progress-wrap, .tab-btn, .submit-btn { display: none !important; }
+  .week-section { display: block !important; page-break-before: always; }
+  .week-section:first-child { page-break-before: auto; }
+  body { background: white; }
+}
+@media (max-width: 600px) {
+  .site-header h1 { font-size: 22px; }
+  .main { padding: 20px 16px 60px; }
+  .tab-btn { padding: 10px 10px; font-size: 12px; }
+  .ai-tracks { grid-template-columns: 1fr; }
+  .ai-track + .ai-track { border-left: none; border-top: 1px solid rgba(255,255,255,0.08); }
+  .stat-row { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body>
+
+<header class="site-header">
+  <div class="header-top">
+    <div class="program-eyebrow">Ground Up — Where Rebuilding Begins.</div>
+    <h1>Session 4 Workbook</h1>
+    <div class="tagline">The Paddock Cafe &middot; Shelbyville, Kentucky &middot; In partnership with Awake Ministries</div>
+  </div>
+</header>
+
+<div class="session-banner">
+  <div class="session-banner-inner">
+    <div class="session-circle">4</div>
+    <div>
+      <div class="session-title">Leadership &amp; Personal Development</div>
+      <div class="session-subtitle">4 Weeks + Final Capstone &middot; The Ground Up Plan — Complete</div>
+    </div>
+  </div>
+</div>
+
+<div class="idea-banner">
+  <div class="idea-banner-inner">
+    <div class="idea-label">
+      Your Business Idea
+      <span>Four sessions. One plan. Yours.</span>
+    </div>
+    <input type="text" class="idea-input" id="business-idea" placeholder="The idea you've been building toward..." />
+  </div>
+</div>
+
+<nav class="week-nav">
+  <div class="week-nav-inner">
+    <button class="tab-btn active" onclick="showTab('w1',this)" id="tab-w1">Week 1</button>
+    <button class="tab-btn" onclick="showTab('w2',this)" id="tab-w2">Week 2</button>
+    <button class="tab-btn" onclick="showTab('w3',this)" id="tab-w3">Week 3</button>
+    <button class="tab-btn" onclick="showTab('w4',this)" id="tab-w4">Week 4</button>
+    <button class="tab-btn" onclick="showTab('cap',this)" id="tab-cap">🌱 Final Capstone</button>
+  </div>
+</nav>
+
+<div class="progress-wrap">
+  <div class="progress-inner">
+    <div class="progress-label">
+      <span>Session 4 Progress</span>
+      <span id="pct-label">0%</span>
+    </div>
+    <div class="progress-track">
+      <div class="progress-fill" id="progress-fill"></div>
+    </div>
+  </div>
+</div>
+
+<main class="main">
+
+<!-- ══════════════════════════════════════════════════════════════
+     WEEK 1 — Who You Are as a Leader
+══════════════════════════════════════════════════════════════ -->
+<section class="week-section active" id="sec-w1">
+  <div class="week-header">
+    <div class="week-eyebrow">Session 4 &middot; Week 1</div>
+    <h2>Who You Are as a Leader</h2>
+    <div class="week-objective">
+      <strong>Weekly Objective</strong>
+      Understand what leadership actually means — not a title, not authority, but a way of showing up that changes what's possible for the people around you. Identify your natural leadership strengths, your honest blind spots, and the kind of leader you are becoming.
+    </div>
+  </div>
+
+  <div class="plan-thread">
+    <div class="plan-thread-label">🗂 Ground Up Plan — Session 4</div>
+    <h4>The Final Session. The Complete Plan.</h4>
+    <p>This is where everything comes together. Over the next four weeks you'll build the final layer of your Ground Up Plan — your leadership identity, your vision and mission, your 90-day launch plan, and the assembled complete business plan. At your final capstone, you'll present all of it. Not as a school project. As the beginning of something real.</p>
+  </div>
+
+  <div class="card">
+    <div class="card-header"><span class="card-icon">☕</span><h3>Key Concepts</h3></div>
+    <div class="card-body">
+      <div class="concept-item">
+        <div class="concept-dot"></div>
+        <div class="concept-text">
+          <strong>Leadership is not a title — it's a decision</strong>
+          <span>You don't become a leader when someone promotes you. You become a leader the moment you decide to take responsibility for something beyond yourself — for a team, a customer, a community, or an idea. At The Paddock right now, you are already making leadership decisions: whether you speak up when something's wrong, whether you help a struggling coworker, whether you hold yourself to a standard even when no one's watching. Leadership is happening in you every shift. The question is whether you're doing it intentionally.</span>
+        </div>
+      </div>
+      <div class="concept-item">
+        <div class="concept-dot"></div>
+        <div class="concept-text">
+          <strong>The difference between managing and leading</strong>
+          <span>A manager makes sure today runs smoothly. A leader makes sure tomorrow is worth showing up for. Both matter. But they require fundamentally different orientations. Managers think about tasks. Leaders think about people and possibility. In a small business — your business — you will have to do both. Understanding the difference helps you know which mode you're in at any given moment, and which one the situation actually needs from you.</span>
+        </div>
+      </div>
+      <div class="concept-item">
+        <div class="concept-dot"></div>
+        <div class="concept-text">
+          <strong>Your history is not a disqualification — it's a credential</strong>
+          <span>The most common reason people in recovery hold back from stepping into leadership is the belief that their past disqualifies them. It doesn't. In many ways, what you've been through — and come through — gives you capabilities most leaders never develop: the ability to sit with someone in their worst moment, to understand that change is possible, to know from the inside what it takes to rebuild something from nothing. Those aren't weaknesses. They are leadership assets of the highest order.</span>
+        </div>
+      </div>
+      <div class="concept-item">
+        <div class="concept-dot"></div>
+        <div class="concept-text">
+          <strong>Integrity is the foundation every other leadership quality rests on</strong>
+          <span>You can be charismatic without integrity. You can be intelligent without it. You can be likable without it. But you cannot be trusted without it. And trust is the currency that makes leadership possible. Integrity means doing what you said you would do, when you said you'd do it, even when no one is checking. It means your words and your actions are the same thing. In a recovery context, integrity is something you've been practicing every day. It turns out that's exactly what leadership requires.</span>
+        </div>
+      </div>
+      <div class="concept-item">
+        <div class="concept-dot"></div>
+        <div class="concept-text">
+          <strong>The best leaders are the best learners</strong>
+          <span>Research on effective leadership consistently finds that the quality that most predicts long-term leadership success is not intelligence, charisma, or experience — it's coachability. The willingness to receive feedback without becoming defensive, to admit what you don't know, to try something differently when it isn't working. Completing this program is evidence that you have that quality. You showed up, you did the work, and you were willing to learn things that were sometimes uncomfortable. That is leadership behavior.</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="stat-row">
+    <div class="stat-box">
+      <div class="stat-number">70%</div>
+      <div class="stat-label">of what determines a team's engagement and performance is directly attributable to the leader — which means how you lead matters more than almost anything else in a business.</div>
+    </div>
+    <div class="stat-box">
+      <div class="stat-number">50%</div>
+      <div class="stat-label">of entrepreneurs who start businesses today began their careers in hourly or entry-level roles — exactly where you are right now. Where you start does not determine where you finish.</div>
+    </div>
+  </div>
+
+  <div class="ai-section">
+    <div class="ai-section-header">
+      <span style="font-size:18px;">🤖</span>
+      <h3>AI &amp; Leadership Self-Assessment — Week 1</h3>
+    </div>
+    <div class="ai-tracks">
+      <div class="ai-track basics">
+        <div class="ai-track-label">🌱 AI Basics</div>
+        <p>AI can help you think through your leadership strengths and blind spots by asking you structured questions — the kind a coach or therapist might ask, but available any time, completely non-judgmental, and as honest as you are with it. It's a useful mirror when you need to reflect on yourself clearly.</p>
+        <div class="ai-exercise">
+          <strong>Leadership Self-Assessment</strong>
+          In Claude.ai, type: <em>"I want to understand my leadership strengths and blind spots better. Ask me five questions about how I show up as a leader — in my work at the café, in my relationships, or in how I handle difficulty. Based on my answers, tell me what you observe about my leadership style and where my growth edges seem to be."</em> — Be honest in your answers. Save the exchange.
+        </div>
+      </div>
+      <div class="ai-track deeper">
+        <div class="ai-track-label">🚀 Going Deeper</div>
+        <p>Leadership style frameworks — servant leadership, transformational leadership, situational leadership — can help you understand what comes naturally to you and what you need to develop intentionally. AI can walk you through these frameworks and help you identify which one fits how you naturally operate.</p>
+        <div class="ai-exercise">
+          <strong>Identify Your Leadership Style</strong>
+          In Claude.ai, type: <em>"Explain the three most common leadership styles used in small businesses: servant, transformational, and situational. Then ask me five questions to help identify which style fits how I naturally lead. After my answers, tell me which style or combination fits best — and what I should watch out for with that style."</em>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header"><span class="card-icon">📚</span><h3>Resources</h3></div>
+    <div class="card-body">
+      <a class="resource-link" href="https://themeaningmovement.com/leadership-vision-examples/" target="_blank">
+        <span class="resource-type article">Article</span>
+        <div><div class="resource-title">Leadership Vision Examples: What Great Leaders See (2026)</div><div class="resource-desc">The Meaning Movement — Free · Feb 2026 · How personal leadership vision works, with real examples — and why your vision doesn't have to be grand to be powerful</div></div>
+      </a>
+      <a class="resource-link" href="https://makeheadway.com/blog/personal-leadership-development-plan/" target="_blank">
+        <span class="resource-type article">Article</span>
+        <div><div class="resource-title">Personal Leadership Development Plan: Your Growth Roadmap for 2026</div><div class="resource-desc">Headway — Free · Feb 2026 · Step-by-step guide to building a personal leadership plan with vision, goals, and measurable milestones</div></div>
+      </a>
+      <a class="resource-link" href="https://www.youtube.com/@SimonSinek" target="_blank">
+        <span class="resource-type video">Video</span>
+        <div><div class="resource-title">Simon Sinek — Why Good Leaders Make You Feel Safe</div><div class="resource-desc">YouTube — Free · Search "Simon Sinek leaders feel safe" · 12 min · The most watched leadership talk on YouTube — what it means to put people first</div></div>
+      </a>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header"><span class="card-icon">✏️</span><h3>Exercises</h3></div>
+    <div class="card-body">
+      <div class="exercise-item">
+        <h4>Exercise 1 — The Leaders Who Shaped You</h4>
+        <p>Think of two or three people in your life who led you in some way — a parent, a teacher, a coach, a manager, a pastor, a sponsor. What did the best of them do that made you want to give more? What did the worst do that made you want to shut down or leave? Write a specific description of each — not just "they were kind" but what exactly they did. What do these examples tell you about the kind of leader you want to be?</p>
+      </div>
+      <label class="reflection-label">The leaders who shaped you and what you learned from each:</label>
+      <textarea id="w1e1" placeholder="Best leader in my life: ___ | What they specifically did: ...&#10;What made them effective: ...&#10;&#10;A leader who had a negative impact: ___ | What they did: ...&#10;&#10;What both tell me about the leader I want to be: ..." oninput="calcProgress()"></textarea>
+
+      <div class="exercise-item">
+        <div class="plan-tag">Ground Up Plan</div>
+        <h4>Exercise 2 — Your Leadership Identity Statement</h4>
+        <p>Write a paragraph describing who you are as a leader right now — not who you want to be someday, but who you are today, based on evidence from your actual behavior. Include: one leadership strength you know you have, one blind spot you're honest about, and one specific moment from this program or your time at The Paddock that shows what kind of leader you're becoming. This goes into your Ground Up Plan as your leadership identity.</p>
+      </div>
+      <label class="reflection-label">Your leadership identity statement:</label>
+      <span class="reflection-hint">Save in your Google Drive Ground Up Plan document — Section 4, Part 1.</span>
+      <textarea id="w1e2" rows="6" placeholder="As a leader right now, I am...&#10;My strongest leadership quality is... I know this because...&#10;My honest blind spot is...&#10;A moment that shows the leader I'm becoming: ..." oninput="calcProgress()"></textarea>
+
+      <div class="exercise-item">
+        <h4>Exercise 3 — How Your Story Qualifies You</h4>
+        <p>Write about how your personal history — including the hard parts — has given you leadership capabilities that someone who hasn't been through what you've been through simply doesn't have. Be specific. What do you understand about struggle, about change, about starting over, about asking for help, about showing up even when it's hard — that makes you a more effective leader and business owner? This is not a brag. It's an honest accounting of what you've earned.</p>
+      </div>
+      <label class="reflection-label">How your history qualifies you as a leader:</label>
+      <textarea id="w1e3" placeholder="What I understand about struggle that most people don't: ...&#10;What going through recovery taught me about leading others: ...&#10;The capability my history gives me that can't be taught in a classroom: ..." oninput="calcProgress()"></textarea>
+    </div>
+  </div>
+
+  <div class="save-reminder">
+    <span style="font-size:20px;">💾</span>
+    <div><strong>Save to Google Drive.</strong> Create a document called "Ground Up Session 4 — Leadership Plan." Paste Exercise 2 as Section 4, Part 1: Leadership Identity.</div>
+  </div>
+
+  <div class="deliverable-card">
+    <div class="deliverable-eyebrow">Week 1 Deliverable</div>
+    <h4>Leadership Identity Statement</h4>
+    <p>Share with your Mentor Lead: your leadership identity statement from Exercise 2. Your Mentor Lead will push you to be more specific where you're vague, and more honest where you're deflecting. This is not a performance — it's the foundation of everything else in Session 4.</p>
+    <button class="submit-btn" onclick="markDone('w1')">✓ Week 1 Complete</button>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════════════════════
+     WEEK 2 — Vision, Mission & Your Why
+══════════════════════════════════════════════════════════════ -->
+<section class="week-section" id="sec-w2">
+  <div class="week-header">
+    <div class="week-eyebrow">Session 4 &middot; Week 2</div>
+    <h2>Vision, Mission &amp; Your Why</h2>
+    <div class="week-objective">
+      <strong>Weekly Objective</strong>
+      Write your personal vision statement — where you're going — and your personal mission statement — how you operate right now. Then go deeper: understand the "why" behind your business that will sustain you through the hard days when the money isn't there yet and the doubt is loud.
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header"><span class="card-icon">☕</span><h3>Key Concepts</h3></div>
+    <div class="card-body">
+      <div class="concept-item">
+        <div class="concept-dot"></div>
+        <div class="concept-text">
+          <strong>Vision is where you're going — mission is how you operate today</strong>
+          <span>A vision statement describes the future you're working toward — the best version of your professional life, specific enough to make decisions against. A mission statement describes what you do, how you do it, and why — right now, today, in your actual work. The distinction matters. Vision without mission is daydreaming. Mission without vision is treadmill running. You need both: a destination and a way of traveling that you're proud of.</span>
+        </div>
+      </div>
+      <div class="concept-item">
+        <div class="concept-dot"></div>
+        <div class="concept-text">
+          <strong>Your vision doesn't have to be grand — it has to be yours</strong>
+          <span>The word "vision" can feel intimidating — like it requires a world-changing statement. It doesn't. A vision that says "I want to be running a thriving catering business in Shelbyville within three years, employing two people from the community, and being known as someone who kept her word" is a powerful vision. It's specific. It's real. It belongs to one person. A vision that sounds impressive but doesn't actually belong to you will not sustain you through the hard days. Only the true one will.</span>
+        </div>
+      </div>
+      <div class="concept-item">
+        <div class="concept-dot"></div>
+        <div class="concept-text">
+          <strong>Start with Why — Simon Sinek's most important idea</strong>
+          <span>Simon Sinek's research found that the most successful businesses and leaders don't lead with what they do or how they do it — they lead with why they do it. The why is the belief, the purpose, the cause that gets you out of bed on a Tuesday when nothing is going right. For a business built after a period of personal rebuilding, the why is often the most compelling thing about it. People don't buy what you do. They buy why you do it. Do you know yours?</span>
+        </div>
+      </div>
+      <div class="concept-item">
+        <div class="concept-dot"></div>
+        <div class="concept-text">
+          <strong>Your mission statement is short enough to memorize and true enough to live by</strong>
+          <span>The best personal mission statements are one or two sentences. They describe how you show up — not what you aspire to someday, but what you commit to right now. "I show up fully, treat every person I serve as if they matter, and leave every situation better than I found it" is a mission statement. You could say it before every shift and mean every word. If you can't memorize yours, it's too long. If you can memorize it but don't believe it, it's not true enough yet.</span>
+        </div>
+      </div>
+      <div class="concept-item">
+        <div class="concept-dot"></div>
+        <div class="concept-text">
+          <strong>Clear values make hard decisions easy</strong>
+          <span>Every business eventually faces a moment when the profitable choice and the right choice are not the same thing. The businesses that stay intact through those moments are the ones whose owners know their values before the pressure arrives. Values aren't a list you put on a website — they're the things you'd sacrifice money or convenience to protect. Knowing what you will not compromise, in advance, is one of the most practical leadership decisions you can make.</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="stat-row">
+    <div class="stat-box">
+      <div class="stat-number">3x</div>
+      <div class="stat-label">more likely to stay committed to a goal when it's connected to a personal "why" — which is why vision statements that sound impressive but aren't truly yours don't work.</div>
+    </div>
+    <div class="stat-box">
+      <div class="stat-number">1–2</div>
+      <div class="stat-label">sentences. That's all a powerful mission statement needs. If you can't say it in two sentences, you don't know it well enough yet to live by it.</div>
+    </div>
+  </div>
+
+  <div class="ai-section">
+    <div class="ai-section-header">
+      <span style="font-size:18px;">🤖</span>
+      <h3>AI &amp; Vision and Mission — Week 2</h3>
+    </div>
+    <div class="ai-tracks">
+      <div class="ai-track basics">
+        <div class="ai-track-label">🌱 AI Basics</div>
+        <p>Writing a vision or mission statement is harder than it sounds — most first drafts are either too vague ("I want to be successful") or too formal ("To leverage synergistic opportunities..."). AI can help you get from your rough honest thoughts to a clean, specific statement that actually sounds like you.</p>
+        <div class="ai-exercise">
+          <strong>Draft Your Vision Statement</strong>
+          In Claude.ai, type: <em>"Help me write a personal vision statement. Answer these questions for me first: Where do I want to be professionally in three years? What kind of work? What kind of impact? Then help me shape my answers into a 2–3 sentence vision statement that's specific, honest, and mine — not corporate-sounding."</em> — Answer the questions. Edit the draft until it feels completely true.
+        </div>
+      </div>
+      <div class="ai-track deeper">
+        <div class="ai-track-label">🚀 Going Deeper</div>
+        <p>Your business's "why" — the purpose beneath the product — is one of the most powerful things you can articulate for a pitch, a social media bio, or an investor conversation. AI can help you find the language for something you feel but haven't yet put into words. The goal is clarity, not polish.</p>
+        <div class="ai-exercise">
+          <strong>Find Your Business Why</strong>
+          In Claude.ai, type: <em>"Help me find the 'why' behind my business [description]. Ask me: Why does this matter to you personally? What would be lost in your community if this business didn't exist? What do you want customers to feel — not about the product, but about themselves — after buying from you? Then help me write one sentence that captures my business's core purpose."</em>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header"><span class="card-icon">📚</span><h3>Resources</h3></div>
+    <div class="card-body">
+      <a class="resource-link" href="https://www.indeed.com/career-advice/career-development/personal-vision-statement" target="_blank">
+        <span class="resource-type article">Article</span>
+        <div><div class="resource-title">A Step-By-Step Guide to Creating a Personal Vision Statement</div><div class="resource-desc">Indeed — Free · Jun 2026 · How to write a vision statement that actually guides career decisions — with examples and a clear process</div></div>
+      </a>
+      <a class="resource-link" href="https://www.tempo.io/blog/create-personal-mission-vision-statement" target="_blank">
+        <span class="resource-type article">Article</span>
+        <div><div class="resource-title">Creating a Personal Mission and Vision Statement in 2025</div><div class="resource-desc">Tempo — Free · Jan 2025 · The difference between vision and mission, with examples from real people — including a reminder that yours should evolve as you do</div></div>
+      </a>
+      <a class="resource-link" href="https://www.youtube.com/@SimonSinek" target="_blank">
+        <span class="resource-type video">Video</span>
+        <div><div class="resource-title">Simon Sinek — Start With Why (TED Talk)</div><div class="resource-desc">YouTube — Free · Search "Simon Sinek Start With Why TED" · 18 min · The most important question any leader or entrepreneur can answer about their business</div></div>
+      </a>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header"><span class="card-icon">✏️</span><h3>Exercises</h3></div>
+    <div class="card-body">
+      <div class="exercise-item">
+        <div class="plan-tag">Ground Up Plan</div>
+        <h4>Exercise 1 — Your Vision Statement</h4>
+        <p>Write your personal vision statement — where you want to be professionally in three years. Be specific about the kind of work, the kind of business, the kind of team, and the kind of impact. Use the AI exercise above to help you shape it. Write at least three drafts before settling on one. The final version should be something you could say out loud and feel something when you hear yourself say it.</p>
+      </div>
+      <label class="reflection-label">Draft 1 — rough and honest:</label>
+      <textarea id="w2e1" rows="3" placeholder="In three years I want to..." oninput="calcProgress()"></textarea>
+      <label class="reflection-label">Final vision statement — specific, true, yours:</label>
+      <textarea id="w2e2" rows="3" placeholder="My vision: ..." oninput="calcProgress()"></textarea>
+
+      <div class="exercise-item">
+        <div class="plan-tag">Ground Up Plan</div>
+        <h4>Exercise 2 — Your Mission Statement and Core Values</h4>
+        <p>Write your personal mission statement — one to two sentences about how you operate right now. Then list three to five personal values — the things you won't compromise on, in your work or your life. For each value, write one sentence about what honoring that value actually looks like in daily behavior. Not "I value integrity" but "I value integrity — which means when I make a mistake at work, I own it before anyone has to ask."</p>
+      </div>
+      <label class="reflection-label">Your mission statement (1–2 sentences, memorizable):</label>
+      <textarea id="w2e3" rows="3" placeholder="My mission: ..." oninput="calcProgress()"></textarea>
+      <label class="reflection-label">Your core values — and what each one looks like in practice:</label>
+      <span class="reflection-hint">Save vision, mission, and values in your Ground Up Plan document — Section 4, Part 2.</span>
+      <textarea id="w2e4" rows="6" placeholder="Value 1: ___ | In practice this means: ...&#10;Value 2: ___ | In practice this means: ...&#10;Value 3: ___ | In practice this means: ...&#10;Value 4 (optional): ...&#10;Value 5 (optional): ..." oninput="calcProgress()"></textarea>
+
+      <div class="exercise-item">
+        <h4>Exercise 3 — Your Business Why</h4>
+        <p>Answer this question as honestly as you can: Why does your business idea matter — not to the market, not to investors, not to your Mentor Lead — but to you? What is the deeper purpose beneath the product or service? What would be missing from Shelbyville, or from the world, if you never built this? And what do you want someone to feel about themselves after they've bought from you or been served by you?</p>
+      </div>
+      <label class="reflection-label">Your business why — the purpose beneath the product:</label>
+      <textarea id="w2e5" placeholder="My business exists because...&#10;What would be missing if I didn't build it: ...&#10;What I want customers to feel about themselves: ...&#10;My business's core purpose in one sentence: ..." oninput="calcProgress()"></textarea>
+    </div>
+  </div>
+
+  <div class="save-reminder">
+    <span style="font-size:20px;">💾</span>
+    <div><strong>Save to Google Drive.</strong> Add your vision statement, mission statement, values, and business why to your Leadership Plan document — Section 4, Part 2. These will be presented at your final capstone.</div>
+  </div>
+
+  <div class="deliverable-card">
+    <div class="deliverable-eyebrow">Week 2 Deliverable</div>
+    <h4>Vision + Mission + Business Why</h4>
+    <p>Share with your Mentor Lead: your final vision statement, your mission statement, your three to five values with behavioral definitions, and your business why sentence. Your Mentor Lead will check that each one is specific and genuine — not a quote you found online or a version that sounds impressive but doesn't actually belong to you.</p>
+    <button class="submit-btn" onclick="markDone('w2')">✓ Week 2 Complete</button>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════════════════════
+     WEEK 3 — Pitch Your Business
+══════════════════════════════════════════════════════════════ -->
+<section class="week-section" id="sec-w3">
+  <div class="week-header">
+    <div class="week-eyebrow">Session 4 &middot; Week 3</div>
+    <h2>Pitch Your Business</h2>
+    <div class="week-objective">
+      <strong>Weekly Objective</strong>
+      Learn how to pitch your business in two minutes — clearly, confidently, and in a way that makes someone want to know more. Practice the pitch until it feels natural. Then learn what comes after the pitch: how to handle questions, objections, and the most important conversation in any business — the one where someone says yes.
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header"><span class="card-icon">☕</span><h3>Key Concepts</h3></div>
+    <div class="card-body">
+      <div class="concept-item">
+        <div class="concept-dot"></div>
+        <div class="concept-text">
+          <strong>A pitch is a test of your own clarity — not a performance</strong>
+          <span>If you can't explain your business idea clearly in two minutes, you don't understand it well enough yet. That's not a criticism — it's useful information. The process of building a pitch forces you to answer the five questions every business idea must be able to answer: What is it? Who is it for? What problem does it solve? How does it make money? Why are you the right person to build it? If any of those five are fuzzy when you say them out loud, that's where more thinking needs to happen.</span>
+        </div>
+      </div>
+      <div class="concept-item">
+        <div class="concept-dot"></div>
+        <div class="concept-text">
+          <strong>The two-minute pitch structure</strong>
+          <span>The most effective short business pitches follow a simple structure: Hook (one sentence that makes the listener want to hear more), Problem (the gap you're filling), Solution (what you offer and how it works), Customer (exactly who you serve), Business model (how money comes in), and Ask or Close (what you want from this conversation — a customer, a referral, an investment, feedback). Two minutes feels short. It is enough, if every sentence earns its place.</span>
+        </div>
+      </div>
+      <div class="concept-item">
+        <div class="concept-dot"></div>
+        <div class="concept-text">
+          <strong>People fund people — not business plans</strong>
+          <span>Research on investor and customer decision-making consistently shows that the person behind the business matters more than almost any other factor — especially in the early stages. Your credibility, your conviction, your willingness to be honest about what you don't know, your track record of following through — these are what actually drive decisions. The business plan is the evidence. You are the reason someone would believe in it.</span>
+        </div>
+      </div>
+      <div class="concept-item">
+        <div class="concept-dot"></div>
+        <div class="concept-text">
+          <strong>Handle objections with curiosity, not defensiveness</strong>
+          <span>When someone pushes back on your pitch — "the market is too small," "how will you compete with X," "the margins seem thin" — the instinct is to defend. The better response is to get curious. "That's a fair concern — here's how I think about it." Or even: "I'm not sure yet — here's how I plan to find out." Investors and customers trust a founder who can hold a challenge without collapsing or doubling down. Curiosity signals confidence. Defensiveness signals fragility.</span>
+        </div>
+      </div>
+      <div class="concept-item">
+        <div class="concept-dot"></div>
+        <div class="concept-text">
+          <strong>Practice until the pitch disappears into conversation</strong>
+          <span>The goal of practicing a pitch is not to memorize a script — it's to internalize the story so thoroughly that you can tell it in any order, at any length, to any audience, without notes. A pitch that sounds memorized creates distance. A pitch that sounds like a natural conversation creates connection. The only way to get from script to conversation is repetition. Say it to your Mentor Lead, to a friend, to a mirror, to yourself in the car. Say it until you believe every word of it.</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="stat-row">
+    <div class="stat-box">
+      <div class="stat-number">2 min</div>
+      <div class="stat-label">is all you need to make a compelling business pitch — if every sentence earns its place. Practice until you can say it in less.</div>
+    </div>
+    <div class="stat-box">
+      <div class="stat-number">90 sec</div>
+      <div class="stat-label">is the average time a listener decides whether they're interested in what a pitcher is saying — which means your hook and your first thirty seconds are everything.</div>
+    </div>
+  </div>
+
+  <div class="ai-section">
+    <div class="ai-section-header">
+      <span style="font-size:18px;">🤖</span>
+      <h3>AI &amp; Pitch Practice — Week 3</h3>
+    </div>
+    <div class="ai-tracks">
+      <div class="ai-track basics">
+        <div class="ai-track-label">🌱 AI Basics</div>
+        <p>AI is one of the best pitch practice partners available — it never gets bored, it can roleplay as a skeptical investor or a potential customer, and it will give you honest feedback on what's unclear or unconvincing. Practice your pitch with AI before you practice it with a real person.</p>
+        <div class="ai-exercise">
+          <strong>Practice Your Pitch</strong>
+          In Claude.ai, type: <em>"I'm going to pitch you my business idea. Please roleplay as a skeptical but fair potential investor. After my pitch, give me three pieces of honest feedback: what was compelling, what was unclear, and what question you'd want answered before you'd consider supporting this business."</em> — Then deliver your pitch. Use the feedback to revise.
+        </div>
+      </div>
+      <div class="ai-track deeper">
+        <div class="ai-track-label">🚀 Going Deeper</div>
+        <p>The strongest business pitches end with a clear, specific ask — not "I'd love your support" but "I'm looking for three catering clients before the end of this month — do you know anyone who might need this?" AI can help you figure out what your ask should be, tailored to different audiences: customers, mentors, potential partners, or eventually investors.</p>
+        <div class="ai-exercise">
+          <strong>Craft Your Ask</strong>
+          In Claude.ai, type: <em>"Help me write the closing ask for my business pitch, tailored to three different audiences: (1) a potential first customer in Shelbyville, (2) a community mentor or supporter, (3) a small business lender or investor. Each ask should be one or two sentences, specific, and confident without being aggressive."</em>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header"><span class="card-icon">📚</span><h3>Resources</h3></div>
+    <div class="card-body">
+      <a class="resource-link" href="https://quickbooks.intuit.com/r/small-business-data/entrepreneurship-in-2026/" target="_blank">
+        <span class="resource-type article">Article</span>
+        <div><div class="resource-title">Entrepreneurship Trends in 2026: What Aspiring Founders Need to Know</div><div class="resource-desc">QuickBooks — Free · Dec 2025 · Why 2026 is a particularly accessible moment for new entrepreneurs — and what tools and resources are available that weren't before</div></div>
+      </a>
+      <a class="resource-link" href="https://accountabilitynow.net/entrepreneurship-the-practice-and-mindset/" target="_blank">
+        <span class="resource-type article">Article</span>
+        <div><div class="resource-title">Guide to Entrepreneurship in 2026: Practice &amp; Mindset for Success</div><div class="resource-desc">Accountability Now — Free · Dec 2025 · Why accountability and follow-through separate successful entrepreneurs from those with great ideas who never launch</div></div>
+      </a>
+      <a class="resource-link" href="https://www.youtube.com/@TEDx" target="_blank">
+        <span class="resource-type video">Video</span>
+        <div><div class="resource-title">How to Pitch a Business Idea — TED</div><div class="resource-desc">YouTube — Free · Search "how to pitch a business idea TED" · Multiple talks, 5–15 min · Practice watching pitches the same way you'd watch a sport — notice what makes them work</div></div>
+      </a>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header"><span class="card-icon">✏️</span><h3>Exercises</h3></div>
+    <div class="card-body">
+      <div class="exercise-item">
+        <div class="plan-tag">Ground Up Plan</div>
+        <h4>Exercise 1 — Write Your Two-Minute Pitch</h4>
+        <p>Write your complete two-minute business pitch using this structure: (1) Hook — one sentence that makes someone want to hear more, (2) Problem — the gap you're filling, (3) Solution — what you offer, (4) Customer — exactly who you serve, (5) Business model — how money comes in, (6) Why you — what makes you the right person to build this, (7) Ask — one specific thing you want from this conversation. Then time yourself saying it out loud. Edit until it fits in two minutes.</p>
+      </div>
+      <label class="reflection-label">Your two-minute pitch — written version:</label>
+      <span class="reflection-hint">Save in your Ground Up Plan document — Section 4, Part 3. This will be delivered at your final capstone.</span>
+      <textarea id="w3e1" rows="10" placeholder="Hook: ...&#10;Problem: ...&#10;Solution: ...&#10;Customer: ...&#10;Business model: ...&#10;Why me: ...&#10;Ask: ..." oninput="calcProgress()"></textarea>
+
+      <div class="exercise-item">
+        <h4>Exercise 2 — The Hardest Questions</h4>
+        <p>Write down the three questions about your business that you'd least want to be asked at your capstone — the ones where you're not sure of the answer or where the answer reveals a real weakness in your plan. Then write your best honest answer to each one. You'll be more credible saying "I don't know yet, but here's how I plan to find out" than giving a confident wrong answer. Prepare to be asked these at the capstone.</p>
+      </div>
+      <label class="reflection-label">Three hard questions and your honest answers:</label>
+      <textarea id="w3e2" rows="7" placeholder="Hardest question 1: ___&#10;My honest answer: ...&#10;&#10;Hardest question 2: ___&#10;My honest answer: ...&#10;&#10;Hardest question 3: ___&#10;My honest answer: ..." oninput="calcProgress()"></textarea>
+
+      <div class="exercise-item">
+        <h4>Exercise 3 — Practice Log</h4>
+        <p>Say your pitch out loud at least five times before Week 4. Say it to your Mentor Lead, to a friend, to a family member, to a fellow at Awake, and once to someone who doesn't know you well enough to be polite about it. After each delivery, write one thing that felt strong and one thing you'd change. The pitch at your capstone will be the sixth or seventh time you've said it — and it will show.</p>
+      </div>
+      <label class="reflection-label">Your pitch practice log — five deliveries:</label>
+      <textarea id="w3e3" rows="7" placeholder="Delivery 1 | To: ___ | What felt strong: ___ | What I'd change: ___&#10;Delivery 2 | To: ___ | Strong: ___ | Change: ___&#10;Delivery 3 | To: ___ | Strong: ___ | Change: ___&#10;Delivery 4 | To: ___ | Strong: ___ | Change: ___&#10;Delivery 5 | To: ___ | Strong: ___ | Change: ___" oninput="calcProgress()"></textarea>
+    </div>
+  </div>
+
+  <div class="save-reminder">
+    <span style="font-size:20px;">💾</span>
+    <div><strong>Save to Google Drive.</strong> Add your two-minute pitch to your Ground Up Plan — Section 4, Part 3. Your Mentor Lead needs to hear it before Week 4.</div>
+  </div>
+
+  <div class="deliverable-card">
+    <div class="deliverable-eyebrow">Week 3 Deliverable</div>
+    <h4>Two-Minute Pitch — Delivered Live</h4>
+    <p>Deliver your two-minute pitch to your Mentor Lead this week — out loud, timed, no notes after the first attempt. Your Mentor Lead will give you feedback on what landed and what didn't. Then revise and practice again. You should be able to deliver this pitch from memory by your capstone — not because you memorized it word-for-word, but because you know the story so well you could tell it backwards.</p>
+    <button class="submit-btn" onclick="markDone('w3')">✓ Week 3 Complete</button>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════════════════════
+     WEEK 4 — Your 90-Day Launch Plan
+══════════════════════════════════════════════════════════════ -->
+<section class="week-section" id="sec-w4">
+  <div class="week-header">
+    <div class="week-eyebrow">Session 4 &middot; Week 4</div>
+    <h2>Your 90-Day Launch Plan</h2>
+    <div class="week-objective">
+      <strong>Weekly Objective</strong>
+      Build a concrete, specific, accountable plan for the 90 days after this program ends. Not a wish list — a plan. Specific actions, real deadlines, and someone who will hold you to them. This is the bridge between what you've built in this program and the life you're building after it.
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header"><span class="card-icon">☕</span><h3>Key Concepts</h3></div>
+    <div class="card-body">
+      <div class="concept-item">
+        <div class="concept-dot"></div>
+        <div class="concept-text">
+          <strong>The first 90 days after a program are the most important</strong>
+          <span>Research on behavior change consistently shows that the period immediately following a structured program is the highest-risk moment for momentum loss. The structure disappears. The weekly check-ins stop. The accountability fades. And the habits that were built in a supported environment have to survive without the support. The 90-day plan exists to bridge that gap — to create enough specific, accountable structure in the months immediately after this program that the momentum carries rather than collapses.</span>
+        </div>
+      </div>
+      <div class="concept-item">
+        <div class="concept-dot"></div>
+        <div class="concept-text">
+          <strong>Specific beats ambitious every time</strong>
+          <span>"I'm going to grow my business" is not a plan. "I'm going to reach out to five potential catering clients by the end of this month, follow up with each one within a week, and land my first booking before Day 60" is a plan. The difference is that the second version has actions, timelines, and a way to know whether it happened. Ambitious goals without specific actions are the most common way people fail to follow through on things they genuinely meant to do.</span>
+        </div>
+      </div>
+      <div class="concept-item">
+        <div class="concept-dot"></div>
+        <div class="concept-text">
+          <strong>Accountability is the missing ingredient in most plans</strong>
+          <span>Studies show that people are 65% more likely to complete a goal if they commit it to someone else — and 95% more likely if they have a specific accountability appointment to check in. Your Mentor Lead doesn't disappear after this program ends. Your Sponsor is still there. Awake Ministries is still there. The question is whether you build accountability into your 90-day plan deliberately — or leave it to chance and good intentions.</span>
+        </div>
+      </div>
+      <div class="concept-item">
+        <div class="concept-dot"></div>
+        <div class="concept-text">
+          <strong>Start before you're ready</strong>
+          <span>The most common reason new entrepreneurs delay launching is waiting until everything is perfect — the logo, the website, the product, the pricing, the plan. Nothing is ever perfect before it launches. The businesses that survive are the ones that launched imperfect and improved. Your first customer will not care whether your logo is final. They will care whether what you delivered was worth paying for. Start with what you have. Improve with what you learn.</span>
+        </div>
+      </div>
+      <div class="concept-item">
+        <div class="concept-dot"></div>
+        <div class="concept-text">
+          <strong>What you've built here is real</strong>
+          <span>Over four sessions you have built a Personal Brand Statement, a Business Budget, a Marketing Plan, and a Leadership Identity. You have studied customer service, finance, marketing, and leadership through the lens of a working café. You have developed AI skills you will use for the rest of your career. You have written a business plan that belongs to you and nobody can take. That is not nothing. That is a foundation. What happens next depends on what you do with it.</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="stat-row">
+    <div class="stat-box">
+      <div class="stat-number">95%</div>
+      <div class="stat-label">more likely to achieve a goal when you have a specific accountability appointment with someone — which is why who holds you to your 90-day plan matters as much as the plan itself.</div>
+    </div>
+    <div class="stat-box">
+      <div class="stat-number">Day 1</div>
+      <div class="stat-label">is not when you graduate. Day 1 is when you take the first action in your 90-day plan. Graduation is the starting line, not the finish line.</div>
+    </div>
+  </div>
+
+  <div class="ai-section">
+    <div class="ai-section-header">
+      <span style="font-size:18px;">🤖</span>
+      <h3>AI &amp; Your Launch Plan — Week 4</h3>
+    </div>
+    <div class="ai-tracks">
+      <div class="ai-track basics">
+        <div class="ai-track-label">🌱 AI Basics</div>
+        <p>AI can help you build a 90-day plan by breaking a big goal into weekly actions — making the overwhelming feel manageable. Give it your goal and your constraints, and ask it to build a week-by-week plan. Then edit it for what's actually realistic given your life and your resources.</p>
+        <div class="ai-exercise">
+          <strong>Build Your 90-Day Plan</strong>
+          In Claude.ai, type: <em>"Help me build a 90-day action plan for launching my business [description] in Shelbyville, Kentucky. I have [describe your current situation — resources, time, support]. Break it into three 30-day phases: Month 1 (foundation), Month 2 (first customers), Month 3 (momentum). Give me three to five specific weekly actions for each phase."</em>
+        </div>
+      </div>
+      <div class="ai-track deeper">
+        <div class="ai-track-label">🚀 Going Deeper</div>
+        <p>The best 90-day plans also include a contingency — what you'll do if Month 1 goes slower than expected, or if an early customer is disappointed, or if your funding doesn't come through. AI can help you stress-test your plan and build in the resilience that separates plans that survive contact with reality from ones that don't.</p>
+        <div class="ai-exercise">
+          <strong>Stress-Test Your Plan</strong>
+          In Claude.ai, paste your 90-day plan and type: <em>"What are the three most likely ways this plan could go wrong in the first 30 days? For each risk, suggest one specific thing I could do in advance to reduce the likelihood or recover quickly if it happens."</em>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header"><span class="card-icon">📚</span><h3>Resources</h3></div>
+    <div class="card-body">
+      <a class="resource-link" href="https://www.upskillist.com/blog/entrepreneurship-strategies-how-to-start-a-business-that-lasts/" target="_blank">
+        <span class="resource-type article">Article</span>
+        <div><div class="resource-title">Entrepreneurship Strategies 2026: How to Start a Business That Lasts</div><div class="resource-desc">Upskillist — Free · Feb 2026 · Lean testing, customer validation, and building in stages — exactly the approach a first-time entrepreneur in a small market should take</div></div>
+      </a>
+      <a class="resource-link" href="https://www.sbdc.uh.edu/sbdc/2026-social-media-trends-small-business.asp" target="_blank">
+        <span class="resource-type article">Article</span>
+        <div><div class="resource-title">2026 Small Business Trends to Leverage at Launch</div><div class="resource-desc">SBDC — Free · What the data says about what's working for new small businesses in 2026 — useful for calibrating your 90-day plan to current realities</div></div>
+      </a>
+      <a class="resource-link" href="https://www.score.org/find-mentor" target="_blank">
+        <span class="resource-type tool">Tool</span>
+        <div><div class="resource-title">SCORE — Free Small Business Mentoring</div><div class="resource-desc">score.org — Free · Volunteer mentors with real business experience, available for free ongoing coaching after this program ends. Sign up before your graduation.</div></div>
+      </a>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header"><span class="card-icon">✏️</span><h3>Exercises</h3></div>
+    <div class="card-body">
+      <div class="exercise-item">
+        <div class="plan-tag">Ground Up Plan</div>
+        <h4>Exercise 1 — Your 90-Day Launch Plan</h4>
+        <p>Build a specific, actionable 90-day plan in three phases. Each action must have a deadline and a way to know it's done. No vague intentions. Use the AI exercise above to build a first draft, then make it realistic to your actual life and resources. Share it at your capstone — this is what the room will hold you accountable to.</p>
+      </div>
+      <label class="reflection-label">Month 1 — Foundation (Days 1–30):</label>
+      <textarea id="w4e1" rows="6" placeholder="Action 1: ___ | By: Day ___ | Done when: ___&#10;Action 2: ___ | By: Day ___ | Done when: ___&#10;Action 3: ___ | By: Day ___&#10;Action 4: ___ | By: Day ___&#10;Action 5: ___ | By: Day ___" oninput="calcProgress()"></textarea>
+      <label class="reflection-label">Month 2 — First Customers (Days 31–60):</label>
+      <textarea id="w4e2" rows="5" placeholder="Action 1: ___ | By: Day ___&#10;Action 2: ___ | By: Day ___&#10;Action 3: ___ | By: Day ___&#10;Action 4: ___ | By: Day ___" oninput="calcProgress()"></textarea>
+      <label class="reflection-label">Month 3 — Momentum (Days 61–90):</label>
+      <textarea id="w4e3" rows="5" placeholder="Action 1: ___ | By: Day ___&#10;Action 2: ___ | By: Day ___&#10;Action 3: ___ | By: Day ___&#10;Action 4: ___ | By: Day ___" oninput="calcProgress()"></textarea>
+
+      <div class="exercise-item">
+        <h4>Exercise 2 — Who Holds You Accountable</h4>
+        <p>Name three specific people who will hold you accountable after this program ends — your Mentor Lead, your Sponsor, and one other person in your life who will tell you the truth. For each person, write: what you're asking them to hold you to, how often you'll check in, and what you give them permission to say if you're not following through.</p>
+      </div>
+      <label class="reflection-label">Your accountability team:</label>
+      <textarea id="w4e4" rows="6" placeholder="Person 1: ___ (Mentor Lead) | Hold me to: ___ | Check in: every ___ | They can say: ___&#10;Person 2: ___ (Sponsor) | Hold me to: ___ | Check in: every ___&#10;Person 3: ___ | Hold me to: ___ | Check in: every ___" oninput="calcProgress()"></textarea>
+
+      <div class="exercise-item">
+        <div class="plan-tag">Ground Up Plan</div>
+        <h4>Exercise 3 — What You're Taking With You</h4>
+        <p>Reflect on the complete program — all four sessions, every week, every exercise. What's the single most important thing you're taking with you? Not from a lesson — from the experience of showing up, doing the work, and building something over four months. And what do you want the people at Awake Ministries and The Paddock to know about what this program meant?</p>
+      </div>
+      <label class="reflection-label">What you're taking with you — and your message to Awake and The Paddock:</label>
+      <span class="reflection-hint">Save in your Ground Up Plan — this becomes the closing of your final capstone presentation.</span>
+      <textarea id="w4e5" rows="6" placeholder="The most important thing I'm taking with me: ...&#10;&#10;What I want Awake Ministries to know: ...&#10;&#10;What I want The Paddock to know: ..." oninput="calcProgress()"></textarea>
+    </div>
+  </div>
+
+  <div class="save-reminder">
+    <span style="font-size:20px;">💾</span>
+    <div><strong>Final save before the capstone.</strong> Your complete Ground Up Plan should now have four sessions of deliverables. Review everything before your final presentation. This is what you've built.</div>
+  </div>
+
+  <div class="deliverable-card">
+    <div class="deliverable-eyebrow">Week 4 Deliverable</div>
+    <h4>90-Day Launch Plan + Accountability Team</h4>
+    <p>Share with your Mentor Lead: your 90-day plan and your named accountability team. Your Mentor Lead will check that every action is specific enough to actually happen, and that your accountability team is real — people who've actually agreed to hold you to this. Then prepare your final capstone. You are ready.</p>
+    <button class="submit-btn" onclick="markDone('w4')">✓ Week 4 Complete — Prepare for Final Capstone</button>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════════════════════
+     FINAL CAPSTONE — The Ground Up Plan
+══════════════════════════════════════════════════════════════ -->
+<section class="week-section" id="sec-cap">
+  <div class="week-header">
+    <div class="week-eyebrow">Session 4 &middot; Final Capstone</div>
+    <h2>The Ground Up Plan</h2>
+    <div class="week-objective">
+      <strong>Final Capstone Objective</strong>
+      Present your complete Ground Up Plan — four sessions of real learning, applied to one real business idea, built from the ground up. This is your graduation from the Ground Up program. What you present today is not a school project. It is the beginning of something.
+    </div>
+  </div>
+
+  <div class="graduation-banner">
+    <span class="badge">🌱</span>
+    <h2>You Made It to the Final Capstone.</h2>
+    <p class="subtitle">Four sessions. Sixteen weeks of curriculum. Dozens of exercises, deliverables, and honest conversations. Two industry certifications. A business plan that belongs to no one else. You built this from the ground up — which means you know every brick in it.</p>
+    <p class="program-name">Ground Up &nbsp;&middot;&nbsp; Where Rebuilding Begins. &nbsp;&middot;&nbsp; The Paddock Cafe, Shelbyville, KY</p>
+  </div>
+
+  <!-- Assembly tracker -->
+  <div class="assembly-tracker">
+    <h4>Your Ground Up Plan — Pre-Capstone Checklist</h4>
+    <div class="assembly-row">
+      <div class="assembly-num">1</div>
+      <div class="assembly-text">
+        <strong>Personal Brand Statement</strong>
+        <span>Session 1 Capstone — Personal story, what you offer, your business idea, customer service standards, what's next</span>
+      </div>
+      <div class="assembly-check"><input type="checkbox" id="check1" onchange="calcProgress()" /></div>
+    </div>
+    <div class="assembly-row">
+      <div class="assembly-num">2</div>
+      <div class="assembly-text">
+        <strong>Business Budget</strong>
+        <span>Session 2 Capstone — Revenue model, pricing sheet, cost structure, break-even analysis, financial risk plan</span>
+      </div>
+      <div class="assembly-check"><input type="checkbox" id="check2" onchange="calcProgress()" /></div>
+    </div>
+    <div class="assembly-row">
+      <div class="assembly-num">3</div>
+      <div class="assembly-text">
+        <strong>Marketing Plan</strong>
+        <span>Session 3 Capstone — Brand canvas, origin story, customer persona, content strategy, first ten customers</span>
+      </div>
+      <div class="assembly-check"><input type="checkbox" id="check3" onchange="calcProgress()" /></div>
+    </div>
+    <div class="assembly-row">
+      <div class="assembly-num">4</div>
+      <div class="assembly-text">
+        <strong>Leadership Identity + Vision + Mission + Why</strong>
+        <span>Session 4, Weeks 1–2 — Who you are as a leader, your vision statement, mission statement, and core values</span>
+      </div>
+      <div class="assembly-check"><input type="checkbox" id="check4" onchange="calcProgress()" /></div>
+    </div>
+    <div class="assembly-row">
+      <div class="assembly-num">5</div>
+      <div class="assembly-text">
+        <strong>Two-Minute Business Pitch</strong>
+        <span>Session 4, Week 3 — Hook, problem, solution, customer, business model, why you, and your ask</span>
+      </div>
+      <div class="assembly-check"><input type="checkbox" id="check5" onchange="calcProgress()" /></div>
+    </div>
+    <div class="assembly-row">
+      <div class="assembly-num">6</div>
+      <div class="assembly-text">
+        <strong>90-Day Launch Plan + Accountability Team</strong>
+        <span>Session 4, Week 4 — Three 30-day phases with specific actions, deadlines, and named accountability partners</span>
+      </div>
+      <div class="assembly-check"><input type="checkbox" id="check6" onchange="calcProgress()" /></div>
+    </div>
+  </div>
+
+  <div class="capstone-intro">
+    <h3>What the Final Capstone Is</h3>
+    <p style="margin-bottom:10px;">Your final capstone is a 15–20 minute presentation to your Mentor Lead, Paddock leadership, and Awake Ministries staff. It is the presentation of your complete Ground Up Plan — everything you've built across four sessions, assembled into one coherent story about who you are and what you're going to build.</p>
+    <p>You are not being graded on perfection. You are being recognized for four months of genuine work. The room already believes in you — they've watched you do this. What they want to see is that you believe in yourself too.</p>
+  </div>
+
+  <div class="plan-thread">
+    <div class="plan-thread-label">🤖 AI at the Final Capstone</div>
+    <h4>Assemble Your Complete Ground Up Plan</h4>
+    <p style="color:#b0b8c8;">In Claude.ai, paste all six components of your Ground Up Plan and type: <em>"Help me assemble these six documents into one cohesive Ground Up Plan that tells a single clear story: who I am, what I'm building, how it will work financially, how I'll market it, and where I'm going from here. Format it as a professional one-page business plan summary with a brief introduction. Keep my voice throughout — this should sound like one person, not six different documents."</em> — Save the assembled plan in your Google Drive. This is what you leave with.</p>
+  </div>
+
+  <div class="card">
+    <div class="card-header"><span class="card-icon">📋</span><h3>Final Capstone — Presentation Structure</h3></div>
+    <div class="card-body">
+      <div class="concept-item">
+        <div class="concept-dot"></div>
+        <div class="concept-text">
+          <strong>Opening — Your Two-Minute Pitch (2 min)</strong>
+          <span>Start with your business pitch — no preamble, no apology. Launch directly into the hook. The room will see immediately that you know what you're doing.</span>
+        </div>
+      </div>
+      <div class="concept-item">
+        <div class="concept-dot"></div>
+        <div class="concept-text">
+          <strong>Who You Are — Personal Brand Statement + Leadership Identity (3 min)</strong>
+          <span>Share your personal story and your leadership identity. Not what you're trying to sound like. Who you actually are and what you've learned about yourself over four months.</span>
+        </div>
+      </div>
+      <div class="concept-item">
+        <div class="concept-dot"></div>
+        <div class="concept-text">
+          <strong>The Business — Budget and Marketing Plan (5 min)</strong>
+          <span>Walk through the financial model and the marketing plan. Show the math. Show the customer persona. Show the first week of content. Show that you understand how this business actually works, not just that you like the idea of it.</span>
+        </div>
+      </div>
+      <div class="concept-item">
+        <div class="concept-dot"></div>
+        <div class="concept-text">
+          <strong>The Future — Vision, Mission, and 90-Day Plan (4 min)</strong>
+          <span>State your vision and mission. Walk through your 90-day plan — specific actions, specific dates, named accountability partners. Tell the room what they can hold you to. That's the most credible thing you can do.</span>
+        </div>
+      </div>
+      <div class="concept-item">
+        <div class="concept-dot"></div>
+        <div class="concept-text">
+          <strong>Closing — What This Meant (2 min)</strong>
+          <span>End with what you want Awake Ministries and The Paddock to know about what this experience meant. Not a thank-you speech — an honest statement from a person who has rebuilt something real. This is the moment the room will remember.</span>
+        </div>
+      </div>
+      <div class="concept-item">
+        <div class="concept-dot"></div>
+        <div class="concept-text">
+          <strong>Q&A — Answer Everything with Honesty (4 min)</strong>
+          <span>Take every question. Answer the easy ones clearly. Answer the hard ones honestly — "I don't know yet, but here's how I'll find out" is a great answer. The room is not trying to break you. They're trying to understand what you've built and how real it is.</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header"><span class="card-icon">✏️</span><h3>Final Capstone Workspace</h3></div>
+    <div class="card-body">
+      <label class="reflection-label">Opening notes — your two-minute pitch (key points, not a script):</label>
+      <textarea id="cap1" rows="4" placeholder="Hook: ...&#10;The story in order: ..." oninput="calcProgress()"></textarea>
+
+      <label class="reflection-label">The most important thing you want the room to know about who you are:</label>
+      <textarea id="cap2" rows="3" placeholder="If the room remembers one thing about me, I want it to be: ..." oninput="calcProgress()"></textarea>
+
+      <label class="reflection-label">The three numbers from your Business Budget you'll definitely be asked about:</label>
+      <textarea id="cap3" rows="3" placeholder="Break-even: ___ | Revenue target month 1: ___ | The number I'm least sure about and why: ..." oninput="calcProgress()"></textarea>
+
+      <label class="reflection-label">Your vision statement — final version (say it out loud before writing it here):</label>
+      <textarea id="cap4" rows="2" placeholder="My vision: ..." oninput="calcProgress()"></textarea>
+
+      <label class="reflection-label">Your mission statement — final version:</label>
+      <textarea id="cap5" rows="2" placeholder="My mission: ..." oninput="calcProgress()"></textarea>
+
+      <label class="reflection-label">The first three actions in your 90-day plan — the ones you'll announce publicly at the capstone:</label>
+      <textarea id="cap6" rows="4" placeholder="Action 1: ___ | By Day ___&#10;Action 2: ___ | By Day ___&#10;Action 3: ___ | By Day ___&#10;&#10;Who I'm naming as my accountability partner: ___" oninput="calcProgress()"></textarea>
+
+      <label class="reflection-label">Your closing — what you want Awake and The Paddock to know (say this from the heart, not from notes):</label>
+      <textarea id="cap7" rows="5" placeholder="What this program meant to me: ...&#10;What I want Awake Ministries to know: ...&#10;What I want The Paddock to know: ...&#10;What I'm carrying out of this room today: ..." oninput="calcProgress()"></textarea>
+    </div>
+  </div>
+
+  <div class="deliverable-card">
+    <div class="deliverable-eyebrow">Ground Up Program — Final Capstone Deliverable</div>
+    <h4>The Ground Up Plan — Complete</h4>
+    <p>Present your complete Ground Up Plan to your Mentor Lead, The Paddock leadership, and Awake Ministries staff. Fifteen to twenty minutes. Six components. One story. Yours.</p>
+    <div class="checklist-item">Pre-capstone checklist above — all six boxes checked</div>
+    <div class="checklist-item">Complete Ground Up Plan assembled in Google Drive</div>
+    <div class="checklist-item">Two-minute pitch practiced at least five times</div>
+    <div class="checklist-item">Vision and mission memorized — no notes needed</div>
+    <div class="checklist-item">90-day plan specific enough that the room can hold you to it</div>
+    <div class="checklist-item">Closing words written — and then set aside. Say them from the heart.</div>
+    <button class="submit-btn" style="margin-top:16px; font-size:16px; padding:14px 28px;" onclick="markDone('cap')">🌱 Submit Final Capstone — Ground Up Complete</button>
+  </div>
+
+  <!-- Final message -->
+  <div style="background: linear-gradient(135deg, #1a3d1b 0%, #0d2410 100%); border-radius: 12px; padding: 32px 24px; margin-top: 8px; text-align: center; border-top: 4px solid var(--gold);">
+    <p style="font-family: Georgia, serif; font-size: 22px; color: var(--gold); margin-bottom: 12px; line-height: 1.4;">"You showed up. You did the work. You built something real. From the ground up."</p>
+    <p style="font-size: 14px; color: #7a9e7a; letter-spacing: 1px;">Ground Up &nbsp;&middot;&nbsp; Where Rebuilding Begins. &nbsp;&middot;&nbsp; The Paddock Cafe, Shelbyville, Kentucky &nbsp;&middot;&nbsp; In partnership with Awake Ministries</p>
+  </div>
+</section>
+
+</main>
+<div class="toast" id="toast">✅ Saved</div>
+
+<script>
+const SECTIONS = ['w1','w2','w3','w4','cap'];
+const TEXTAREA_IDS = [
+  'w1e1','w1e2','w1e3',
+  'w2e1','w2e2','w2e3','w2e4','w2e5',
+  'w3e1','w3e2','w3e3',
+  'w4e1','w4e2','w4e3','w4e4','w4e5',
+  'cap1','cap2','cap3','cap4','cap5','cap6','cap7'
+];
+const CHECKBOX_IDS = ['check1','check2','check3','check4','check5','check6'];
+
+function showTab(id, btn) {
+  document.querySelectorAll('.week-section').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('sec-' + id).classList.add('active');
+  btn.classList.add('active');
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function calcProgress() {
+  let filled = 0;
+  const total = TEXTAREA_IDS.length + CHECKBOX_IDS.length;
+  TEXTAREA_IDS.forEach(id => {
+    const el = document.getElementById(id);
+    if (el && el.value.trim().length > 10) filled++;
+  });
+  CHECKBOX_IDS.forEach(id => {
+    const el = document.getElementById(id);
+    if (el && el.checked) filled++;
+  });
+  const pct = Math.round((filled / total) * 100);
+  document.getElementById('progress-fill').style.width = pct + '%';
+  document.getElementById('pct-label').textContent = pct + '%';
+}
+
+function markDone(key) {
+  const tabEl = document.getElementById('tab-' + key);
+  if (tabEl) tabEl.classList.add('complete');
+  if (key === 'cap') {
+    showToast('🌱 Ground Up Program Complete. You built something real.');
+  } else {
+    showToast('✅ ' + getSectionName(key) + ' complete. Save your work to Google Drive.');
+  }
+  const next = SECTIONS[SECTIONS.indexOf(key) + 1];
+  if (next) {
+    setTimeout(() => {
+      const nextBtn = document.getElementById('tab-' + next);
+      if (nextBtn) { showTab(next, nextBtn); nextBtn.classList.add('active'); }
+    }, 1800);
+  }
+}
+
+function getSectionName(key) {
+  return { w1:'Week 1', w2:'Week 2', w3:'Week 3', w4:'Week 4', cap:'Final Capstone' }[key] || key;
+}
+
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 4000);
+}
+
+calcProgress();
+</script>
+</body>
+</html>

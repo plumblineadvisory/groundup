@@ -1,0 +1,1076 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ground Up — Session 2: Basic Finance</title>
+<style>
+:root {
+  --forest:   #2C5F2D;
+  --moss:     #6B9E3F;
+  --gold:     #C8963E;
+  --cream:    #F7F4EF;
+  --sand:     #EDE8DC;
+  --charcoal: #2E2E2E;
+  --white:    #FFFFFF;
+  --border:   #D5D0C8;
+  --navy:     #1a1a2e;
+  --muted:    #666666;
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: 'Segoe UI', Arial, sans-serif; background: var(--cream); color: var(--charcoal); font-size: 16px; line-height: 1.6; }
+
+.site-header { background: var(--forest); }
+.header-top { max-width: 860px; margin: 0 auto; padding: 24px 24px 16px; }
+.program-eyebrow { font-size: 10px; letter-spacing: 3px; text-transform: uppercase; color: var(--gold); font-weight: 700; margin-bottom: 6px; }
+.site-header h1 { font-family: Georgia, serif; font-size: 30px; color: var(--white); font-weight: 700; line-height: 1.2; margin-bottom: 4px; }
+.site-header .tagline { font-style: italic; color: #a8c4a8; font-size: 14px; }
+
+.session-banner { background: var(--gold); padding: 14px 24px; }
+.session-banner-inner { max-width: 860px; margin: 0 auto; display: flex; align-items: center; gap: 16px; }
+.session-circle { background: var(--forest); color: var(--white); width: 48px; height: 48px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-family: Georgia, serif; font-size: 20px; font-weight: 700; flex-shrink: 0; }
+.session-title { font-family: Georgia, serif; font-size: 20px; font-weight: 700; color: var(--forest); }
+.session-subtitle { font-size: 13px; color: var(--forest); opacity: 0.75; margin-top: 2px; }
+
+.idea-banner { background: var(--navy); border-bottom: 3px solid var(--gold); }
+.idea-banner-inner { max-width: 860px; margin: 0 auto; padding: 14px 24px; display: flex; align-items: center; gap: 16px; flex-wrap: wrap; }
+.idea-label { font-size: 10px; letter-spacing: 2px; text-transform: uppercase; color: var(--gold); font-weight: 700; white-space: nowrap; flex-shrink: 0; }
+.idea-label span { display: block; font-size: 9px; color: #888; letter-spacing: 1px; margin-top: 2px; font-weight: 400; }
+.idea-input { flex: 1; min-width: 200px; background: rgba(255,255,255,0.08); border: 1px solid rgba(200,150,62,0.4); border-radius: 4px; padding: 8px 12px; font-size: 14px; color: var(--white); font-family: inherit; font-style: italic; }
+.idea-input::placeholder { color: #666; }
+.idea-input:focus { outline: none; border-color: var(--gold); }
+
+.week-nav { background: var(--forest); padding: 0 24px; overflow-x: auto; -webkit-overflow-scrolling: touch; }
+.week-nav-inner { display: flex; max-width: 860px; margin: 0 auto; gap: 2px; }
+.tab-btn { background: transparent; border: none; color: #7a9e7a; padding: 12px 16px; font-size: 13px; font-weight: 600; cursor: pointer; border-bottom: 3px solid transparent; white-space: nowrap; transition: all 0.2s; font-family: inherit; }
+.tab-btn:hover { color: var(--white); }
+.tab-btn.active { color: var(--gold); border-bottom-color: var(--gold); }
+.tab-btn.complete::after { content: ' ✓'; color: var(--moss); }
+
+.progress-wrap { background: var(--sand); padding: 12px 24px; border-bottom: 1px solid var(--border); }
+.progress-inner { max-width: 860px; margin: 0 auto; }
+.progress-label { font-size: 12px; color: var(--forest); font-weight: 600; margin-bottom: 6px; display: flex; justify-content: space-between; }
+.progress-track { background: var(--border); height: 7px; border-radius: 4px; overflow: hidden; }
+.progress-fill { background: linear-gradient(90deg, var(--moss), var(--forest)); height: 100%; border-radius: 4px; width: 0%; transition: width 0.5s ease; }
+
+.main { max-width: 860px; margin: 0 auto; padding: 32px 24px 80px; }
+.week-section { display: none; }
+.week-section.active { display: block; }
+
+.week-header { margin-bottom: 28px; }
+.week-eyebrow { font-size: 10px; letter-spacing: 3px; color: var(--gold); font-weight: 700; text-transform: uppercase; margin-bottom: 8px; }
+.week-header h2 { font-family: Georgia, serif; font-size: 26px; color: var(--forest); margin-bottom: 10px; }
+.week-objective { background: var(--forest); color: var(--white); padding: 14px 18px; border-radius: 6px; font-size: 14px; line-height: 1.6; }
+.week-objective strong { color: var(--gold); display: block; font-size: 10px; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 4px; }
+
+.card { background: var(--white); border: 1px solid var(--border); border-radius: 8px; margin-bottom: 20px; overflow: hidden; }
+.card-header { background: var(--sand); padding: 12px 18px; display: flex; align-items: center; gap: 10px; border-bottom: 1px solid var(--border); }
+.card-icon { font-size: 18px; }
+.card-header h3 { font-size: 13px; font-weight: 700; color: var(--forest); text-transform: uppercase; letter-spacing: 1px; }
+.card-body { padding: 20px; }
+
+.concept-item { display: flex; gap: 14px; margin-bottom: 16px; padding-bottom: 16px; border-bottom: 1px solid var(--sand); }
+.concept-item:last-child { border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
+.concept-dot { width: 8px; height: 8px; background: var(--gold); border-radius: 50%; margin-top: 8px; flex-shrink: 0; }
+.concept-text strong { display: block; color: var(--forest); font-size: 15px; margin-bottom: 3px; }
+.concept-text span { font-size: 14px; color: #555; }
+
+.stat-row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 20px; }
+.stat-box { background: var(--forest); border-radius: 8px; padding: 18px; display: flex; align-items: center; gap: 14px; }
+.stat-number { font-family: Georgia, serif; font-size: 38px; font-weight: 700; color: var(--gold); flex-shrink: 0; line-height: 1; }
+.stat-label { font-size: 13px; color: #c8d8c8; line-height: 1.5; }
+
+/* Finance-specific: math box */
+.math-box { background: #f0f7f0; border: 1px solid #b8d4b8; border-radius: 8px; padding: 18px 20px; margin-bottom: 16px; }
+.math-box h4 { font-size: 13px; font-weight: 700; color: var(--forest); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 12px; }
+.formula { background: var(--forest); color: var(--white); border-radius: 6px; padding: 12px 16px; font-family: 'Courier New', monospace; font-size: 15px; margin-bottom: 10px; text-align: center; }
+.formula span { color: var(--gold); }
+.math-example { font-size: 13px; color: #444; line-height: 1.8; }
+.math-example strong { color: var(--forest); }
+
+/* Budget table */
+.budget-table { width: 100%; border-collapse: collapse; font-size: 14px; margin-bottom: 16px; }
+.budget-table th { background: var(--forest); color: var(--white); padding: 10px 12px; text-align: left; font-size: 12px; letter-spacing: 1px; text-transform: uppercase; }
+.budget-table td { padding: 10px 12px; border-bottom: 1px solid var(--sand); }
+.budget-table tr:last-child td { border-bottom: none; }
+.budget-table .total-row td { background: var(--sand); font-weight: 700; color: var(--forest); }
+.budget-table .income { color: var(--moss); font-weight: 600; }
+.budget-table .expense { color: #8B2020; }
+
+.ai-section { background: var(--navy); border-radius: 8px; overflow: hidden; margin-bottom: 20px; }
+.ai-section-header { padding: 10px 18px; border-bottom: 1px solid rgba(255,255,255,0.08); display: flex; align-items: center; gap: 10px; }
+.ai-section-header h3 { font-size: 11px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: var(--gold); }
+.ai-tracks { display: grid; grid-template-columns: 1fr 1fr; }
+.ai-track { padding: 16px 18px; }
+.ai-track + .ai-track { border-left: 1px solid rgba(255,255,255,0.08); }
+.ai-track-label { font-size: 11px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; margin-bottom: 8px; }
+.ai-track.basics .ai-track-label { color: #6ab187; }
+.ai-track.deeper .ai-track-label { color: #7b9fd4; }
+.ai-track p { font-size: 13px; color: #b8c8b8; line-height: 1.6; }
+.ai-track.deeper p { color: #b0c0d8; }
+.ai-exercise { margin-top: 10px; background: rgba(255,255,255,0.05); border-radius: 4px; padding: 10px 12px; font-size: 13px; color: #c8d8c8; line-height: 1.5; }
+.ai-exercise strong { display: block; font-size: 10px; letter-spacing: 1px; text-transform: uppercase; color: var(--gold); margin-bottom: 4px; }
+
+.resource-link { display: flex; align-items: flex-start; gap: 12px; padding: 12px 0; border-bottom: 1px solid var(--sand); text-decoration: none; color: inherit; }
+.resource-link:last-child { border-bottom: none; }
+.resource-link:hover .resource-title { color: var(--forest); text-decoration: underline; }
+.resource-type { background: var(--forest); color: var(--white); font-size: 10px; font-weight: 700; letter-spacing: 1px; padding: 3px 8px; border-radius: 3px; white-space: nowrap; flex-shrink: 0; margin-top: 2px; }
+.resource-type.video { background: #8B1A1A; }
+.resource-type.article { background: var(--moss); }
+.resource-type.tool { background: var(--gold); color: var(--forest); }
+.resource-title { font-size: 14px; color: var(--charcoal); font-weight: 600; }
+.resource-desc { font-size: 12px; color: #888; margin-top: 2px; }
+
+.exercise-item { background: var(--cream); border-left: 4px solid var(--gold); padding: 14px 16px; margin-bottom: 14px; border-radius: 0 6px 6px 0; }
+.exercise-item h4 { font-size: 14px; color: var(--forest); font-weight: 700; margin-bottom: 6px; }
+.exercise-item p { font-size: 13px; color: #555; line-height: 1.6; }
+.plan-tag { display: inline-block; background: var(--gold); color: var(--forest); font-size: 9px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; padding: 2px 7px; border-radius: 3px; margin-bottom: 6px; }
+
+.reflection-label { font-size: 13px; font-weight: 700; color: var(--forest); margin-bottom: 6px; display: block; }
+.reflection-hint { font-size: 12px; color: var(--muted); margin-bottom: 6px; display: block; font-style: italic; }
+textarea { width: 100%; border: 1px solid var(--border); border-radius: 6px; padding: 12px; font-family: inherit; font-size: 14px; resize: vertical; min-height: 90px; background: #fafaf8; margin-bottom: 16px; color: var(--charcoal); line-height: 1.6; }
+textarea:focus { outline: none; border-color: var(--moss); background: var(--white); }
+
+.save-reminder { background: #f0f7f0; border: 1px solid #b8d4b8; border-radius: 6px; padding: 12px 16px; margin-bottom: 16px; font-size: 13px; color: var(--forest); display: flex; gap: 10px; align-items: flex-start; }
+.save-reminder strong { display: block; margin-bottom: 2px; }
+
+.deliverable-card { background: var(--forest); color: var(--white); border-radius: 8px; padding: 22px; margin-bottom: 20px; }
+.deliverable-eyebrow { font-size: 10px; letter-spacing: 3px; color: var(--gold); font-weight: 700; text-transform: uppercase; margin-bottom: 8px; }
+.deliverable-card h4 { font-family: Georgia, serif; font-size: 20px; margin-bottom: 8px; }
+.deliverable-card p { font-size: 13px; color: #c8d8c8; line-height: 1.6; margin-bottom: 16px; }
+.checklist-item { display: flex; gap: 10px; align-items: flex-start; margin-bottom: 8px; font-size: 13px; color: #c8d8c8; }
+.checklist-item::before { content: '□'; color: var(--gold); font-size: 16px; line-height: 1.2; flex-shrink: 0; }
+.submit-btn { background: var(--gold); color: var(--forest); border: none; padding: 12px 24px; border-radius: 6px; font-size: 14px; font-weight: 700; cursor: pointer; transition: opacity 0.2s; font-family: inherit; }
+.submit-btn:hover { opacity: 0.88; }
+
+.plan-thread { background: var(--navy); border: 1px solid rgba(200,150,62,0.3); border-radius: 8px; padding: 18px 20px; margin-bottom: 20px; }
+.plan-thread-label { font-size: 10px; letter-spacing: 2px; text-transform: uppercase; color: var(--gold); font-weight: 700; margin-bottom: 6px; }
+.plan-thread h4 { font-family: Georgia, serif; font-size: 17px; color: var(--white); margin-bottom: 8px; }
+.plan-thread p { font-size: 13px; color: #b0b8c8; line-height: 1.6; }
+
+.scenario-box { background: #f0f7f0; border: 1px solid #b8d4b8; border-left: 4px solid var(--moss); border-radius: 0 6px 6px 0; padding: 14px 16px; margin-bottom: 14px; font-size: 13px; color: var(--charcoal); line-height: 1.7; }
+.scenario-box strong { color: var(--forest); display: block; margin-bottom: 4px; font-size: 12px; letter-spacing: 1px; text-transform: uppercase; }
+
+.capstone-intro { background: var(--sand); border: 1px solid var(--border); border-radius: 8px; padding: 20px; margin-bottom: 20px; }
+.capstone-intro h3 { font-family: Georgia, serif; font-size: 20px; color: var(--forest); margin-bottom: 8px; }
+.capstone-intro p { font-size: 14px; color: #555; line-height: 1.6; }
+
+.ground-up-plan-reveal { background: linear-gradient(135deg, var(--forest) 0%, #1e3d1f 100%); border-radius: 8px; padding: 24px; margin-bottom: 20px; text-align: center; border: 2px solid var(--gold); }
+.ground-up-plan-reveal .badge { font-size: 40px; margin-bottom: 12px; }
+.ground-up-plan-reveal h3 { font-family: Georgia, serif; font-size: 24px; color: var(--gold); margin-bottom: 8px; }
+.ground-up-plan-reveal p { font-size: 14px; color: #c8d8c8; line-height: 1.6; max-width: 560px; margin: 0 auto; }
+
+.toast { position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%) translateY(80px); background: var(--forest); color: var(--white); padding: 14px 24px; border-radius: 8px; font-size: 14px; font-weight: 600; z-index: 999; transition: transform 0.3s ease; box-shadow: 0 4px 20px rgba(0,0,0,0.25); pointer-events: none; }
+.toast.show { transform: translateX(-50%) translateY(0); }
+
+@media print {
+  .week-nav, .progress-wrap, .tab-btn, .submit-btn { display: none !important; }
+  .week-section { display: block !important; page-break-before: always; }
+  .week-section:first-child { page-break-before: auto; }
+  body { background: white; }
+}
+@media (max-width: 600px) {
+  .site-header h1 { font-size: 22px; }
+  .main { padding: 20px 16px 60px; }
+  .tab-btn { padding: 10px 10px; font-size: 12px; }
+  .ai-tracks { grid-template-columns: 1fr; }
+  .ai-track + .ai-track { border-left: none; border-top: 1px solid rgba(255,255,255,0.08); }
+  .stat-row { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body>
+
+<header class="site-header">
+  <div class="header-top">
+    <div class="program-eyebrow">Ground Up — Where Rebuilding Begins.</div>
+    <h1>Session 2 Workbook</h1>
+    <div class="tagline">The Paddock Cafe &middot; Shelbyville, Kentucky &middot; In partnership with Awake Ministries</div>
+  </div>
+</header>
+
+<div class="session-banner">
+  <div class="session-banner-inner">
+    <div class="session-circle">2</div>
+    <div>
+      <div class="session-title">Basic Finance</div>
+      <div class="session-subtitle">4 Weeks + Capstone &middot; Ground Up Plan Deliverable #2: Your Business Budget</div>
+    </div>
+  </div>
+</div>
+
+<div class="idea-banner">
+  <div class="idea-banner-inner">
+    <div class="idea-label">
+      Your Business Idea
+      <span>The thread through everything</span>
+    </div>
+    <input type="text" class="idea-input" id="business-idea" placeholder="Enter your business idea from Session 1..." />
+  </div>
+</div>
+
+<nav class="week-nav">
+  <div class="week-nav-inner">
+    <button class="tab-btn active" onclick="showTab('w1', this)" id="tab-w1">Week 1</button>
+    <button class="tab-btn" onclick="showTab('w2', this)" id="tab-w2">Week 2</button>
+    <button class="tab-btn" onclick="showTab('w3', this)" id="tab-w3">Week 3</button>
+    <button class="tab-btn" onclick="showTab('w4', this)" id="tab-w4">Week 4</button>
+    <button class="tab-btn" onclick="showTab('cap', this)" id="tab-cap">Capstone</button>
+  </div>
+</nav>
+
+<div class="progress-wrap">
+  <div class="progress-inner">
+    <div class="progress-label">
+      <span>Session 2 Progress</span>
+      <span id="pct-label">0%</span>
+    </div>
+    <div class="progress-track">
+      <div class="progress-fill" id="progress-fill"></div>
+    </div>
+  </div>
+</div>
+
+<main class="main">
+
+<!-- ════════════════════════════════════════════════════════════════
+     WEEK 1 — How Money Works in a Café
+════════════════════════════════════════════════════════════════ -->
+<section class="week-section active" id="sec-w1">
+  <div class="week-header">
+    <div class="week-eyebrow">Session 2 &middot; Week 1</div>
+    <h2>How Money Works in a Café</h2>
+    <div class="week-objective">
+      <strong>Weekly Objective</strong>
+      Understand where The Paddock's money comes from, where it goes, and what's left over. Learn the three numbers that determine whether any business — café or otherwise — survives: revenue, costs, and profit. Begin applying this lens to your own business idea.
+    </div>
+  </div>
+
+  <div class="plan-thread">
+    <div class="plan-thread-label">🗂 Ground Up Plan — Session 2</div>
+    <h4>This Month You're Building: Your Business Budget</h4>
+    <p>By the end of this session you'll have a real financial model for your business idea — what it costs to run, how you'd price your product or service, and the number of sales you need each week to break even. This is Ground Up Plan Deliverable #2. The numbers don't have to be perfect. They have to be honest.</p>
+  </div>
+
+  <div class="card">
+    <div class="card-header"><span class="card-icon">☕</span><h3>Key Concepts</h3></div>
+    <div class="card-body">
+      <div class="concept-item">
+        <div class="concept-dot"></div>
+        <div class="concept-text">
+          <strong>Revenue, costs, and profit — the three numbers every business lives by</strong>
+          <span>Revenue is every dollar that comes in. Costs are everything you spend to run the business. Profit is what's left over after you subtract costs from revenue. A café can be packed every morning and still lose money — if its costs are higher than its revenue. Understanding this relationship is the foundation of every financial decision a business ever makes. It sounds simple. Most businesses that fail missed it.</span>
+        </div>
+      </div>
+      <div class="concept-item">
+        <div class="concept-dot"></div>
+        <div class="concept-text">
+          <strong>Fixed costs vs. variable costs</strong>
+          <span>Fixed costs are what you pay whether you sell one cup of coffee or one thousand — rent, insurance, equipment loans. Variable costs change with how much you sell — coffee beans, milk, cups, the extra labor during a rush. Knowing which costs are fixed and which are variable helps you understand where your financial risk lives and what you can actually control. You can't negotiate rent away. You can optimize how much milk your baristas steam.</span>
+        </div>
+      </div>
+      <div class="concept-item">
+        <div class="concept-dot"></div>
+        <div class="concept-text">
+          <strong>What The Paddock's money looks like</strong>
+          <span>A typical independent café like The Paddock earns revenue from coffee drinks, food, baked goods, and catering. Food and beverage costs (what the ingredients cost) typically run 25–35% of revenue. Labor is the biggest expense — often 30–35% of revenue. Add rent, utilities, supplies, and insurance, and a well-run independent café typically keeps 5–15% of revenue as profit. That means for every $10 latte sold, $0.50 to $1.50 is actual profit. The rest runs the business.</span>
+        </div>
+      </div>
+      <div class="concept-item">
+        <div class="concept-dot"></div>
+        <div class="concept-text">
+          <strong>Cash flow is not the same as profit</strong>
+          <span>Profit is an accounting concept. Cash flow is what's in the bank right now. A business can be profitable on paper and still run out of cash — if customers owe it money it hasn't collected yet, or if it paid for supplies before it sold them. More small businesses fail from cash flow problems than from lack of profit. Understanding the difference between "we made money this month" and "we have money right now" is one of the most important financial distinctions you can learn.</span>
+        </div>
+      </div>
+      <div class="concept-item">
+        <div class="concept-dot"></div>
+        <div class="concept-text">
+          <strong>Smaller is easier to start — and easier to learn from</strong>
+          <span>A full coffee shop startup costs $80,000–$300,000. A coffee cart or pop-up can launch for $5,000–$20,000. A catering side hustle or home baking operation can start for a few hundred dollars. The financial principles are identical at every scale — the math just has fewer zeros. Starting small isn't settling. It's the most financially intelligent way to test whether your business idea actually works before betting everything on it.</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="stat-row">
+    <div class="stat-box">
+      <div class="stat-number">82%</div>
+      <div class="stat-label">of small businesses that fail cite cash flow problems as the cause — not lack of customers or bad products.</div>
+    </div>
+    <div class="stat-box">
+      <div class="stat-number">2.5%</div>
+      <div class="stat-label">average net profit margin for independent coffee shops — meaning the financial details matter enormously at every level of the business.</div>
+    </div>
+  </div>
+
+  <div class="math-box">
+    <h4>The Basic Business Equation</h4>
+    <div class="formula">Revenue <span>−</span> Costs <span>=</span> Profit (or Loss)</div>
+    <div class="math-example">
+      <strong>Example at The Paddock:</strong><br>
+      A busy Saturday: 150 customers, average ticket $8.50<br>
+      Revenue: 150 × $8.50 = <strong>$1,275</strong><br>
+      Food &amp; beverage costs (~28%): $357<br>
+      Labor (2 staff × 8 hrs × $14/hr): $224<br>
+      Share of daily fixed costs (rent, utilities, etc.): $180<br>
+      <strong>Profit that day: $1,275 − $761 = $514</strong><br>
+      <em style="color:#888; font-size:12px;">This is a simplified example — real P&amp;Ls include many more line items.</em>
+    </div>
+  </div>
+
+  <div class="ai-section">
+    <div class="ai-section-header">
+      <span style="font-size:18px;">🤖</span>
+      <h3>AI &amp; Business Finance — Week 1</h3>
+    </div>
+    <div class="ai-tracks">
+      <div class="ai-track basics">
+        <div class="ai-track-label">🌱 AI Basics</div>
+        <p>AI is very good at explaining financial concepts in plain language — without the jargon that makes money feel intimidating. If any concept in this session confuses you, AI is your best first resource. Ask it to explain things as simply as possible, give you an example, or use numbers you can relate to.</p>
+        <div class="ai-exercise">
+          <strong>Try This</strong>
+          In Claude.ai, type: <em>"Explain the difference between revenue, costs, and profit using a lemonade stand as an example. Use real numbers and keep it simple."</em> — Then ask a follow-up: <em>"Now explain cash flow — and why a business can be profitable but still run out of money."</em>
+        </div>
+      </div>
+      <div class="ai-track deeper">
+        <div class="ai-track-label">🚀 Going Deeper</div>
+        <p>AI can help you build a basic financial model for your business idea — estimating revenue, listing likely costs, and calculating a rough profit. It won't be perfect, but it will force you to think through the numbers before you commit time or money. This is called a "first-pass financial model."</p>
+        <div class="ai-exercise">
+          <strong>Start Your Financial Model</strong>
+          In Claude.ai, type: <em>"I'm planning to start [your business idea]. Help me think through a simple financial model. What would my likely revenue sources be? What are my probable startup costs and monthly operating costs? What price would I need to charge to make this viable?"</em> — Save the response. This becomes the starting point for your Business Budget.
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header"><span class="card-icon">📚</span><h3>Resources</h3></div>
+    <div class="card-body">
+      <a class="resource-link" href="https://theabcbank.com/resources/blog/the-simple-guide-to-business-finance/" target="_blank">
+        <span class="resource-type article">Article</span>
+        <div><div class="resource-title">The Simple Guide to Business Finance for Small Business Owners</div><div class="resource-desc">ABC Bank — Free · 2026 · Plain-language walkthrough of the financial fundamentals every small business owner needs to understand</div></div>
+      </a>
+      <a class="resource-link" href="https://pos.toasttab.com/blog/on-the-line/coffee-shop-menu-pricing" target="_blank">
+        <span class="resource-type article">Article</span>
+        <div><div class="resource-title">How to Make a Coffee Shop Menu Pricing Strategy</div><div class="resource-desc">Toast — Free · 2025 · Food cost percentages, pricing formulas, and what the numbers look like inside a real café</div></div>
+      </a>
+      <a class="resource-link" href="https://www.youtube.com/@ProfitFirstMike" target="_blank">
+        <span class="resource-type video">Video</span>
+        <div><div class="resource-title">How Small Business Finance Actually Works</div><div class="resource-desc">YouTube — Free · Search "small business profit and loss explained simply" · 8–12 min · Plain language, real examples</div></div>
+      </a>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header"><span class="card-icon">✏️</span><h3>Exercises</h3></div>
+    <div class="card-body">
+      <div class="exercise-item">
+        <h4>Exercise 1 — The Paddock's Money Flow</h4>
+        <p>Based on what you've observed working at The Paddock, estimate a typical weekday's revenue and costs. You don't need exact numbers — make your best educated guess based on what you see: how many customers, what they typically spend, how many staff are working. Then calculate whether that day was likely profitable. Ask your Mentor Lead to help you check your estimates against reality.</p>
+      </div>
+      <label class="reflection-label">Your estimate of a typical Paddock weekday:</label>
+      <textarea id="w1e1" placeholder="Estimated customers: ___&#10;Average spend: $___&#10;Estimated daily revenue: $___&#10;Estimated costs (ingredients, labor, overhead): $___&#10;Estimated profit or loss: $___&#10;What surprised me about this exercise: ..." oninput="calcProgress()"></textarea>
+
+      <div class="exercise-item">
+        <div class="plan-tag">Ground Up Plan</div>
+        <h4>Exercise 2 — Your Business: Revenue Sources</h4>
+        <p>List every way your business idea could make money. Don't just think about the obvious one — think about variations, add-ons, seasonal opportunities, and adjacent services. For each revenue source, estimate: how many units/customers per week, at what price. This is the top line of your Business Budget. Don't worry about being precise — this is a first draft.</p>
+      </div>
+      <label class="reflection-label">Your revenue sources and first estimates:</label>
+      <span class="reflection-hint">Save this in your Google Drive Ground Up Plan folder — it's the first line of your Business Budget.</span>
+      <textarea id="w1e2" rows="6" placeholder="Revenue source 1: ___ | Est. weekly units: ___ | Price: $___ | Weekly revenue: $___&#10;Revenue source 2: ___ | Est. weekly units: ___ | Price: $___ | Weekly revenue: $___&#10;Revenue source 3: ___&#10;&#10;Total estimated weekly revenue: $___" oninput="calcProgress()"></textarea>
+
+      <div class="exercise-item">
+        <h4>Exercise 3 — What Does "Making It" Look Like?</h4>
+        <p>Before you can build a budget, you need to know what success looks like financially. Write down: what monthly income from your business would feel like "making it" in year one. Not rich — sustainable. What would you need to cover your personal expenses and still feel like the business is worth running? This number becomes the target your budget has to hit.</p>
+      </div>
+      <label class="reflection-label">Your personal "making it" number and what it would mean:</label>
+      <textarea id="w1e3" placeholder="My 'making it' monthly income goal: $___&#10;Why that number: ...&#10;What that income would change in my life: ..." oninput="calcProgress()"></textarea>
+    </div>
+  </div>
+
+  <div class="save-reminder">
+    <span style="font-size:20px;">💾</span>
+    <div><strong>Save your work to Google Drive.</strong> Create a document called "Ground Up Session 2 — Business Budget" and paste Exercise 2 in. You'll add to it each week.</div>
+  </div>
+
+  <div class="deliverable-card">
+    <div class="deliverable-eyebrow">Week 1 Deliverable</div>
+    <h4>Revenue Estimate + "Making It" Number</h4>
+    <p>Share with your Mentor Lead in Google Drive: (1) Your Paddock money flow estimate from Exercise 1 — show your math, and (2) your business revenue sources with first estimates from Exercise 2. Your Mentor Lead will help you pressure-test whether your numbers are realistic before you build the full budget in Weeks 2–3.</p>
+    <button class="submit-btn" onclick="markDone('w1')">✓ Week 1 Complete</button>
+  </div>
+</section>
+
+<!-- ════════════════════════════════════════════════════════════════
+     WEEK 2 — Food Cost & Pricing Your Idea
+════════════════════════════════════════════════════════════════ -->
+<section class="week-section" id="sec-w2">
+  <div class="week-header">
+    <div class="week-eyebrow">Session 2 &middot; Week 2</div>
+    <h2>Food Cost &amp; Pricing Your Idea</h2>
+    <div class="week-objective">
+      <strong>Weekly Objective</strong>
+      Understand how The Paddock prices its menu using food cost percentage — and apply the same pricing logic to your business idea. Learn why price is not just about what you charge, but about what it costs you to deliver and what the market will actually pay.
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header"><span class="card-icon">☕</span><h3>Key Concepts</h3></div>
+    <div class="card-body">
+      <div class="concept-item">
+        <div class="concept-dot"></div>
+        <div class="concept-text">
+          <strong>Food cost percentage — the most important number in a café</strong>
+          <span>Food cost percentage is what your ingredients cost as a percentage of what you charge for the item. For a café, the target is typically 25–35%. That means if a latte costs you $1.50 in ingredients (coffee, milk, cup, lid), you should charge $4.50–$6.00 to hit your target. If you charge $3.00, you're building a money-losing business one cup at a time — even if the café is full.</span>
+        </div>
+      </div>
+      <div class="concept-item">
+        <div class="concept-dot"></div>
+        <div class="concept-text">
+          <strong>The three pricing questions every business must answer</strong>
+          <span>What does it cost me to produce? What will the market pay? What do I need to charge to be profitable? All three answers have to be true at the same time. A price that doesn't cover your costs makes you go broke slowly. A price the market won't pay makes you go broke fast. A price that isn't profitable enough to sustain the business makes you go broke eventually. Pricing is not about what feels fair — it's about what makes the math work.</span>
+        </div>
+      </div>
+      <div class="concept-item">
+        <div class="concept-dot"></div>
+        <div class="concept-text">
+          <strong>Your time is a cost — most new entrepreneurs forget this</strong>
+          <span>When you're building a business, you will be tempted to not pay yourself — to just reinvest everything. That's sometimes necessary early on, but your time has to be included in your cost calculation. If you make 50 cupcakes in four hours to sell at a farmers market, those four hours are a cost. Divide the cost of your time into your pricing or you're not actually running a business — you're running an expensive hobby.</span>
+        </div>
+      </div>
+      <div class="concept-item">
+        <div class="concept-dot"></div>
+        <div class="concept-text">
+          <strong>Price signals value — don't underprice yourself out of credibility</strong>
+          <span>One of the most common mistakes first-time entrepreneurs make is pricing too low. They think low prices attract more customers. Sometimes they do. But they also signal low quality. And they make it nearly impossible to raise prices later without losing customers. Research on consumer psychology consistently shows that people use price as a proxy for quality, especially when they don't know you yet. Price what your product is worth.</span>
+        </div>
+      </div>
+      <div class="concept-item">
+        <div class="concept-dot"></div>
+        <div class="concept-text">
+          <strong>Shelbyville pricing is different from Louisville or Lexington</strong>
+          <span>Location affects what prices the market will accept. A 12oz latte in downtown Louisville might go for $7.00. The same drink in Shelbyville might top out at $5.50–$6.00. This isn't a problem — it also means your rent, labor costs, and other overhead are significantly lower. A café in a smaller market with lower overhead can actually have better margins than a city location with a higher price point. Know your market before you set your price.</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="stat-row">
+    <div class="stat-box">
+      <div class="stat-number">25–35%</div>
+      <div class="stat-label">target food cost percentage for a healthy café — meaning ingredients should cost no more than 35 cents of every dollar you charge.</div>
+    </div>
+    <div class="stat-box">
+      <div class="stat-number">60%</div>
+      <div class="stat-label">of new entrepreneurs underprice their first product or service — often costing themselves more than any other single business mistake.</div>
+    </div>
+  </div>
+
+  <div class="math-box">
+    <h4>The Pricing Formula</h4>
+    <div class="formula">Price <span>=</span> Ingredient Cost <span>÷</span> Target Food Cost %</div>
+    <div class="math-example">
+      <strong>Example — Latte at The Paddock:</strong><br>
+      Ingredient cost (espresso + milk + cup + lid): $1.65<br>
+      Target food cost: 30%<br>
+      Minimum price: $1.65 ÷ 0.30 = <strong>$5.50</strong><br><br>
+      <strong>Example — Your business (baked goods):</strong><br>
+      Ingredient cost per dozen cookies: $4.50<br>
+      Your time (1 hour @ $15/hr): $15.00<br>
+      Total cost per dozen: $19.50<br>
+      Target food cost: 35%<br>
+      Minimum price per dozen: $19.50 ÷ 0.35 = <strong>$55.71</strong><br>
+      <em style="color:#888; font-size:12px;">If $55 per dozen feels too high for your market, your ingredient or time costs need to come down — not your price.</em>
+    </div>
+  </div>
+
+  <div class="ai-section">
+    <div class="ai-section-header">
+      <span style="font-size:18px;">🤖</span>
+      <h3>AI &amp; Pricing — Week 2</h3>
+    </div>
+    <div class="ai-tracks">
+      <div class="ai-track basics">
+        <div class="ai-track-label">🌱 AI Basics</div>
+        <p>Pricing math can feel overwhelming, but AI can walk you through it step by step using your actual numbers. You give it the costs; it helps you calculate the price. Think of it as a calculator that also explains what the numbers mean.</p>
+        <div class="ai-exercise">
+          <strong>Price One Item</strong>
+          In Claude.ai, type: <em>"Help me calculate the right price for one item from my business. Here are the costs: [list your ingredient costs and time]. I want to use a 30% food cost target. Show me the math and tell me if that price seems realistic for a small-town Kentucky market."</em>
+        </div>
+      </div>
+      <div class="ai-track deeper">
+        <div class="ai-track-label">🚀 Going Deeper</div>
+        <p>AI can help you build a complete pricing sheet for your business — every product or service, its costs, and its ideal price. This becomes a living document you update as your real costs become clearer. It's one of the most practical things you'll build in this program.</p>
+        <div class="ai-exercise">
+          <strong>Build Your Pricing Sheet</strong>
+          In Claude.ai, type: <em>"Help me build a simple pricing sheet for my business: [your idea]. List my likely products or services, estimate the cost to produce each one, and calculate a price using a 30% food cost target. Format it as a simple table."</em> — Save this in your Google Drive Business Budget document. This is Section 2 of your Ground Up Plan budget.
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header"><span class="card-icon">📚</span><h3>Resources</h3></div>
+    <div class="card-body">
+      <a class="resource-link" href="https://pureearthcoffee.com/blogs/cafe-buildout/cafe-menu-pricing-strategy-2026-what-actually-sells" target="_blank">
+        <span class="resource-type article">Article</span>
+        <div><div class="resource-title">Café Menu Pricing Strategy 2026: What Actually Sells</div><div class="resource-desc">Pure Earth Coffee — Free · May 2026 · Real 2026 pricing ranges by market tier including smaller Kentucky markets — directly relevant to The Paddock</div></div>
+      </a>
+      <a class="resource-link" href="https://quickbooks.intuit.com/r/accounting/break-even-analysis/" target="_blank">
+        <span class="resource-type article">Article</span>
+        <div><div class="resource-title">Break-Even Analysis: A Complete Guide</div><div class="resource-desc">QuickBooks — Free · 2025 · How to calculate when your business starts making money — with formulas and plain-language explanations</div></div>
+      </a>
+      <a class="resource-link" href="https://www.liveplan.com/ai-tools/break-even-calculator" target="_blank">
+        <span class="resource-type tool">Tool</span>
+        <div><div class="resource-title">Free Break-Even Calculator — LivePlan</div><div class="resource-desc">LivePlan — Free · Enter your costs and price, and it calculates exactly how many units you need to sell to break even</div></div>
+      </a>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header"><span class="card-icon">✏️</span><h3>Exercises</h3></div>
+    <div class="card-body">
+      <div class="exercise-item">
+        <h4>Exercise 1 — Cost One Item at The Paddock</h4>
+        <p>Pick one item from The Paddock's menu — a drink or a food item you make or serve regularly. Look up or estimate what the ingredients cost (ask your manager or Mentor Lead for help). Calculate its food cost percentage at the current selling price. Is it within the 25–35% target? What does that tell you about how The Paddock prices its menu?</p>
+      </div>
+      <label class="reflection-label">Your Paddock menu item cost analysis:</label>
+      <textarea id="w2e1" placeholder="Item: ___&#10;Selling price: $___&#10;Estimated ingredient cost: $___&#10;Food cost %: ___% &#10;Is it within target?: ___&#10;What this tells me: ..." oninput="calcProgress()"></textarea>
+
+      <div class="exercise-item">
+        <div class="plan-tag">Ground Up Plan</div>
+        <h4>Exercise 2 — Price Your Top 3 Products or Services</h4>
+        <p>For your business idea, choose your three most likely products or services. For each one: estimate the ingredient or supply cost, estimate how long it takes you to produce (and value your time at minimum $12/hr), add those together for your total cost, then calculate the price using a 30% food cost target. Does that price feel right for your market? If not — what needs to change?</p>
+      </div>
+      <label class="reflection-label">Your pricing for three products/services:</label>
+      <span class="reflection-hint">This is Section 2 of your Business Budget. Save in Google Drive.</span>
+      <textarea id="w2e2" rows="8" placeholder="Product 1: ___ | Ingredient cost: $___ | Time cost: $___ | Total cost: $___ | Price at 30%: $___ | Market reality check: ___&#10;Product 2: ___ | Ingredient cost: $___ | Time cost: $___ | Total cost: $___ | Price at 30%: $___&#10;Product 3: ___&#10;&#10;What I learned about pricing my business: ..." oninput="calcProgress()"></textarea>
+
+      <div class="exercise-item">
+        <h4>Exercise 3 — The Underprice Trap</h4>
+        <p>Think about a time you sold your labor, skills, or products too cheaply — maybe at a job, a favor, a side gig, or selling something you made. What made you underprice it? How did it feel when you realized? What would you charge now if you could do it over? What does this experience tell you about how you think about the value of your own work?</p>
+      </div>
+      <label class="reflection-label">Your underprice experience and what it taught you:</label>
+      <textarea id="w2e3" placeholder="What I underpriced: ...&#10;Why I did it: ...&#10;What I'd charge now: ...&#10;What it taught me about valuing my work: ..." oninput="calcProgress()"></textarea>
+    </div>
+  </div>
+
+  <div class="save-reminder">
+    <span style="font-size:20px;">💾</span>
+    <div><strong>Save Exercise 2 to Google Drive</strong> — add it to your Business Budget document. You now have two sections: revenue estimates (Week 1) and pricing (Week 2).</div>
+  </div>
+
+  <div class="deliverable-card">
+    <div class="deliverable-eyebrow">Week 2 Deliverable</div>
+    <h4>Pricing Sheet — Three Products or Services</h4>
+    <p>Share with your Mentor Lead: your completed pricing analysis for three products or services from your business idea. Show all the math — ingredient cost, time cost, total cost, calculated price. Your Mentor Lead will help you check whether the prices are realistic and sustainable before you move into the full budget in Week 3.</p>
+    <button class="submit-btn" onclick="markDone('w2')">✓ Week 2 Complete</button>
+  </div>
+</section>
+
+<!-- ════════════════════════════════════════════════════════════════
+     WEEK 3 — Labor Cost & Personal Finance
+════════════════════════════════════════════════════════════════ -->
+<section class="week-section" id="sec-w3">
+  <div class="week-header">
+    <div class="week-eyebrow">Session 2 &middot; Week 3</div>
+    <h2>Labor, Time &amp; Your Personal Financial Foundation</h2>
+    <div class="week-objective">
+      <strong>Weekly Objective</strong>
+      Understand why labor is every café's biggest expense — and how to budget your own time as a business asset. Then zoom out from the business to your personal finances: learn the 50/30/20 rule and build a simple personal budget that supports your life in recovery and your business goals.
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header"><span class="card-icon">☕</span><h3>Key Concepts</h3></div>
+    <div class="card-body">
+      <div class="concept-item">
+        <div class="concept-dot"></div>
+        <div class="concept-text">
+          <strong>Labor is the largest cost in any service business</strong>
+          <span>At The Paddock — and at most cafés — labor typically runs 30–35% of revenue. That means for every dollar that comes in, about 33 cents pays the people making the coffee, serving the food, and keeping the place running. When a café has a slow Tuesday, the espresso machine costs the same whether it runs all day or sits idle. The staff still need to be paid. This is why scheduling and labor efficiency are so critical — and why understanding labor cost makes you a more valuable employee right now, today.</span>
+        </div>
+      </div>
+      <div class="concept-item">
+        <div class="concept-dot"></div>
+        <div class="concept-text">
+          <strong>Your time budget and your money budget are the same thing</strong>
+          <span>Every hour you work is an hour you're not doing something else. When you own a business, especially early on, you will wear every hat — barista, accountant, marketer, delivery driver, customer service. Understanding where your time goes is as important as understanding where your money goes. Many entrepreneurs work 60 hours a week for a business that pays them less than a part-time job would. Track your time like you track your money.</span>
+        </div>
+      </div>
+      <div class="concept-item">
+        <div class="concept-dot"></div>
+        <div class="concept-text">
+          <strong>The 50/30/20 rule — a simple personal budget framework</strong>
+          <span>One of the most practical personal finance frameworks: spend 50% of your take-home pay on needs (rent, utilities, food, transportation), 30% on wants (anything that makes life enjoyable), and save or pay down debt with 20%. In a recovery context, financial instability is one of the biggest stressors that can threaten sobriety. A simple budget isn't just a money tool — it's a stability tool. Knowing where your money is going removes one of the most anxiety-producing unknowns in daily life.</span>
+        </div>
+      </div>
+      <div class="concept-item">
+        <div class="concept-dot"></div>
+        <div class="concept-text">
+          <strong>Separate your business money from your personal money — from day one</strong>
+          <span>The single most common financial mistake new business owners make is mixing personal and business funds. It makes taxes a nightmare, makes it impossible to know if the business is actually profitable, and tends to lead to "borrowing" from the business for personal expenses that never get paid back. Even if your business starts small, open a separate account for it. Treat every business dollar as belonging to the business — not to you personally.</span>
+        </div>
+      </div>
+      <div class="concept-item">
+        <div class="concept-dot"></div>
+        <div class="concept-text">
+          <strong>Financial stability is part of recovery — not separate from it</strong>
+          <span>Research consistently shows that financial stress is one of the top relapse triggers. Not because money is everything, but because financial chaos creates the kind of sustained anxiety that recovery requires peace from. Building a simple, honest personal budget — and sticking to it — is one of the most concrete things you can do to protect your sobriety and build the foundation your business will need to stand on.</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="stat-row">
+    <div class="stat-box">
+      <div class="stat-number">30–35%</div>
+      <div class="stat-label">of a café's revenue goes to labor — making scheduling and team efficiency some of the most financially impactful decisions an owner makes.</div>
+    </div>
+    <div class="stat-box">
+      <div class="stat-number">50/30/20</div>
+      <div class="stat-label">the personal budget rule: 50% needs, 30% wants, 20% savings or debt. Simple. Proven. Life-changing when actually followed.</div>
+    </div>
+  </div>
+
+  <div class="math-box">
+    <h4>The 50/30/20 Personal Budget — Example</h4>
+    <div class="math-example">
+      <strong>Monthly take-home pay: $2,000</strong><br><br>
+      <table class="budget-table" style="margin-top:8px;">
+        <tr><th>Category</th><th>%</th><th>Amount</th><th>Examples</th></tr>
+        <tr><td><span class="income">Needs</span></td><td>50%</td><td><strong>$1,000</strong></td><td>Rent, utilities, groceries, transportation, minimum debt payments</td></tr>
+        <tr><td><span style="color:#C8963E;">Wants</span></td><td>30%</td><td><strong>$600</strong></td><td>Dining out, clothing beyond basics, entertainment, subscriptions</td></tr>
+        <tr><td><span class="income">Save / Pay Debt</span></td><td>20%</td><td><strong>$400</strong></td><td>Emergency fund, savings, extra debt payments, business startup fund</td></tr>
+        <tr class="total-row"><td>Total</td><td>100%</td><td><strong>$2,000</strong></td><td></td></tr>
+      </table>
+    </div>
+  </div>
+
+  <div class="ai-section">
+    <div class="ai-section-header">
+      <span style="font-size:18px;">🤖</span>
+      <h3>AI &amp; Personal Finance — Week 3</h3>
+    </div>
+    <div class="ai-tracks">
+      <div class="ai-track basics">
+        <div class="ai-track-label">🌱 AI Basics</div>
+        <p>AI can help you build a personal budget in minutes. You tell it your monthly income and your regular expenses, and it helps you organize them into the 50/30/20 framework — flagging where you might be overspending and where you might be able to save. It's non-judgmental and available any time you need to think through a money decision.</p>
+        <div class="ai-exercise">
+          <strong>Build Your Personal Budget</strong>
+          In Claude.ai, type: <em>"Help me build a simple monthly budget using the 50/30/20 rule. My monthly take-home pay is approximately $[your amount]. My regular expenses include: [list what you pay each month — rent, phone, food, transportation, etc.]. Show me where I fall against the 50/30/20 targets and what I could adjust."</em>
+        </div>
+      </div>
+      <div class="ai-track deeper">
+        <div class="ai-track-label">🚀 Going Deeper</div>
+        <p>Understanding your personal financial needs helps you set a realistic income target for your business — the number your business has to hit for you to actually live on it. AI can help you connect your personal budget to your business model, so you know exactly how much your business needs to generate before you can pay yourself a real salary.</p>
+        <div class="ai-exercise">
+          <strong>Connect Your Budgets</strong>
+          In Claude.ai, type: <em>"Based on my personal budget of $[monthly expenses], how much would my business need to generate each month to pay me a sustainable salary? Factor in that a business has operating costs beyond my personal pay. Show me what the math looks like."</em> — Add this to your Business Budget document in Google Drive.
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header"><span class="card-icon">📚</span><h3>Resources</h3></div>
+    <div class="card-body">
+      <a class="resource-link" href="https://www.nav.com/accounting-software/small-business-financial-management/" target="_blank">
+        <span class="resource-type article">Article</span>
+        <div><div class="resource-title">Small Business Financial Management in 2026</div><div class="resource-desc">Nav — Free · May 2026 · How to build a financial foundation for a small business — budgeting, cash flow, and keeping business and personal money separate</div></div>
+      </a>
+      <a class="resource-link" href="https://quickbooks.intuit.com/r/running-a-business/small-business-finances/" target="_blank">
+        <span class="resource-type article">Article</span>
+        <div><div class="resource-title">Small Business Finances: How to Manage for 2026</div><div class="resource-desc">QuickBooks — Free · Apr 2026 · Complete guide to managing the financial side of a small business from day one</div></div>
+      </a>
+      <a class="resource-link" href="https://www.youtube.com/watch?v=yxjZ5aWbfcc" target="_blank">
+        <span class="resource-type video">Video</span>
+        <div><div class="resource-title">Budgeting for Beginners — How to Make a Budget from Scratch</div><div class="resource-desc">YouTube — Free · Dec 2024 · Step-by-step personal budget tutorial using pen and paper — no apps or software required</div></div>
+      </a>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header"><span class="card-icon">✏️</span><h3>Exercises</h3></div>
+    <div class="card-body">
+      <div class="exercise-item">
+        <h4>Exercise 1 — Your Personal 50/30/20 Budget</h4>
+        <p>Build your personal monthly budget using the 50/30/20 framework. List your current monthly income (from The Paddock or all sources). List every expense you can think of. Categorize each as a Need, Want, or Savings/Debt. Calculate your percentages. Where do you land? What surprises you? You don't have to share the exact numbers with anyone — this is for you.</p>
+      </div>
+      <label class="reflection-label">Your 50/30/20 budget summary and what you noticed:</label>
+      <textarea id="w3e1" placeholder="Monthly take-home: $___&#10;Needs total: $___ (___%)&#10;Wants total: $___ (___%)&#10;Savings/Debt: $___ (___%)&#10;&#10;What surprised me: ...&#10;What I want to change: ..." oninput="calcProgress()"></textarea>
+
+      <div class="exercise-item">
+        <div class="plan-tag">Ground Up Plan</div>
+        <h4>Exercise 2 — Your Business Labor Cost</h4>
+        <p>For your business idea, estimate the labor cost. Start with yourself: how many hours per week would it take to run your business (include making the product, selling it, marketing it, and managing the finances)? Value your time at $15/hr minimum. If you'd eventually hire someone, what would that cost? Add this to your Business Budget as your labor line. Is your revenue estimate (from Week 1) enough to cover it?</p>
+      </div>
+      <label class="reflection-label">Your business labor estimate:</label>
+      <span class="reflection-hint">Add to your Business Budget document in Google Drive.</span>
+      <textarea id="w3e2" rows="5" placeholder="My weekly hours: ___ hours × $15/hr = $___ /week = $___ /month&#10;Future employee (if applicable): ___ hours × $___/hr = $___&#10;Total monthly labor cost: $___&#10;Does my revenue cover this?: ___&#10;What needs to change if not: ..." oninput="calcProgress()"></textarea>
+
+      <div class="exercise-item">
+        <h4>Exercise 3 — Money and Recovery</h4>
+        <p>Financial stress is a documented relapse trigger. Reflect honestly: what is your relationship with money right now? Does thinking about finances make you anxious? Has money been a source of shame or chaos in the past? What would it mean for your recovery and your life if you had a simple, honest budget that you actually followed? You don't have to have answers — just honest reflection.</p>
+      </div>
+      <label class="reflection-label">Your honest reflection on money and recovery:</label>
+      <textarea id="w3e3" placeholder="My relationship with money right now feels like: ...&#10;In the past, money has: ...&#10;What financial stability would mean for my recovery: ...&#10;One thing I'm committing to financially: ..." oninput="calcProgress()"></textarea>
+    </div>
+  </div>
+
+  <div class="save-reminder">
+    <span style="font-size:20px;">💾</span>
+    <div><strong>Save Exercise 2 to Google Drive.</strong> Your Business Budget now has three sections: revenue, pricing, and labor. One more section — startup and overhead costs — comes in Week 4.</div>
+  </div>
+
+  <div class="deliverable-card">
+    <div class="deliverable-eyebrow">Week 3 Deliverable</div>
+    <h4>Personal Budget + Labor Cost Estimate</h4>
+    <p>Share with your Mentor Lead: (1) A summary of your 50/30/20 personal budget — you control how much detail you share, but your Mentor Lead needs to understand your personal financial target. (2) Your labor cost estimate for your business. Together these tell the story of how much your business needs to generate for your life to work.</p>
+    <button class="submit-btn" onclick="markDone('w3')">✓ Week 3 Complete</button>
+  </div>
+</section>
+
+<!-- ════════════════════════════════════════════════════════════════
+     WEEK 4 — Reading the Numbers
+════════════════════════════════════════════════════════════════ -->
+<section class="week-section" id="sec-w4">
+  <div class="week-header">
+    <div class="week-eyebrow">Session 2 &middot; Week 4</div>
+    <h2>Reading the Numbers — P&amp;L and Break-Even</h2>
+    <div class="week-objective">
+      <strong>Weekly Objective</strong>
+      Learn to read a Profit &amp; Loss statement — the report that tells you whether a business is making or losing money. Calculate your business idea's break-even point: the number of sales you need to make before you start earning real profit. Assemble your complete Business Budget for the capstone.
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header"><span class="card-icon">☕</span><h3>Key Concepts</h3></div>
+    <div class="card-body">
+      <div class="concept-item">
+        <div class="concept-dot"></div>
+        <div class="concept-text">
+          <strong>The P&L — a business's most important report card</strong>
+          <span>A Profit and Loss statement (P&L) shows revenue, costs, and profit over a specific period — usually a month. It answers the most important question in any business: are we making money? A P&L has three main sections: Revenue (all income), Cost of Goods Sold (what it cost to produce what you sold), and Operating Expenses (everything else — rent, utilities, labor, insurance). Gross profit is revenue minus COGS. Net profit is gross profit minus operating expenses. Net profit is what matters.</span>
+        </div>
+      </div>
+      <div class="concept-item">
+        <div class="concept-dot"></div>
+        <div class="concept-text">
+          <strong>Break-even: the most important number for a new business</strong>
+          <span>Your break-even point is the number of sales you need to make before you start actually earning profit. Below break-even, every sale moves you toward zero. Above it, every sale is profit. Every new business has a break-even point, and knowing yours before you open is the difference between going in with a plan and hoping for the best. A coffee cart that costs $800/month to operate and earns $5 profit per drink needs to sell 160 drinks per month just to break even — about 6 per day.</span>
+        </div>
+      </div>
+      <div class="concept-item">
+        <div class="concept-dot"></div>
+        <div class="concept-text">
+          <strong>Startup costs vs. ongoing costs</strong>
+          <span>Startup costs are the one-time expenses of launching — equipment, licenses, initial supplies, branding. Ongoing costs are what it costs every month to operate. Both need to be in your business budget. Many first-time entrepreneurs budget carefully for startup costs and underestimate ongoing costs — then run out of money before the business has had time to prove itself. The rule of thumb: plan for three to six months of operating expenses as a cash reserve before you launch.</span>
+        </div>
+      </div>
+      <div class="concept-item">
+        <div class="concept-dot"></div>
+        <div class="concept-text">
+          <strong>Your Business Budget is a living document — not a prediction</strong>
+          <span>The Business Budget you build this month will be wrong. Not because you did it badly, but because all budgets are educated guesses until reality arrives. What matters is not that the numbers are perfectly accurate — it's that you have a plan you can measure against reality, update when things change, and use to make better decisions. A budget you update every month is worth a hundred times more than a perfect plan you never revisit.</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="stat-row">
+    <div class="stat-box">
+      <div class="stat-number">3–6</div>
+      <div class="stat-label">months of operating expenses in reserve — the minimum cash cushion every new business needs before it's ready to launch.</div>
+    </div>
+    <div class="stat-box">
+      <div class="stat-number">18 mo.</div>
+      <div class="stat-label">average time for a new café to reach break-even — which is why starting lean and building slowly is smarter than betting everything on a big launch.</div>
+    </div>
+  </div>
+
+  <div class="math-box">
+    <h4>Break-Even Calculation</h4>
+    <div class="formula">Break-Even Units <span>=</span> Monthly Fixed Costs <span>÷</span> (Price − Variable Cost Per Unit)</div>
+    <div class="math-example">
+      <strong>Example — Small baked goods business:</strong><br>
+      Monthly fixed costs (phone, supplies, market booth fee): $250<br>
+      Price per dozen cookies: $18<br>
+      Variable cost per dozen (ingredients): $5<br>
+      Contribution per dozen: $18 − $5 = $13<br>
+      Break-even: $250 ÷ $13 = <strong>19.2 dozens per month</strong> (about 5 per week)<br><br>
+      <em style="color:#888; font-size:12px;">Every dozen sold above 20/month is pure profit. Does selling 20 dozens a month feel achievable? That's the break-even reality check.</em>
+    </div>
+  </div>
+
+  <div class="ai-section">
+    <div class="ai-section-header">
+      <span style="font-size:18px;">🤖</span>
+      <h3>AI &amp; Financial Modeling — Week 4</h3>
+    </div>
+    <div class="ai-tracks">
+      <div class="ai-track basics">
+        <div class="ai-track-label">🌱 AI Basics</div>
+        <p>AI can calculate your break-even point for you — you just give it the numbers. It can also explain what the result means and what you'd need to change to lower your break-even if the number feels too high. Use it as a financial thinking partner: give it your costs, your price, and ask it to show you the math.</p>
+        <div class="ai-exercise">
+          <strong>Calculate Your Break-Even</strong>
+          In Claude.ai, type: <em>"Calculate my break-even point. My monthly fixed costs are $[amount]. I plan to sell [product] at $[price]. My variable cost per unit is $[amount]. How many units do I need to sell per month to break even? Is that realistic for a first-year business?"</em>
+        </div>
+      </div>
+      <div class="ai-track deeper">
+        <div class="ai-track-label">🚀 Going Deeper</div>
+        <p>A complete Business Budget includes revenue projections, startup costs, monthly operating costs, labor, and a break-even analysis — all formatted so someone else (an investor, a lender, a mentor) can read and understand it. AI can help you assemble all four weeks of financial work into one clean, professional document.</p>
+        <div class="ai-exercise">
+          <strong>Assemble Your Business Budget</strong>
+          In Claude.ai, type: <em>"Help me assemble a simple, clean Business Budget document for my business: [your idea]. Here's what I have so far: [paste your Week 1 revenue estimates, Week 2 pricing, Week 3 labor costs]. Add a break-even calculation and format it as a one-page business budget summary. Label each section clearly."</em> — This is your Ground Up Plan Deliverable #2. Save it in Google Drive.
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header"><span class="card-icon">📚</span><h3>Resources</h3></div>
+    <div class="card-body">
+      <a class="resource-link" href="https://www.netsuite.com/portal/resource/articles/financial-management/break-even-analysis.shtml" target="_blank">
+        <span class="resource-type article">Article</span>
+        <div><div class="resource-title">Break-Even Analysis: Key Concepts and Guide</div><div class="resource-desc">NetSuite — Free · Nov 2025 · Complete explanation of break-even analysis with formulas — used by entrepreneurs and MBA programs alike</div></div>
+      </a>
+      <a class="resource-link" href="https://www.scu.edu/mobi/business-courses/starting-a-business/accounting-and-cash-flow/" target="_blank">
+        <span class="resource-type article">Article</span>
+        <div><div class="resource-title">Basic Accounting for Small Businesses</div><div class="resource-desc">Santa Clara University MOBI — Free · How to read a P&amp;L, a balance sheet, and a cash flow statement — with real examples</div></div>
+      </a>
+      <a class="resource-link" href="https://www.youtube.com/@KhanAcademy" target="_blank">
+        <span class="resource-type video">Video</span>
+        <div><div class="resource-title">Khan Academy — Personal Finance</div><div class="resource-desc">YouTube — Free · Search "Khan Academy income statement" · 8 min · The clearest explanation of a P&amp;L you'll find anywhere, completely free</div></div>
+      </a>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header"><span class="card-icon">✏️</span><h3>Exercises</h3></div>
+    <div class="card-body">
+      <div class="exercise-item">
+        <h4>Exercise 1 — Read a Simple P&L</h4>
+        <p>Using the numbers below, complete the P&L for a fictional small business — "Shelby's Sweet Table," a home baker selling at the Simpsonville Farmers Market. Calculate gross profit, total operating expenses, and net profit. Then answer: Is this business making money? What would you change first to improve profitability?</p>
+        <div class="math-box" style="margin-top:12px;">
+          <table class="budget-table">
+            <tr><th colspan="2">Shelby's Sweet Table — Monthly P&L</th></tr>
+            <tr><td><strong>Revenue</strong></td><td></td></tr>
+            <tr><td>Sales (48 dozens × $18)</td><td class="income">$864</td></tr>
+            <tr><td><strong>Cost of Goods Sold</strong></td><td></td></tr>
+            <tr><td>Ingredients (48 dozens × $5)</td><td class="expense">($240)</td></tr>
+            <tr class="total-row"><td>Gross Profit</td><td>$___</td></tr>
+            <tr><td><strong>Operating Expenses</strong></td><td></td></tr>
+            <tr><td>Market booth fee</td><td class="expense">($80)</td></tr>
+            <tr><td>Packaging supplies</td><td class="expense">($45)</td></tr>
+            <tr><td>Transportation</td><td class="expense">($60)</td></tr>
+            <tr><td>Phone/marketing</td><td class="expense">($30)</td></tr>
+            <tr class="total-row"><td>Total Operating Expenses</td><td>$___</td></tr>
+            <tr class="total-row"><td><strong>Net Profit</strong></td><td><strong>$___</strong></td></tr>
+          </table>
+        </div>
+      </div>
+      <label class="reflection-label">Your completed P&L and analysis:</label>
+      <textarea id="w4e1" placeholder="Gross Profit: $___&#10;Total Operating Expenses: $___&#10;Net Profit: $___&#10;&#10;Is this business profitable?: ___&#10;What I'd change first: ...&#10;What this teaches me about my own business: ..." oninput="calcProgress()"></textarea>
+
+      <div class="exercise-item">
+        <div class="plan-tag">Ground Up Plan</div>
+        <h4>Exercise 2 — Your Break-Even Calculation</h4>
+        <p>Using your numbers from Weeks 1–3, calculate your business's break-even point. List your monthly fixed costs, your price per unit, and your variable cost per unit. Calculate the contribution margin and the break-even number. Then ask yourself: is that number achievable in your first year? If not, what would have to change — your price, your costs, or your volume?</p>
+      </div>
+      <label class="reflection-label">Your break-even calculation and reality check:</label>
+      <span class="reflection-hint">This is the final section of your Business Budget. Save in Google Drive.</span>
+      <textarea id="w4e2" rows="7" placeholder="Monthly fixed costs: $___&#10;Price per unit: $___&#10;Variable cost per unit: $___&#10;Contribution margin: $___&#10;Break-even units per month: ___&#10;Break-even units per week: ___&#10;&#10;Is this achievable in Year 1?: ___&#10;What I'd change if not: ..." oninput="calcProgress()"></textarea>
+
+      <div class="exercise-item">
+        <h4>Exercise 3 — What You Now Know About Money</h4>
+        <p>Reflect on the four weeks of this session. What did you not know about money — personal or business — before this session that you know now? What's the single most important financial insight you're taking into Session 3? And what's one financial habit you're going to start this week — not someday, but this week?</p>
+      </div>
+      <label class="reflection-label">Your financial learning and one new habit:</label>
+      <textarea id="w4e3" placeholder="What I didn't know before: ...&#10;The most important thing I learned: ...&#10;The financial habit I'm starting this week: ..." oninput="calcProgress()"></textarea>
+    </div>
+  </div>
+
+  <div class="save-reminder">
+    <span style="font-size:20px;">💾</span>
+    <div><strong>Final save before capstone.</strong> Make sure your full Business Budget document in Google Drive has all four sections: revenue estimates, pricing sheet, labor costs, and break-even calculation. Your capstone pulls from all of them.</div>
+  </div>
+
+  <div class="deliverable-card">
+    <div class="deliverable-eyebrow">Week 4 Deliverable</div>
+    <h4>Complete Business Budget — Ready for Capstone</h4>
+    <p>Submit to your Mentor Lead: your fully assembled Business Budget document in Google Drive. It should include all four sections built across this session. Your Mentor Lead will review it before the capstone and give you feedback on the math and the assumptions. This is not a test — it's a draft. The goal is honesty, not perfection.</p>
+    <button class="submit-btn" onclick="markDone('w4')">✓ Week 4 Complete — Prepare for Capstone</button>
+  </div>
+</section>
+
+<!-- ════════════════════════════════════════════════════════════════
+     CAPSTONE — Your Business Budget
+════════════════════════════════════════════════════════════════ -->
+<section class="week-section" id="sec-cap">
+  <div class="week-header">
+    <div class="week-eyebrow">Session 2 &middot; Capstone</div>
+    <h2>Your Business Budget</h2>
+    <div class="week-objective">
+      <strong>Capstone Objective</strong>
+      Present your Business Budget to your Mentor Lead and Paddock/Awake leadership. Walk through every number — where it came from, what it means, and what it tells you about whether your business idea is financially viable. Ground Up Plan Deliverable #2.
+    </div>
+  </div>
+
+  <div class="ground-up-plan-reveal">
+    <div class="badge">💰</div>
+    <h3>Ground Up Plan — Deliverable #2</h3>
+    <p>You've spent four weeks learning how money works — in a café, in a personal budget, and in your business idea. Now you're presenting a real financial model for something you want to build. The numbers don't have to be perfect. They have to be honest. And you have to be able to explain every one of them.</p>
+  </div>
+
+  <div class="capstone-intro">
+    <h3>What Makes a Business Budget Credible</h3>
+    <p style="margin-bottom:10px;">Anyone can make up numbers that look good on paper. What makes a budget credible is the thinking behind it — being able to explain where each number came from, what assumptions you made, and what you'd do if those assumptions turn out to be wrong. Your Mentor Lead and the leadership team won't be impressed by optimistic projections. They'll be impressed by honest math and clear thinking.</p>
+    <p>Use the AI exercise below to help you assemble the final polished version — but every number that goes in has to be one you understand and can defend.</p>
+  </div>
+
+  <div class="plan-thread">
+    <div class="plan-thread-label">🤖 AI at the Capstone</div>
+    <h4>Assemble and Stress-Test Your Budget</h4>
+    <p style="color:#b0b8c8;">In Claude.ai, paste your complete Business Budget and type: <em>"Review this business budget for a [your business idea]. Point out any numbers that seem unrealistic, any costs I might have missed, and any assumptions that need to be challenged. Then help me format it into a clean, one-page document I can present to a mentor and a business leader."</em> — Use the feedback to revise before your capstone presentation.</p>
+  </div>
+
+  <div class="card">
+    <div class="card-header"><span class="card-icon">📋</span><h3>Capstone Components</h3></div>
+    <div class="card-body">
+      <div class="concept-item">
+        <div class="concept-dot"></div>
+        <div class="concept-text">
+          <strong>Part 1 — Your Revenue Model</strong>
+          <span>What you sell, how much you charge, and your realistic weekly/monthly sales estimate. Where did these numbers come from? What would have to be true for them to be right?</span>
+        </div>
+      </div>
+      <div class="concept-item">
+        <div class="concept-dot"></div>
+        <div class="concept-text">
+          <strong>Part 2 — Your Pricing Sheet</strong>
+          <span>Your top three products or services, their cost breakdown, and their price. Show the food cost percentage for each. Are you priced to be profitable?</span>
+        </div>
+      </div>
+      <div class="concept-item">
+        <div class="concept-dot"></div>
+        <div class="concept-text">
+          <strong>Part 3 — Your Cost Structure</strong>
+          <span>Fixed costs (what you pay regardless of sales), variable costs (what changes with volume), and labor (your time and any help you'd need). Total monthly operating cost.</span>
+        </div>
+      </div>
+      <div class="concept-item">
+        <div class="concept-dot"></div>
+        <div class="concept-text">
+          <strong>Part 4 — Your Break-Even Analysis</strong>
+          <span>How many units do you need to sell per month before you're profitable? Is that realistic in Year 1? What's your plan if you don't hit it in the first three months?</span>
+        </div>
+      </div>
+      <div class="concept-item">
+        <div class="concept-dot"></div>
+        <div class="concept-text">
+          <strong>Part 5 — Your Biggest Financial Risk and How You'd Manage It</strong>
+          <span>Every business has a number that, if it goes wrong, threatens the whole thing. What's yours? What would you do if sales were 50% of your projection in month one?</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header"><span class="card-icon">✏️</span><h3>Capstone Workspace</h3></div>
+    <div class="card-body">
+      <label class="reflection-label">Part 1 — Revenue Model Summary:</label>
+      <textarea id="cap1" rows="4" placeholder="What I sell, what I charge, and my realistic monthly revenue estimate..." oninput="calcProgress()"></textarea>
+
+      <label class="reflection-label">Part 2 — Pricing Sheet (3 products/services):</label>
+      <textarea id="cap2" rows="5" placeholder="Product/service | Cost | Price | Food cost % &#10;1. &#10;2. &#10;3. " oninput="calcProgress()"></textarea>
+
+      <label class="reflection-label">Part 3 — Monthly Cost Structure:</label>
+      <textarea id="cap3" rows="5" placeholder="Fixed costs: $___/month&#10;Variable costs (per unit × estimated volume): $___/month&#10;Labor: $___/month&#10;Total monthly costs: $___" oninput="calcProgress()"></textarea>
+
+      <label class="reflection-label">Part 4 — Break-Even Analysis:</label>
+      <textarea id="cap4" rows="4" placeholder="Break-even point: ___ units/month (___ units/week)&#10;At my current revenue estimate, I reach break-even in month ___&#10;If I don't hit it in 3 months, I would: ..." oninput="calcProgress()"></textarea>
+
+      <label class="reflection-label">Part 5 — Biggest Financial Risk and How I'd Manage It:</label>
+      <textarea id="cap5" rows="4" placeholder="My biggest financial risk is: ...&#10;If sales came in at 50% of my projection, I would: ...&#10;What I've learned about managing financial risk: ..." oninput="calcProgress()"></textarea>
+
+      <label class="reflection-label">What building this budget taught me about my business idea:</label>
+      <textarea id="cap6" rows="3" placeholder="Before this session I thought my business would...&#10;Now I know that..." oninput="calcProgress()"></textarea>
+    </div>
+  </div>
+
+  <div class="deliverable-card">
+    <div class="deliverable-eyebrow">Session 2 Capstone Deliverable</div>
+    <h4>Business Budget — Ground Up Plan Deliverable #2</h4>
+    <p>Present your Business Budget to your Mentor Lead and any Paddock or Awake leadership present. Walk through all five components out loud — not just reading the numbers, but explaining the thinking behind them. Be prepared to answer: "Where did that number come from?" and "What would you do if it was wrong?" This is the most financially honest conversation many people in this room will have ever had about a business idea. Own it.</p>
+    <div class="checklist-item">All five capstone components completed above and saved in Google Drive</div>
+    <div class="checklist-item">Full Business Budget document assembled and formatted in Google Drive</div>
+    <div class="checklist-item">Practiced presenting out loud at least once</div>
+    <div class="checklist-item" style="margin-top:8px;">Ready to answer: "Where did that number come from?"</div>
+    <button class="submit-btn" style="margin-top:16px;" onclick="markDone('cap')">✓ Submit Session 2 Capstone</button>
+  </div>
+</section>
+
+</main>
+
+<div class="toast" id="toast">✅ Saved</div>
+
+<script>
+const SECTIONS = ['w1','w2','w3','w4','cap'];
+const TEXTAREA_IDS = [
+  'w1e1','w1e2','w1e3',
+  'w2e1','w2e2','w2e3',
+  'w3e1','w3e2','w3e3',
+  'w4e1','w4e2','w4e3',
+  'cap1','cap2','cap3','cap4','cap5','cap6'
+];
+
+function showTab(id, btn) {
+  document.querySelectorAll('.week-section').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('sec-' + id).classList.add('active');
+  btn.classList.add('active');
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function calcProgress() {
+  let filled = 0;
+  TEXTAREA_IDS.forEach(id => {
+    const el = document.getElementById(id);
+    if (el && el.value.trim().length > 15) filled++;
+  });
+  const pct = Math.round((filled / TEXTAREA_IDS.length) * 100);
+  document.getElementById('progress-fill').style.width = pct + '%';
+  document.getElementById('pct-label').textContent = pct + '%';
+}
+
+function markDone(key) {
+  const tabEl = document.getElementById('tab-' + key);
+  if (tabEl) tabEl.classList.add('complete');
+  showToast('✅ ' + getSectionName(key) + ' complete. Save your work to Google Drive.');
+  const next = SECTIONS[SECTIONS.indexOf(key) + 1];
+  if (next) {
+    setTimeout(() => {
+      const nextBtn = document.getElementById('tab-' + next);
+      if (nextBtn) { showTab(next, nextBtn); nextBtn.classList.add('active'); }
+    }, 1800);
+  }
+}
+
+function getSectionName(key) {
+  return { w1:'Week 1', w2:'Week 2', w3:'Week 3', w4:'Week 4', cap:'Session 2 Capstone' }[key] || key;
+}
+
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 3500);
+}
+
+calcProgress();
+</script>
+</body>
+</html>

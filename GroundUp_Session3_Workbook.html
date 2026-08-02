@@ -1,0 +1,1034 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ground Up — Session 3: Marketing & Sales</title>
+<style>
+:root {
+  --forest:   #2C5F2D;
+  --moss:     #6B9E3F;
+  --gold:     #C8963E;
+  --cream:    #F7F4EF;
+  --sand:     #EDE8DC;
+  --charcoal: #2E2E2E;
+  --white:    #FFFFFF;
+  --border:   #D5D0C8;
+  --navy:     #1a1a2e;
+  --muted:    #666666;
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: 'Segoe UI', Arial, sans-serif; background: var(--cream); color: var(--charcoal); font-size: 16px; line-height: 1.6; }
+
+.site-header { background: var(--forest); }
+.header-top { max-width: 860px; margin: 0 auto; padding: 24px 24px 16px; }
+.program-eyebrow { font-size: 10px; letter-spacing: 3px; text-transform: uppercase; color: var(--gold); font-weight: 700; margin-bottom: 6px; }
+.site-header h1 { font-family: Georgia, serif; font-size: 30px; color: var(--white); font-weight: 700; line-height: 1.2; margin-bottom: 4px; }
+.site-header .tagline { font-style: italic; color: #a8c4a8; font-size: 14px; }
+
+.session-banner { background: var(--gold); padding: 14px 24px; }
+.session-banner-inner { max-width: 860px; margin: 0 auto; display: flex; align-items: center; gap: 16px; }
+.session-circle { background: var(--forest); color: var(--white); width: 48px; height: 48px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-family: Georgia, serif; font-size: 20px; font-weight: 700; flex-shrink: 0; }
+.session-title { font-family: Georgia, serif; font-size: 20px; font-weight: 700; color: var(--forest); }
+.session-subtitle { font-size: 13px; color: var(--forest); opacity: 0.75; margin-top: 2px; }
+
+.idea-banner { background: var(--navy); border-bottom: 3px solid var(--gold); }
+.idea-banner-inner { max-width: 860px; margin: 0 auto; padding: 14px 24px; display: flex; align-items: center; gap: 16px; flex-wrap: wrap; }
+.idea-label { font-size: 10px; letter-spacing: 2px; text-transform: uppercase; color: var(--gold); font-weight: 700; white-space: nowrap; flex-shrink: 0; }
+.idea-label span { display: block; font-size: 9px; color: #888; letter-spacing: 1px; margin-top: 2px; font-weight: 400; }
+.idea-input { flex: 1; min-width: 200px; background: rgba(255,255,255,0.08); border: 1px solid rgba(200,150,62,0.4); border-radius: 4px; padding: 8px 12px; font-size: 14px; color: var(--white); font-family: inherit; font-style: italic; }
+.idea-input::placeholder { color: #666; }
+.idea-input:focus { outline: none; border-color: var(--gold); }
+
+.week-nav { background: var(--forest); padding: 0 24px; overflow-x: auto; -webkit-overflow-scrolling: touch; }
+.week-nav-inner { display: flex; max-width: 860px; margin: 0 auto; gap: 2px; }
+.tab-btn { background: transparent; border: none; color: #7a9e7a; padding: 12px 16px; font-size: 13px; font-weight: 600; cursor: pointer; border-bottom: 3px solid transparent; white-space: nowrap; transition: all 0.2s; font-family: inherit; }
+.tab-btn:hover { color: var(--white); }
+.tab-btn.active { color: var(--gold); border-bottom-color: var(--gold); }
+.tab-btn.complete::after { content: ' ✓'; color: var(--moss); }
+
+.progress-wrap { background: var(--sand); padding: 12px 24px; border-bottom: 1px solid var(--border); }
+.progress-inner { max-width: 860px; margin: 0 auto; }
+.progress-label { font-size: 12px; color: var(--forest); font-weight: 600; margin-bottom: 6px; display: flex; justify-content: space-between; }
+.progress-track { background: var(--border); height: 7px; border-radius: 4px; overflow: hidden; }
+.progress-fill { background: linear-gradient(90deg, var(--moss), var(--forest)); height: 100%; border-radius: 4px; width: 0%; transition: width 0.5s ease; }
+
+.main { max-width: 860px; margin: 0 auto; padding: 32px 24px 80px; }
+.week-section { display: none; }
+.week-section.active { display: block; }
+
+.week-header { margin-bottom: 28px; }
+.week-eyebrow { font-size: 10px; letter-spacing: 3px; color: var(--gold); font-weight: 700; text-transform: uppercase; margin-bottom: 8px; }
+.week-header h2 { font-family: Georgia, serif; font-size: 26px; color: var(--forest); margin-bottom: 10px; }
+.week-objective { background: var(--forest); color: var(--white); padding: 14px 18px; border-radius: 6px; font-size: 14px; line-height: 1.6; }
+.week-objective strong { color: var(--gold); display: block; font-size: 10px; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 4px; }
+
+.card { background: var(--white); border: 1px solid var(--border); border-radius: 8px; margin-bottom: 20px; overflow: hidden; }
+.card-header { background: var(--sand); padding: 12px 18px; display: flex; align-items: center; gap: 10px; border-bottom: 1px solid var(--border); }
+.card-icon { font-size: 18px; }
+.card-header h3 { font-size: 13px; font-weight: 700; color: var(--forest); text-transform: uppercase; letter-spacing: 1px; }
+.card-body { padding: 20px; }
+
+.concept-item { display: flex; gap: 14px; margin-bottom: 16px; padding-bottom: 16px; border-bottom: 1px solid var(--sand); }
+.concept-item:last-child { border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
+.concept-dot { width: 8px; height: 8px; background: var(--gold); border-radius: 50%; margin-top: 8px; flex-shrink: 0; }
+.concept-text strong { display: block; color: var(--forest); font-size: 15px; margin-bottom: 3px; }
+.concept-text span { font-size: 14px; color: #555; }
+
+.stat-row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 20px; }
+.stat-box { background: var(--forest); border-radius: 8px; padding: 18px; display: flex; align-items: center; gap: 14px; }
+.stat-number { font-family: Georgia, serif; font-size: 38px; font-weight: 700; color: var(--gold); flex-shrink: 0; line-height: 1; }
+.stat-label { font-size: 13px; color: #c8d8c8; line-height: 1.5; }
+
+.ai-section { background: var(--navy); border-radius: 8px; overflow: hidden; margin-bottom: 20px; }
+.ai-section-header { padding: 10px 18px; border-bottom: 1px solid rgba(255,255,255,0.08); display: flex; align-items: center; gap: 10px; }
+.ai-section-header h3 { font-size: 11px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: var(--gold); }
+.ai-tracks { display: grid; grid-template-columns: 1fr 1fr; }
+.ai-track { padding: 16px 18px; }
+.ai-track + .ai-track { border-left: 1px solid rgba(255,255,255,0.08); }
+.ai-track-label { font-size: 11px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; margin-bottom: 8px; }
+.ai-track.basics .ai-track-label { color: #6ab187; }
+.ai-track.deeper .ai-track-label { color: #7b9fd4; }
+.ai-track p { font-size: 13px; color: #b8c8b8; line-height: 1.6; }
+.ai-track.deeper p { color: #b0c0d8; }
+.ai-exercise { margin-top: 10px; background: rgba(255,255,255,0.05); border-radius: 4px; padding: 10px 12px; font-size: 13px; color: #c8d8c8; line-height: 1.5; }
+.ai-exercise strong { display: block; font-size: 10px; letter-spacing: 1px; text-transform: uppercase; color: var(--gold); margin-bottom: 4px; }
+
+.resource-link { display: flex; align-items: flex-start; gap: 12px; padding: 12px 0; border-bottom: 1px solid var(--sand); text-decoration: none; color: inherit; }
+.resource-link:last-child { border-bottom: none; }
+.resource-link:hover .resource-title { color: var(--forest); text-decoration: underline; }
+.resource-type { background: var(--forest); color: var(--white); font-size: 10px; font-weight: 700; letter-spacing: 1px; padding: 3px 8px; border-radius: 3px; white-space: nowrap; flex-shrink: 0; margin-top: 2px; }
+.resource-type.video { background: #8B1A1A; }
+.resource-type.article { background: var(--moss); }
+.resource-type.tool { background: var(--gold); color: var(--forest); }
+.resource-title { font-size: 14px; color: var(--charcoal); font-weight: 600; }
+.resource-desc { font-size: 12px; color: #888; margin-top: 2px; }
+
+.exercise-item { background: var(--cream); border-left: 4px solid var(--gold); padding: 14px 16px; margin-bottom: 14px; border-radius: 0 6px 6px 0; }
+.exercise-item h4 { font-size: 14px; color: var(--forest); font-weight: 700; margin-bottom: 6px; }
+.exercise-item p { font-size: 13px; color: #555; line-height: 1.6; }
+.plan-tag { display: inline-block; background: var(--gold); color: var(--forest); font-size: 9px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; padding: 2px 7px; border-radius: 3px; margin-bottom: 6px; }
+
+.reflection-label { font-size: 13px; font-weight: 700; color: var(--forest); margin-bottom: 6px; display: block; }
+.reflection-hint { font-size: 12px; color: var(--muted); margin-bottom: 6px; display: block; font-style: italic; }
+textarea { width: 100%; border: 1px solid var(--border); border-radius: 6px; padding: 12px; font-family: inherit; font-size: 14px; resize: vertical; min-height: 90px; background: #fafaf8; margin-bottom: 16px; color: var(--charcoal); line-height: 1.6; }
+textarea:focus { outline: none; border-color: var(--moss); background: var(--white); }
+
+.save-reminder { background: #f0f7f0; border: 1px solid #b8d4b8; border-radius: 6px; padding: 12px 16px; margin-bottom: 16px; font-size: 13px; color: var(--forest); display: flex; gap: 10px; }
+.save-reminder strong { display: block; margin-bottom: 2px; }
+
+.deliverable-card { background: var(--forest); color: var(--white); border-radius: 8px; padding: 22px; margin-bottom: 20px; }
+.deliverable-eyebrow { font-size: 10px; letter-spacing: 3px; color: var(--gold); font-weight: 700; text-transform: uppercase; margin-bottom: 8px; }
+.deliverable-card h4 { font-family: Georgia, serif; font-size: 20px; margin-bottom: 8px; }
+.deliverable-card p { font-size: 13px; color: #c8d8c8; line-height: 1.6; margin-bottom: 16px; }
+.checklist-item { display: flex; gap: 10px; align-items: flex-start; margin-bottom: 8px; font-size: 13px; color: #c8d8c8; }
+.checklist-item::before { content: '□'; color: var(--gold); font-size: 16px; line-height: 1.2; flex-shrink: 0; }
+.submit-btn { background: var(--gold); color: var(--forest); border: none; padding: 12px 24px; border-radius: 6px; font-size: 14px; font-weight: 700; cursor: pointer; transition: opacity 0.2s; font-family: inherit; }
+.submit-btn:hover { opacity: 0.88; }
+
+.plan-thread { background: var(--navy); border: 1px solid rgba(200,150,62,0.3); border-radius: 8px; padding: 18px 20px; margin-bottom: 20px; }
+.plan-thread-label { font-size: 10px; letter-spacing: 2px; text-transform: uppercase; color: var(--gold); font-weight: 700; margin-bottom: 6px; }
+.plan-thread h4 { font-family: Georgia, serif; font-size: 17px; color: var(--white); margin-bottom: 8px; }
+.plan-thread p { font-size: 13px; color: #b0b8c8; line-height: 1.6; }
+
+.scenario-box { background: #f0f7f0; border: 1px solid #b8d4b8; border-left: 4px solid var(--moss); border-radius: 0 6px 6px 0; padding: 14px 16px; margin-bottom: 14px; font-size: 13px; color: var(--charcoal); line-height: 1.7; }
+.scenario-box strong { color: var(--forest); display: block; margin-bottom: 4px; font-size: 12px; letter-spacing: 1px; text-transform: uppercase; }
+
+/* Marketing-specific: brand canvas */
+.brand-canvas { background: var(--sand); border: 1px solid var(--border); border-radius: 8px; padding: 20px; margin-bottom: 16px; }
+.brand-canvas h4 { font-size: 13px; font-weight: 700; color: var(--forest); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 14px; }
+.brand-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 12px; }
+.brand-field label { font-size: 11px; font-weight: 700; color: var(--forest); text-transform: uppercase; letter-spacing: 1px; display: block; margin-bottom: 4px; }
+.brand-field input { width: 100%; border: 1px solid var(--border); border-radius: 4px; padding: 8px 10px; font-size: 14px; font-family: inherit; background: var(--white); color: var(--charcoal); }
+.brand-field input:focus { outline: none; border-color: var(--moss); }
+
+.post-card { background: var(--white); border: 1px solid var(--border); border-radius: 8px; padding: 16px; margin-bottom: 12px; }
+.post-card-type { font-size: 10px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: var(--gold); margin-bottom: 6px; }
+.post-card h5 { font-size: 14px; color: var(--forest); font-weight: 700; margin-bottom: 4px; }
+.post-card p { font-size: 13px; color: #555; line-height: 1.5; }
+
+.capstone-intro { background: var(--sand); border: 1px solid var(--border); border-radius: 8px; padding: 20px; margin-bottom: 20px; }
+.capstone-intro h3 { font-family: Georgia, serif; font-size: 20px; color: var(--forest); margin-bottom: 8px; }
+.capstone-intro p { font-size: 14px; color: #555; line-height: 1.6; }
+
+.ground-up-plan-reveal { background: linear-gradient(135deg, var(--forest) 0%, #1e3d1f 100%); border-radius: 8px; padding: 24px; margin-bottom: 20px; text-align: center; border: 2px solid var(--gold); }
+.ground-up-plan-reveal .badge { font-size: 40px; margin-bottom: 12px; }
+.ground-up-plan-reveal h3 { font-family: Georgia, serif; font-size: 24px; color: var(--gold); margin-bottom: 8px; }
+.ground-up-plan-reveal p { font-size: 14px; color: #c8d8c8; line-height: 1.6; max-width: 560px; margin: 0 auto; }
+
+.toast { position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%) translateY(80px); background: var(--forest); color: var(--white); padding: 14px 24px; border-radius: 8px; font-size: 14px; font-weight: 600; z-index: 999; transition: transform 0.3s ease; box-shadow: 0 4px 20px rgba(0,0,0,0.25); pointer-events: none; }
+.toast.show { transform: translateX(-50%) translateY(0); }
+
+@media print {
+  .week-nav, .progress-wrap, .tab-btn, .submit-btn { display: none !important; }
+  .week-section { display: block !important; page-break-before: always; }
+  .week-section:first-child { page-break-before: auto; }
+  body { background: white; }
+}
+@media (max-width: 600px) {
+  .site-header h1 { font-size: 22px; }
+  .main { padding: 20px 16px 60px; }
+  .tab-btn { padding: 10px 10px; font-size: 12px; }
+  .ai-tracks { grid-template-columns: 1fr; }
+  .ai-track + .ai-track { border-left: none; border-top: 1px solid rgba(255,255,255,0.08); }
+  .stat-row { grid-template-columns: 1fr; }
+  .brand-row { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body>
+
+<header class="site-header">
+  <div class="header-top">
+    <div class="program-eyebrow">Ground Up — Where Rebuilding Begins.</div>
+    <h1>Session 3 Workbook</h1>
+    <div class="tagline">The Paddock Cafe &middot; Shelbyville, Kentucky &middot; In partnership with Awake Ministries</div>
+  </div>
+</header>
+
+<div class="session-banner">
+  <div class="session-banner-inner">
+    <div class="session-circle">3</div>
+    <div>
+      <div class="session-title">Marketing &amp; Sales</div>
+      <div class="session-subtitle">4 Weeks + Capstone &middot; Ground Up Plan Deliverable #3: Your Marketing Plan</div>
+    </div>
+  </div>
+</div>
+
+<div class="idea-banner">
+  <div class="idea-banner-inner">
+    <div class="idea-label">
+      Your Business Idea
+      <span>The thread through everything</span>
+    </div>
+    <input type="text" class="idea-input" id="business-idea" placeholder="Enter your business idea from Session 1..." />
+  </div>
+</div>
+
+<nav class="week-nav">
+  <div class="week-nav-inner">
+    <button class="tab-btn active" onclick="showTab('w1',this)" id="tab-w1">Week 1</button>
+    <button class="tab-btn" onclick="showTab('w2',this)" id="tab-w2">Week 2</button>
+    <button class="tab-btn" onclick="showTab('w3',this)" id="tab-w3">Week 3</button>
+    <button class="tab-btn" onclick="showTab('w4',this)" id="tab-w4">Week 4</button>
+    <button class="tab-btn" onclick="showTab('cap',this)" id="tab-cap">Capstone</button>
+  </div>
+</nav>
+
+<div class="progress-wrap">
+  <div class="progress-inner">
+    <div class="progress-label">
+      <span>Session 3 Progress</span>
+      <span id="pct-label">0%</span>
+    </div>
+    <div class="progress-track">
+      <div class="progress-fill" id="progress-fill"></div>
+    </div>
+  </div>
+</div>
+
+<main class="main">
+
+<!-- ════════════════════ WEEK 1 — What Marketing Actually Is ════════════════════ -->
+<section class="week-section active" id="sec-w1">
+  <div class="week-header">
+    <div class="week-eyebrow">Session 3 &middot; Week 1</div>
+    <h2>What Marketing Actually Is</h2>
+    <div class="week-objective">
+      <strong>Weekly Objective</strong>
+      Understand what marketing really is — not ads, not tricks, but the work of communicating your value clearly to the right people at the right time. Learn how The Paddock markets itself and begin identifying who your own customer actually is.
+    </div>
+  </div>
+
+  <div class="plan-thread">
+    <div class="plan-thread-label">🗂 Ground Up Plan — Session 3</div>
+    <h4>This Month You're Building: Your Marketing Plan</h4>
+    <p>By the end of this session you'll have a complete Marketing Plan for your business idea — your brand name and story, your target customer, your social media strategy, and a content plan for your first 30 days. This is Ground Up Plan Deliverable #3. Combined with your Personal Brand Statement and Business Budget, you'll be three-quarters of the way to a complete business plan.</p>
+  </div>
+
+  <div class="card">
+    <div class="card-header"><span class="card-icon">☕</span><h3>Key Concepts</h3></div>
+    <div class="card-body">
+      <div class="concept-item">
+        <div class="concept-dot"></div>
+        <div class="concept-text">
+          <strong>Marketing is not advertising — it's communication</strong>
+          <span>Most people think marketing means running ads. It doesn't. Marketing is every way your business communicates its value to the world — the name on the door, the way your staff greets guests, the smell when someone walks in, your Instagram bio, a customer's word-of-mouth recommendation. The Paddock's most powerful marketing isn't a paid ad. It's the story of what it is: a café where redemption is served daily, staffed by people rebuilding their lives. That story — told authentically — is more compelling than any billboard.</span>
+        </div>
+      </div>
+      <div class="concept-item">
+        <div class="concept-dot"></div>
+        <div class="concept-text">
+          <strong>The four Ps — still the foundation of every marketing plan</strong>
+          <span>Product (what you're selling), Price (what you charge), Place (where and how customers buy it), and Promotion (how you tell people about it). These four decisions together define your marketing strategy. Most entrepreneurs default to thinking only about promotion — running ads, posting on social media. But a business with the wrong product, at the wrong price, in the wrong place, can't be saved by great promotion. Get the first three right before you worry about the fourth.</span>
+        </div>
+      </div>
+      <div class="concept-item">
+        <div class="concept-dot"></div>
+        <div class="concept-text">
+          <strong>Know exactly who your customer is — before you try to reach them</strong>
+          <span>The biggest marketing mistake new businesses make is trying to market to everyone. "Everyone could use my product" is not a marketing strategy. It's a way to spend money reaching nobody effectively. The Paddock's core customer in Shelbyville is not everyone in town — it's the person who values community, wants a warm place to start their morning, and cares about supporting local businesses with a mission. Knowing that shapes every marketing decision they make.</span>
+        </div>
+      </div>
+      <div class="concept-item">
+        <div class="concept-dot"></div>
+        <div class="concept-text">
+          <strong>Your story is your most powerful marketing asset</strong>
+          <span>In 2026, consumers are drowning in advertising. What cuts through isn't polish — it's authenticity. Sprout Social's 2026 Content Strategy Report found that consumers ranked human-generated, authentic content as their number one priority over AI-generated content. For someone rebuilding their life and building a business from the ground up, authenticity is not something you have to manufacture. It's the most powerful thing you have. Your story — told honestly — is marketing that can't be faked or bought.</span>
+        </div>
+      </div>
+      <div class="concept-item">
+        <div class="concept-dot"></div>
+        <div class="concept-text">
+          <strong>Marketing builds trust — and trust is what actually drives sales</strong>
+          <span>Nobody buys from a business they don't trust. Marketing's real job is trust-building — consistently showing up, delivering on promises, being honest about what you are and aren't. In a small town like Shelbyville, trust is built face-to-face and word-of-mouth before it's built on social media. The best marketing strategy for a new local business is almost always: be excellent, treat people well, and make it easy for happy customers to tell someone else.</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="stat-row">
+    <div class="stat-box">
+      <div class="stat-number">#1</div>
+      <div class="stat-label">consumer priority in 2026: authentic, human-generated content — over polished, AI-generated brand marketing. Your real story is your competitive advantage.</div>
+    </div>
+    <div class="stat-box">
+      <div class="stat-number">80%</div>
+      <div class="stat-label">of consumers plan to engage with brand content as much or more in 2026 — meaning your audience is ready and waiting. The question is whether you show up.</div>
+    </div>
+  </div>
+
+  <div class="ai-section">
+    <div class="ai-section-header">
+      <span style="font-size:18px;">🤖</span>
+      <h3>AI &amp; Marketing Strategy — Week 1</h3>
+    </div>
+    <div class="ai-tracks">
+      <div class="ai-track basics">
+        <div class="ai-track-label">🌱 AI Basics</div>
+        <p>AI is a genuinely useful marketing tool — it can help you brainstorm names, write captions, research competitors, and draft your brand story. But it works best when you give it specific information about your business, your customer, and your values. Vague prompts produce generic output. Specific prompts produce useful output.</p>
+        <div class="ai-exercise">
+          <strong>Define Your Customer with AI</strong>
+          In Claude.ai, type: <em>"Help me define my ideal customer. My business is [your idea]. It's based in Shelbyville, Kentucky. Ask me five questions that will help me get really specific about who my customer is — their age, lifestyle, values, where they spend time, and what problem I'm solving for them."</em> — Answer the questions. Save the result. This is the foundation of your Marketing Plan.
+        </div>
+      </div>
+      <div class="ai-track deeper">
+        <div class="ai-track-label">🚀 Going Deeper</div>
+        <p>A customer persona is a detailed description of your ideal customer — not a demographic summary, but a portrait of a real person. Marketers use personas to make every content and advertising decision: "Would Sarah (our persona) care about this post?" AI can help you build one that's genuinely useful rather than generic.</p>
+        <div class="ai-exercise">
+          <strong>Build Your Customer Persona</strong>
+          In Claude.ai, type: <em>"Based on my business idea [description] and target customer answers [paste your answers from the AI Basics exercise], help me build a one-paragraph customer persona. Give this person a name, an age, a daily routine, what they value, what frustrates them, and why they'd be drawn to my business specifically."</em> — Save this in your Google Drive Marketing Plan document. It anchors every decision you make this session.
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header"><span class="card-icon">📚</span><h3>Resources</h3></div>
+    <div class="card-body">
+      <a class="resource-link" href="https://invoicefly.com/academy/marketing-for-small-businesses/" target="_blank">
+        <span class="resource-type article">Article</span>
+        <div><div class="resource-title">The Small Business Marketing Guide for 2026</div><div class="resource-desc">InvoiceFly — Free · Feb 2026 · Complete overview of small business marketing: the four Ps, social media, storytelling, and what actually works on a small budget</div></div>
+      </a>
+      <a class="resource-link" href="https://sproutsocial.com/insights/social-media-marketing-for-small-business/" target="_blank">
+        <span class="resource-type article">Article</span>
+        <div><div class="resource-title">Social Media Marketing for Small Business: Complete Guide 2026</div><div class="resource-desc">Sprout Social — Free · May 2026 · Why authenticity beats polish in 2026, and how small businesses have a natural advantage over big brands</div></div>
+      </a>
+      <a class="resource-link" href="https://www.youtube.com/@GaryVee" target="_blank">
+        <span class="resource-type video">Video</span>
+        <div><div class="resource-title">Gary Vaynerchuk — Small Business Marketing</div><div class="resource-desc">YouTube — Free · Search "Gary Vee small business marketing 2025" · Practical, direct advice on building a business audience from zero</div></div>
+      </a>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header"><span class="card-icon">✏️</span><h3>Exercises</h3></div>
+    <div class="card-body">
+      <div class="exercise-item">
+        <h4>Exercise 1 — The Paddock's Four Ps</h4>
+        <p>Analyze The Paddock's marketing through the four Ps framework. Product: what exactly does The Paddock sell — beyond coffee? Price: how does it position itself — budget, mid-range, or premium? Place: where and how do customers find and buy? Promotion: how does The Paddock tell people it exists? Then answer: what's The Paddock's strongest P and its weakest? What would you improve?</p>
+      </div>
+      <label class="reflection-label">The Paddock's four Ps — and your analysis:</label>
+      <textarea id="w1e1" placeholder="Product: ...&#10;Price: ...&#10;Place: ...&#10;Promotion: ...&#10;&#10;Strongest P: ... because...&#10;Weakest P: ... I would improve it by..." oninput="calcProgress()"></textarea>
+
+      <div class="exercise-item">
+        <div class="plan-tag">Ground Up Plan</div>
+        <h4>Exercise 2 — Who Is Your Customer?</h4>
+        <p>Using the AI exercise above as a starting point, write a detailed description of your ideal customer. Be specific — not "women aged 25–45" but "a woman in her early thirties who works in Shelbyville, picks up coffee on the way to work, follows local businesses on Facebook, and cares about buying from people she knows." Give her a name. Where does she live? What does she do on a Saturday morning? What problem does your business solve for her?</p>
+      </div>
+      <label class="reflection-label">Your customer persona:</label>
+      <span class="reflection-hint">Save this in your Google Drive Marketing Plan document — it's Section 1.</span>
+      <textarea id="w1e2" rows="6" placeholder="Name: ___ | Age: ___ | Lives in: ___&#10;Daily life: ...&#10;Values: ...&#10;What frustrates her: ...&#10;Why she'd choose my business: ..." oninput="calcProgress()"></textarea>
+
+      <div class="exercise-item">
+        <h4>Exercise 3 — Businesses You Trust and Why</h4>
+        <p>Think of two or three businesses — local or otherwise — that you personally trust and return to. What do they do that earns that trust? Is it consistency? Personality? Quality? The way they treat people? What do they communicate — even without advertising — that makes you feel good about buying from them? What can you take from these examples and apply to your own business?</p>
+      </div>
+      <label class="reflection-label">Businesses you trust and the marketing lesson in each:</label>
+      <textarea id="w1e3" placeholder="Business 1: ___ | What they do that earns trust: ...&#10;Business 2: ___ | What they do: ...&#10;&#10;What I'd take from these examples: ..." oninput="calcProgress()"></textarea>
+    </div>
+  </div>
+
+  <div class="save-reminder">
+    <span style="font-size:20px;">💾</span>
+    <div><strong>Save to Google Drive.</strong> Create a document called "Ground Up Session 3 — Marketing Plan." Paste your customer persona from Exercise 2 as Section 1. You'll add to it each week.</div>
+  </div>
+
+  <div class="deliverable-card">
+    <div class="deliverable-eyebrow">Week 1 Deliverable</div>
+    <h4>Customer Persona + Paddock Marketing Analysis</h4>
+    <p>Share with your Mentor Lead in Google Drive: (1) your Paddock four Ps analysis, and (2) your customer persona. Your Mentor Lead will challenge you to get more specific — "who exactly is this person?" — before you move into building your brand in Week 2.</p>
+    <button class="submit-btn" onclick="markDone('w1')">✓ Week 1 Complete</button>
+  </div>
+</section>
+
+<!-- ════════════════════ WEEK 2 — Your Brand & Your Story ════════════════════ -->
+<section class="week-section" id="sec-w2">
+  <div class="week-header">
+    <div class="week-eyebrow">Session 3 &middot; Week 2</div>
+    <h2>Your Brand &amp; Your Story</h2>
+    <div class="week-objective">
+      <strong>Weekly Objective</strong>
+      Understand what a brand actually is — beyond a logo — and build the foundational elements of your own brand. Name your business, write your tagline, define your voice, and craft the origin story that will make your customer choose you over anyone else.
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header"><span class="card-icon">☕</span><h3>Key Concepts</h3></div>
+    <div class="card-body">
+      <div class="concept-item">
+        <div class="concept-dot"></div>
+        <div class="concept-text">
+          <strong>A brand is not a logo — it's a feeling</strong>
+          <span>A logo is a symbol. A brand is the sum of every experience someone has with your business — what they see, feel, hear, and remember. When someone thinks of The Paddock, they think: warm, mission-driven, community, hope, good coffee. That's the brand. The logo is just the label on the outside of it. Building a brand means deciding intentionally what feeling you want people to walk away with — and then engineering every touchpoint of your business to create that feeling.</span>
+        </div>
+      </div>
+      <div class="concept-item">
+        <div class="concept-dot"></div>
+        <div class="concept-text">
+          <strong>Your name is the first thing people will judge — make it count</strong>
+          <span>A good business name is memorable, easy to spell, relevant to what you do or who you are, and available as a social media handle. It doesn't have to be clever, but it shouldn't be confusing. Some of the strongest small business names are simply the owner's name plus what they do. Some are a single evocative word. The test: can someone hear it once and remember it tomorrow? Can they spell it to search for you online? Would they be comfortable saying it to a friend?</span>
+        </div>
+      </div>
+      <div class="concept-item">
+        <div class="concept-dot"></div>
+        <div class="concept-text">
+          <strong>Brand voice: how you sound is part of the brand</strong>
+          <span>Brand voice is the personality that comes through in everything you write — social media captions, a menu description, a thank-you note, a text reply to a customer. Some brands are warm and conversational. Some are bold and direct. Some are funny. Some are professional. What's not an option: boring and generic. Your brand voice should sound like the person who built this business — which means it should sound like you. Authenticity, again, is the asset.</span>
+        </div>
+      </div>
+      <div class="concept-item">
+        <div class="concept-dot"></div>
+        <div class="concept-text">
+          <strong>Your origin story is your most powerful content</strong>
+          <span>Why did you start this business? What brought you here? For someone building something after a period of difficulty, the origin story is often the most compelling thing about the brand. You don't have to share everything. But sharing something real — "I started this because..." — creates an emotional connection that no amount of advertising budget can replicate. People buy from people, not from businesses. Your origin story is the proof that a person is behind this.</span>
+        </div>
+      </div>
+      <div class="concept-item">
+        <div class="concept-dot"></div>
+        <div class="concept-text">
+          <strong>Consistency builds recognition — recognition builds trust</strong>
+          <span>The most powerful thing a small business can do with its brand is be consistent. Same name, same colors, same voice, same quality — every time, everywhere. Consumers in 2026 interact with hundreds of brands daily. The ones that break through are the ones that look and sound the same whether you see them on Instagram, their website, or a business card. Consistency is not boring — it's the thing that makes a brand feel real.</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="stat-row">
+    <div class="stat-box">
+      <div class="stat-number">8.7x</div>
+      <div class="stat-label">higher engagement for user-generated and authentic content versus polished branded content — authenticity isn't a nice-to-have, it's a performance advantage.</div>
+    </div>
+    <div class="stat-box">
+      <div class="stat-number">3x</div>
+      <div class="stat-label">more likely to purchase from a brand when the consumer feels a personal connection to the story behind it — your origin story is literally worth money.</div>
+    </div>
+  </div>
+
+  <div class="ai-section">
+    <div class="ai-section-header">
+      <span style="font-size:18px;">🤖</span>
+      <h3>AI &amp; Brand Building — Week 2</h3>
+    </div>
+    <div class="ai-tracks">
+      <div class="ai-track basics">
+        <div class="ai-track-label">🌱 AI Basics</div>
+        <p>Naming a business is one of the hardest creative tasks — and one where AI is genuinely useful. You can describe your business idea, your values, and your customer, and ask AI to generate dozens of name options in seconds. You won't use any of them as-is, but they'll spark ideas and combinations you wouldn't have thought of alone.</p>
+        <div class="ai-exercise">
+          <strong>Generate Business Names</strong>
+          In Claude.ai, type: <em>"Help me name my business. It's [your idea], based in Shelbyville, Kentucky. My customer is [describe them briefly]. My brand should feel [warm/bold/simple/etc.]. Give me 15 name ideas — some descriptive, some evocative, some based on my story. Include a one-sentence explanation of each."</em> — Circle your top three. You'll pick one this week.
+        </div>
+      </div>
+      <div class="ai-track deeper">
+        <div class="ai-track-label">🚀 Going Deeper</div>
+        <p>AI can help you write your brand story — but only if you give it the raw material. The best approach: write your origin story in your own rough words first (messy, honest, unpolished), then use AI to help you shape it into something that's still yours but communicates more clearly. The AI shouldn't write your story. It should help you tell it better.</p>
+        <div class="ai-exercise">
+          <strong>Draft Your Brand Story</strong>
+          Write 5–8 sentences about why you're starting this business — include what brought you here, what you've been through, and what you want to build. Then paste it into Claude.ai with: <em>"Help me shape this into a 3–4 sentence brand story that's honest, warm, and would make someone in Shelbyville want to support this business. Keep my voice — just make it cleaner."</em> — Save both versions in your Marketing Plan document.
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header"><span class="card-icon">📚</span><h3>Resources</h3></div>
+    <div class="card-body">
+      <a class="resource-link" href="https://evokestrategy.com/social-media-marketing-for-small-businesses-how-to-stand-out/" target="_blank">
+        <span class="resource-type article">Article</span>
+        <div><div class="resource-title">Social Media Marketing for Small Businesses: How to Stand Out (2026)</div><div class="resource-desc">Evoke Strategy — Free · Jul 2026 · How to build a brand presence that feels consistent and authentic across every platform</div></div>
+      </a>
+      <a class="resource-link" href="https://www.wearetg.com/blog/social-media-marketing-for-small-businesses/" target="_blank">
+        <span class="resource-type article">Article</span>
+        <div><div class="resource-title">Social Media Marketing for Small Businesses 2026</div><div class="resource-desc">TG — Free · Jan 2026 · How authenticity and storytelling beat production quality — and why small businesses have the advantage</div></div>
+      </a>
+      <a class="resource-link" href="https://www.canva.com" target="_blank">
+        <span class="resource-type tool">Tool</span>
+        <div><div class="resource-title">Canva — Free Design Tool</div><div class="resource-desc">canva.com — Free · Create a logo, business card, social media graphics, and flyers without any design experience. Sign in with your Google account.</div></div>
+      </a>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header"><span class="card-icon">✏️</span><h3>Exercises</h3></div>
+    <div class="card-body">
+      <div class="exercise-item">
+        <div class="plan-tag">Ground Up Plan</div>
+        <h4>Exercise 1 — Build Your Brand Canvas</h4>
+        <p>Complete every field below. These are the foundational elements of your brand — the decisions everything else builds on. Use the AI naming exercise as a starting point, but commit to real choices. A brand that says "TBD" on its name is not a brand yet.</p>
+      </div>
+
+      <div class="brand-canvas">
+        <h4>Your Brand — Core Elements</h4>
+        <div class="brand-row">
+          <div class="brand-field">
+            <label>Business Name</label>
+            <input type="text" id="brand-name" placeholder="The name you're going with..." oninput="calcProgress()" />
+          </div>
+          <div class="brand-field">
+            <label>Tagline</label>
+            <input type="text" id="brand-tagline" placeholder="One sentence that says what you do..." oninput="calcProgress()" />
+          </div>
+        </div>
+        <div class="brand-row">
+          <div class="brand-field">
+            <label>Brand Voice (3 words)</label>
+            <input type="text" id="brand-voice" placeholder="e.g. Warm. Honest. Local." oninput="calcProgress()" />
+          </div>
+          <div class="brand-field">
+            <label>Social Media Handle</label>
+            <input type="text" id="brand-handle" placeholder="@yourbusiness — check it's available" oninput="calcProgress()" />
+          </div>
+        </div>
+        <div class="brand-row">
+          <div class="brand-field">
+            <label>Primary Color / Feel</label>
+            <input type="text" id="brand-color" placeholder="e.g. Warm earth tones, handmade feel" oninput="calcProgress()" />
+          </div>
+          <div class="brand-field">
+            <label>What Makes You Different</label>
+            <input type="text" id="brand-diff" placeholder="The one thing no competitor can copy..." oninput="calcProgress()" />
+          </div>
+        </div>
+      </div>
+
+      <label class="reflection-label">Your reasoning — why these choices?</label>
+      <span class="reflection-hint">Save the brand canvas + this explanation in your Marketing Plan document — Section 2.</span>
+      <textarea id="w2e1" placeholder="I chose this name because...&#10;The tagline captures...&#10;My brand voice is ___ because my customer is ___..." oninput="calcProgress()"></textarea>
+
+      <div class="exercise-item">
+        <div class="plan-tag">Ground Up Plan</div>
+        <h4>Exercise 2 — Your Origin Story</h4>
+        <p>Write your business origin story in your own words first — rough, honest, unpolished. Why are you building this? What brought you here? What do you want it to mean? Then use the AI exercise above to refine it into a 3–4 sentence brand story. Save both versions. The rough version is often more powerful than the refined one — your Mentor Lead may tell you to use it as-is.</p>
+      </div>
+      <label class="reflection-label">Rough origin story (your words, unpolished):</label>
+      <textarea id="w2e2" rows="5" placeholder="I'm starting this business because...&#10;What brought me here was...&#10;What I want this to be is..." oninput="calcProgress()"></textarea>
+      <label class="reflection-label">Refined brand story (after AI assistance — still your voice):</label>
+      <textarea id="w2e3" rows="4" placeholder="3–4 sentences, clean and honest..." oninput="calcProgress()"></textarea>
+    </div>
+  </div>
+
+  <div class="save-reminder">
+    <span style="font-size:20px;">💾</span>
+    <div><strong>Save to Google Drive.</strong> Add the brand canvas and both versions of your origin story to your Marketing Plan document as Section 2. Your Mentor Lead will review both before Week 3.</div>
+  </div>
+
+  <div class="deliverable-card">
+    <div class="deliverable-eyebrow">Week 2 Deliverable</div>
+    <h4>Brand Canvas + Origin Story</h4>
+    <p>Share with your Mentor Lead: your completed brand canvas and both versions of your origin story. Your Mentor Lead will tell you which version is stronger and challenge you on any brand choices that feel generic, unclear, or not quite you. Then in Week 3 you'll take this brand online.</p>
+    <button class="submit-btn" onclick="markDone('w2')">✓ Week 2 Complete</button>
+  </div>
+</section>
+
+<!-- ════════════════════ WEEK 3 — Online Presence & Content ════════════════════ -->
+<section class="week-section" id="sec-w3">
+  <div class="week-header">
+    <div class="week-eyebrow">Session 3 &middot; Week 3</div>
+    <h2>Online Presence &amp; Content That Works</h2>
+    <div class="week-objective">
+      <strong>Weekly Objective</strong>
+      Learn how to build a social media presence that actually earns attention — without a production budget or marketing team. Understand the content types that work in 2026, choose the right platforms for your customer, and create your first week of real content for your business.
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header"><span class="card-icon">☕</span><h3>Key Concepts</h3></div>
+    <div class="card-body">
+      <div class="concept-item">
+        <div class="concept-dot"></div>
+        <div class="concept-text">
+          <strong>Choose one or two platforms — and show up consistently</strong>
+          <span>The most common small business social media mistake is being on every platform, posting inconsistently on all of them. A business that posts great content three times a week on Instagram will out-perform a business on six platforms that posts sporadically on each. For a local business in Shelbyville, Facebook is still where the community lives — it's where events are shared, local groups exist, and word travels. Instagram is where you show what you make. Start with those two before adding anything else.</span>
+        </div>
+      </div>
+      <div class="concept-item">
+        <div class="concept-dot"></div>
+        <div class="concept-text">
+          <strong>The content mix that works for small businesses in 2026</strong>
+          <span>The most effective small business social media content follows a simple mix: about 40% educational or helpful content (tips, how-tos, behind-the-scenes), 30% storytelling (your origin, your process, your people), 20% promotional (actual product or service posts), and 10% community (sharing others' content, responding to customers, local events). The businesses that only post promotional content — buy this, sale on this, try this — burn out their audiences fast. Lead with value first.</span>
+        </div>
+      </div>
+      <div class="concept-item">
+        <div class="concept-dot"></div>
+        <div class="concept-text">
+          <strong>Short video is the highest-reach format of 2026</strong>
+          <span>Instagram Reels generate 22% more interactions than regular video posts. TikTok drives an average engagement rate of 3.7% — the highest of any major platform. And you don't need a camera crew, lighting equipment, or editing software. A smartphone, natural light, and something worth watching is enough. For a food or café business, "how it's made" content is some of the most naturally engaging content on the internet. Show the process. Show the hands. Show the real.</span>
+        </div>
+      </div>
+      <div class="concept-item">
+        <div class="concept-dot"></div>
+        <div class="concept-text">
+          <strong>Google Business Profile — the most overlooked free marketing tool</strong>
+          <span>Before a customer walks into any local business in 2026, they Google it. A Google Business Profile is free, takes 20 minutes to set up, and directly affects whether you show up in local search results. It shows your hours, photos, contact information, and customer reviews. For a new local business, setting up a Google Business Profile is more valuable in its first week than any paid advertising campaign. It is non-negotiable for a local business in Shelbyville.</span>
+        </div>
+      </div>
+      <div class="concept-item">
+        <div class="concept-dot"></div>
+        <div class="concept-text">
+          <strong>Respond to everything — that's your marketing</strong>
+          <span>A Sprout Social 2025 survey found that 73% of consumers said if a brand doesn't respond on social media, they'll buy from a competitor. In the early days of your business, every comment, every DM, every review is a marketing opportunity. Respond to all of them — warmly, quickly, in your brand voice. A business that responds to a negative Google review professionally and kindly wins more new customers than the ones who never review at all. Your responsiveness is visible. It signals that you care.</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="stat-row">
+    <div class="stat-box">
+      <div class="stat-number">22%</div>
+      <div class="stat-label">more interactions for Instagram Reels versus regular posts — short video is the highest-return content format for a small business with no ad budget.</div>
+    </div>
+    <div class="stat-box">
+      <div class="stat-number">73%</div>
+      <div class="stat-label">of consumers will buy from a competitor if a brand doesn't respond to them on social media. Responsiveness is now a purchase factor.</div>
+    </div>
+  </div>
+
+  <div class="ai-section">
+    <div class="ai-section-header">
+      <span style="font-size:18px;">🤖</span>
+      <h3>AI &amp; Content Creation — Week 3</h3>
+    </div>
+    <div class="ai-tracks">
+      <div class="ai-track basics">
+        <div class="ai-track-label">🌱 AI Basics</div>
+        <p>Writing social media captions is one of the most practical everyday uses of AI. You describe the post — what it's showing, who it's for, what you want people to feel — and AI drafts the caption. Then you edit it to sound like you. This alone can cut the time it takes to post from 20 minutes to 5.</p>
+        <div class="ai-exercise">
+          <strong>Write Your First Three Captions</strong>
+          In Claude.ai, type: <em>"Write three Instagram captions for my business [name and description]. Post 1: a photo of my product. Post 2: a behind-the-scenes shot of me making it. Post 3: a personal story about why I started this business. Each caption should be 2–3 sentences, end with a question or call-to-action, and sound warm and local — not corporate."</em>
+        </div>
+      </div>
+      <div class="ai-track deeper">
+        <div class="ai-track-label">🚀 Going Deeper</div>
+        <p>A content calendar is a simple plan — what you'll post, on which platform, on which day. Having one means you're never staring at a blank screen wondering what to post. AI can help you build a 30-day content calendar in minutes — mixing the educational, story, promotional, and community content types that work best for small businesses.</p>
+        <div class="ai-exercise">
+          <strong>Build Your 30-Day Content Calendar</strong>
+          In Claude.ai, type: <em>"Build me a 30-day social media content calendar for [your business name], posting 3 times per week on Facebook and Instagram. Use this content mix: 40% helpful/educational, 30% story-driven, 20% promotional, 10% community. Give me the day, platform, content type, and a one-sentence description of what each post would show."</em> — Save this in your Marketing Plan document as Section 3.
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header"><span class="card-icon">📚</span><h3>Resources</h3></div>
+    <div class="card-body">
+      <a class="resource-link" href="https://localiq.com/blog/2026-social-media-marketing-trends/" target="_blank">
+        <span class="resource-type article">Article</span>
+        <div><div class="resource-title">The Biggest Social Media Marketing Trends for 2026</div><div class="resource-desc">LocaliQ — Free · Feb 2026 · What's working right now for local small businesses — short video, authentic storytelling, and community engagement</div></div>
+      </a>
+      <a class="resource-link" href="https://prodigmar.com/social-media-marketing-tips-for-small-businesses/" target="_blank">
+        <span class="resource-type article">Article</span>
+        <div><div class="resource-title">Social Media Marketing Tips for Small Businesses 2026</div><div class="resource-desc">Prodigmar — Free · Jun 2026 · Platform-by-platform breakdown of what content works where — including real engagement rate benchmarks</div></div>
+      </a>
+      <a class="resource-link" href="https://business.google.com/create" target="_blank">
+        <span class="resource-type tool">Tool</span>
+        <div><div class="resource-title">Google Business Profile — Set Yours Up Free</div><div class="resource-desc">Google — Free · The single most important free marketing tool for any local business. Sign in with your Google account and set it up this week.</div></div>
+      </a>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header"><span class="card-icon">✏️</span><h3>Exercises</h3></div>
+    <div class="card-body">
+      <div class="exercise-item">
+        <h4>Exercise 1 — The Paddock Online Audit</h4>
+        <p>Find The Paddock on Facebook, Instagram, and Google. How many followers does each have? How often do they post? What types of content get the most engagement (likes, comments, shares)? Is their Google Business Profile complete and up to date? What's working? What's missing? Write a one-paragraph audit and one specific recommendation you'd make to improve their online presence.</p>
+      </div>
+      <label class="reflection-label">Your Paddock online audit and recommendation:</label>
+      <textarea id="w3e1" placeholder="Facebook: ___ followers | Posts ___ times per week | Highest engagement: ...&#10;Instagram: ...&#10;Google Profile: complete? Y/N | Rating: ___ | Reviews: ___&#10;&#10;What's working: ...&#10;What's missing: ...&#10;My recommendation: ..." oninput="calcProgress()"></textarea>
+
+      <div class="exercise-item">
+        <div class="plan-tag">Ground Up Plan</div>
+        <h4>Exercise 2 — Your Platform Plan and First Week of Content</h4>
+        <p>Decide which two platforms you'll start with (Facebook and Instagram are recommended for Shelbyville). Then plan your first week of content: five posts across both platforms. For each post, write the caption (use AI to help draft, then edit to your voice), describe what the image or video would show, and note the content type (educational, story, promotional, or community). This is Section 3 of your Marketing Plan.</p>
+      </div>
+      <label class="reflection-label">Your two platforms and first week of content:</label>
+      <span class="reflection-hint">Save in your Marketing Plan document — Section 3.</span>
+      <textarea id="w3e2" rows="10" placeholder="Platforms: ___ and ___&#10;&#10;Post 1 | Platform: ___ | Type: Story | Visual: ___ | Caption: ...&#10;Post 2 | Platform: ___ | Type: Educational | Visual: ___ | Caption: ...&#10;Post 3 | Platform: ___ | Type: Promotional | Visual: ___ | Caption: ...&#10;Post 4 | Platform: ___ | Type: Story | Visual: ___ | Caption: ...&#10;Post 5 | Platform: ___ | Type: Community | Visual: ___ | Caption: ..." oninput="calcProgress()"></textarea>
+
+      <div class="exercise-item">
+        <h4>Exercise 3 — Set Up Your Google Business Profile</h4>
+        <p>Go to business.google.com and set up a Google Business Profile for your business. If your business isn't open yet, you can set up a "coming soon" profile. Complete every field: name, category, address (or service area), phone, hours, description, and add at least one photo. Then write a reflection: how did it feel to see your business listed on Google for the first time?</p>
+      </div>
+      <label class="reflection-label">Your Google Business Profile — what you completed and how it felt:</label>
+      <textarea id="w3e3" placeholder="Fields completed: ...&#10;What I wrote in the description: ...&#10;How it felt to see my business on Google: ..." oninput="calcProgress()"></textarea>
+    </div>
+  </div>
+
+  <div class="save-reminder">
+    <span style="font-size:20px;">💾</span>
+    <div><strong>Save to Google Drive.</strong> Add your platform plan and first week of content to your Marketing Plan — Section 3. Your 30-day content calendar from the AI exercise goes in Section 4.</div>
+  </div>
+
+  <div class="deliverable-card">
+    <div class="deliverable-eyebrow">Week 3 Deliverable</div>
+    <h4>First Week of Content + Google Business Profile Live</h4>
+    <p>Share with your Mentor Lead: (1) your five planned posts from Exercise 2 — captions written, visuals described, ready to publish, and (2) a screenshot of your Google Business Profile showing it's live. These two things together mean your business exists online. That's a real milestone.</p>
+    <button class="submit-btn" onclick="markDone('w3')">✓ Week 3 Complete</button>
+  </div>
+</section>
+
+<!-- ════════════════════ WEEK 4 — Upselling & Keeping Customers ════════════════════ -->
+<section class="week-section" id="sec-w4">
+  <div class="week-header">
+    <div class="week-eyebrow">Session 3 &middot; Week 4</div>
+    <h2>Upselling, Retention &amp; Your First Ten Customers</h2>
+    <div class="week-objective">
+      <strong>Weekly Objective</strong>
+      Understand why keeping customers is more valuable than finding new ones — and learn how to upsell naturally, build loyalty, and turn your first ten customers into your most powerful marketing asset. Then pull everything from this session together for your Marketing Plan capstone.
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header"><span class="card-icon">☕</span><h3>Key Concepts</h3></div>
+    <div class="card-body">
+      <div class="concept-item">
+        <div class="concept-dot"></div>
+        <div class="concept-text">
+          <strong>Retention is your highest-return marketing investment</strong>
+          <span>Acquiring a new customer costs five to seven times more than keeping an existing one. A 5% increase in retention can boost profits by up to 95%. Your best customers — the ones who return every week, recommend you to friends, and forgive the occasional mistake — are worth far more than a dozen one-time buyers. In a small town like Shelbyville, a loyal regular customer is also a walking advertisement. Treat them accordingly.</span>
+        </div>
+      </div>
+      <div class="concept-item">
+        <div class="concept-dot"></div>
+        <div class="concept-text">
+          <strong>Upselling is a service — not a sales tactic</strong>
+          <span>Done well, an upsell is a recommendation that genuinely improves the customer's experience. "Would you like a pastry with that — we just pulled them out of the oven" is an upsell. It's also helpful information. Done badly, an upsell feels like pressure. The difference is whether the person making the offer genuinely thinks the customer would enjoy it. At The Paddock, every server who knows the menu well can upsell naturally — because recommending something you actually believe in doesn't feel like selling at all.</span>
+        </div>
+      </div>
+      <div class="concept-item">
+        <div class="concept-dot"></div>
+        <div class="concept-text">
+          <strong>Your first ten customers are your most important marketing decision</strong>
+          <span>The first ten customers of any small business have disproportionate influence on everything that follows. If they love the experience, they tell people. If they feel underwhelmed, they're silent or worse. This means your first ten customers deserve extraordinary attention — not because they paid more, but because the word-of-mouth they generate is worth more than any ad campaign. Find them deliberately. Know who they are. Follow up. Ask what they thought. Make them feel like co-founders of something worth supporting.</span>
+        </div>
+      </div>
+      <div class="concept-item">
+        <div class="concept-dot"></div>
+        <div class="concept-text">
+          <strong>Word of mouth is still the most trusted form of marketing</strong>
+          <span>In 2026, with AI-generated content everywhere and ad fatigue at an all-time high, word of mouth has never been more valuable. A recommendation from a trusted friend outweighs any ad. In Shelbyville, where everyone knows someone who knows someone, word of mouth isn't just marketing — it's infrastructure. The fastest way to grow a local small business is to make your current customers so happy they can't help talking about you. That's a strategy, not a hope.</span>
+        </div>
+      </div>
+      <div class="concept-item">
+        <div class="concept-dot"></div>
+        <div class="concept-text">
+          <strong>Ask for the review — every time</strong>
+          <span>Happy customers rarely leave reviews without being asked. Unhappy customers almost always do. This creates a natural imbalance that hurts small businesses who don't actively request reviews. The fix is simple: after a positive interaction, ask. "If you enjoyed it, we'd love a Google review — it helps us a lot." A business with 30 genuine five-star reviews in Shelbyville is more trusted than one with no reviews and a beautiful Instagram. Reviews are marketing you earn through service.</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="stat-row">
+    <div class="stat-box">
+      <div class="stat-number">95%</div>
+      <div class="stat-label">profit boost possible from just a 5% increase in customer retention — the math on keeping customers is dramatically better than on finding new ones.</div>
+    </div>
+    <div class="stat-box">
+      <div class="stat-number">5–7x</div>
+      <div class="stat-label">more expensive to acquire a new customer than to keep an existing one — which means your loyalty strategy is your most efficient marketing spend.</div>
+    </div>
+  </div>
+
+  <div class="ai-section">
+    <div class="ai-section-header">
+      <span style="font-size:18px;">🤖</span>
+      <h3>AI &amp; Customer Retention — Week 4</h3>
+    </div>
+    <div class="ai-tracks">
+      <div class="ai-track basics">
+        <div class="ai-track-label">🌱 AI Basics</div>
+        <p>AI can help you write the follow-up messages that turn a first-time buyer into a returning customer. A thank-you message after a first purchase, a check-in after a week, a "we miss you" note after a month — these touchpoints build loyalty, and AI can help you draft them in minutes. The key: make them feel personal, not automated.</p>
+        <div class="ai-exercise">
+          <strong>Write Your Customer Follow-Up Sequence</strong>
+          In Claude.ai, type: <em>"Write three short customer follow-up messages for my business [name and description]: (1) a thank-you after a first purchase, (2) a check-in one week later, (3) a 'we miss you' message after a month of no contact. Each should be 2–3 sentences, warm, and in my brand voice: [your three brand voice words from Week 2]."</em>
+        </div>
+      </div>
+      <div class="ai-track deeper">
+        <div class="ai-track-label">🚀 Going Deeper</div>
+        <p>A loyalty strategy doesn't require a fancy app or a punch card program. It requires a clear answer to: what will you do to make customers want to come back? AI can help you design a simple loyalty program — including how to structure it, what rewards feel valuable to your customer, and how to talk about it in your marketing.</p>
+        <div class="ai-exercise">
+          <strong>Design Your Loyalty Strategy</strong>
+          In Claude.ai, type: <em>"Help me design a simple customer loyalty strategy for my business [description]. My customer is [your persona]. I don't have a big budget. Suggest three practical ways to reward repeat customers, one way to encourage referrals, and one way to re-engage customers who haven't bought in a while. Keep it simple enough that I can actually execute it alone."</em> — Add this to your Marketing Plan as Section 5.
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header"><span class="card-icon">📚</span><h3>Resources</h3></div>
+    <div class="card-body">
+      <a class="resource-link" href="https://www.stampme.com/blog/customer-retention-strategies-2026" target="_blank">
+        <span class="resource-type article">Article</span>
+        <div><div class="resource-title">Why Customer Retention Matters More Than Ever in 2026</div><div class="resource-desc">StampMe — Free · Apr 2026 · The math on retention vs. acquisition, and five practical strategies any small business can use</div></div>
+      </a>
+      <a class="resource-link" href="https://sproutsocial.com/insights/customer-retention/" target="_blank">
+        <span class="resource-type article">Article</span>
+        <div><div class="resource-title">Customer Retention Strategies for 2026 — Sprout Social</div><div class="resource-desc">Sprout Social — Free · Feb 2026 · How responding on social media, building community, and personalizing follow-up drives loyalty</div></div>
+      </a>
+      <a class="resource-link" href="https://www.youtube.com/@MelindaEmerson" target="_blank">
+        <span class="resource-type video">Video</span>
+        <div><div class="resource-title">Small Business Saturdays — Melinda Emerson</div><div class="resource-desc">YouTube — Free · Search "Melinda Emerson customer retention small business" · Practical advice on building repeat customers from a nationally recognized small business expert</div></div>
+      </a>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header"><span class="card-icon">✏️</span><h3>Exercises</h3></div>
+    <div class="card-body">
+      <div class="exercise-item">
+        <h4>Exercise 1 — Upselling at The Paddock</h4>
+        <p>During your next three shifts at The Paddock, practice one genuine upsell per shift — recommend something you actually think the guest would enjoy based on what they ordered. Track: what you suggested, how the guest responded, and what you noticed about the difference between an upsell that felt natural and one that felt forced. What made the difference?</p>
+      </div>
+      <label class="reflection-label">Your upsell practice log and what you learned:</label>
+      <textarea id="w4e1" placeholder="Shift 1: Suggested ___ to a guest who ordered ___. They: ___. Felt: ___&#10;Shift 2: ...&#10;Shift 3: ...&#10;&#10;What made an upsell feel natural vs. forced: ..." oninput="calcProgress()"></textarea>
+
+      <div class="exercise-item">
+        <div class="plan-tag">Ground Up Plan</div>
+        <h4>Exercise 2 — Your First Ten Customers Plan</h4>
+        <p>Before your business opens, you should know exactly who your first ten customers will be — or at least where you'll find them. Write a plan: who are the ten specific people or types of people you'll target first? How will you reach them? What will you offer them as an early customer (a discount, a free sample, a personal invitation)? What do you want them to do after they buy — review, refer, return?</p>
+      </div>
+      <label class="reflection-label">Your first ten customers plan:</label>
+      <span class="reflection-hint">Add to your Marketing Plan document — Section 4.</span>
+      <textarea id="w4e2" rows="6" placeholder="Who my first 10 customers will be (specific or by type): ...&#10;How I'll reach them: ...&#10;What I'll offer them as early customers: ...&#10;What I'll ask them to do after buying: ...&#10;How I'll follow up: ..." oninput="calcProgress()"></textarea>
+
+      <div class="exercise-item">
+        <h4>Exercise 3 — Your Complete Marketing Reflection</h4>
+        <p>Look back at the four weeks of this session. What's the most surprising thing you learned about marketing? What assumption did you have coming in that turned out to be wrong? What's the single most important marketing action you'll take in the first week after your business opens? And what has building this marketing plan taught you about your business idea that you didn't know before?</p>
+      </div>
+      <label class="reflection-label">Your marketing session reflection:</label>
+      <textarea id="w4e3" placeholder="Most surprising thing: ...&#10;Assumption I had wrong: ...&#10;First marketing action when I open: ...&#10;What building this plan taught me about my business: ..." oninput="calcProgress()"></textarea>
+    </div>
+  </div>
+
+  <div class="save-reminder">
+    <span style="font-size:20px;">💾</span>
+    <div><strong>Final save before capstone.</strong> Your Marketing Plan document should now have five sections: customer persona, brand canvas + story, content plan, first ten customers, loyalty strategy. Review the whole document before your capstone.</div>
+  </div>
+
+  <div class="deliverable-card">
+    <div class="deliverable-eyebrow">Week 4 Deliverable</div>
+    <h4>Complete Marketing Plan — Ready for Capstone</h4>
+    <p>Share your full Marketing Plan document with your Mentor Lead for a final review before the capstone. All five sections should be complete. Your Mentor Lead will check that every recommendation is specific to your actual business idea and your actual customer — not a generic marketing template.</p>
+    <button class="submit-btn" onclick="markDone('w4')">✓ Week 4 Complete — Prepare for Capstone</button>
+  </div>
+</section>
+
+<!-- ════════════════════ CAPSTONE — Marketing Plan ════════════════════ -->
+<section class="week-section" id="sec-cap">
+  <div class="week-header">
+    <div class="week-eyebrow">Session 3 &middot; Capstone</div>
+    <h2>Your Marketing Plan</h2>
+    <div class="week-objective">
+      <strong>Capstone Objective</strong>
+      Present your complete Marketing Plan to your Mentor Lead and Paddock/Awake leadership. Walk through your brand, your customer, your content strategy, and your plan to get your first ten customers. Ground Up Plan Deliverable #3.
+    </div>
+  </div>
+
+  <div class="ground-up-plan-reveal">
+    <div class="badge">📣</div>
+    <h3>Ground Up Plan — Deliverable #3</h3>
+    <p>Three sessions in. You have a Personal Brand Statement, a Business Budget, and now a Marketing Plan. That's three-quarters of a complete business plan built from real knowledge, applied to a real idea, at a real café. One session left.</p>
+  </div>
+
+  <div class="capstone-intro">
+    <h3>What Makes a Marketing Plan Credible</h3>
+    <p style="margin-bottom:10px;">A credible marketing plan is specific. Not "I'll use social media" — but "I'll post three times a week on Facebook and Instagram, using this content mix, targeting this person, with this voice." Not "I'll get customers by word of mouth" — but "here are my first ten customers by name or type, here's how I'll reach them, and here's what I'll ask them to do."</p>
+    <p>Vague marketing plans are wishes. Specific ones are strategies. Your capstone should have no vague sentences in it.</p>
+  </div>
+
+  <div class="plan-thread">
+    <div class="plan-thread-label">🤖 AI at the Capstone</div>
+    <h4>Assemble and Stress-Test Your Marketing Plan</h4>
+    <p style="color:#b0b8c8;">In Claude.ai, paste your complete Marketing Plan and type: <em>"Review this marketing plan for [your business name]. Point out anything that's vague or generic — where I said 'I'll use social media' instead of 'I'll post X type of content, X times per week, on X platform.' Challenge any assumptions about my customer or my market. Then help me format it into a clean, one-page Marketing Plan summary I can present to a mentor and business leader."</em></p>
+  </div>
+
+  <div class="card">
+    <div class="card-header"><span class="card-icon">📋</span><h3>Capstone Components</h3></div>
+    <div class="card-body">
+      <div class="concept-item">
+        <div class="concept-dot"></div>
+        <div class="concept-text">
+          <strong>Part 1 — Your Brand</strong>
+          <span>Name, tagline, voice, and what makes you different. Why will a customer in Shelbyville choose you over the alternative?</span>
+        </div>
+      </div>
+      <div class="concept-item">
+        <div class="concept-dot"></div>
+        <div class="concept-text">
+          <strong>Part 2 — Your Origin Story</strong>
+          <span>Read it out loud. In 60 seconds. The room should understand not just what you sell but why you built it and why it matters that you're the one building it.</span>
+        </div>
+      </div>
+      <div class="concept-item">
+        <div class="concept-dot"></div>
+        <div class="concept-text">
+          <strong>Part 3 — Your Customer</strong>
+          <span>Describe your customer persona specifically. Who are they? What do they want? Why does your business solve something real for them?</span>
+        </div>
+      </div>
+      <div class="concept-item">
+        <div class="concept-dot"></div>
+        <div class="concept-text">
+          <strong>Part 4 — Your Content Strategy</strong>
+          <span>Which platforms, how often, what content mix, and what your first week of content looks like. Show the actual posts you've planned or drafted.</span>
+        </div>
+      </div>
+      <div class="concept-item">
+        <div class="concept-dot"></div>
+        <div class="concept-text">
+          <strong>Part 5 — Your First Ten Customers and Retention Plan</strong>
+          <span>How you'll find your first ten customers, what you'll do to keep them, and how you'll ask for reviews and referrals.</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header"><span class="card-icon">✏️</span><h3>Capstone Workspace</h3></div>
+    <div class="card-body">
+      <label class="reflection-label">Part 1 — Your Brand Summary:</label>
+      <textarea id="cap1" rows="3" placeholder="Name: ___ | Tagline: ___ | Voice: ___ | What makes me different: ..." oninput="calcProgress()"></textarea>
+
+      <label class="reflection-label">Part 2 — Your Origin Story (final version — 60 seconds out loud):</label>
+      <textarea id="cap2" rows="4" placeholder="The version you'll read at the capstone..." oninput="calcProgress()"></textarea>
+
+      <label class="reflection-label">Part 3 — Your Customer Persona:</label>
+      <textarea id="cap3" rows="4" placeholder="Name: ___ | Age: ___ | Daily life: ___ | Why they choose me: ..." oninput="calcProgress()"></textarea>
+
+      <label class="reflection-label">Part 4 — Your Content Strategy Summary:</label>
+      <textarea id="cap4" rows="5" placeholder="Platforms: ___&#10;Frequency: ___ times per week&#10;Content mix: 40% educational, 30% story, 20% promotional, 10% community&#10;First week of posts: [summarize the 5 posts planned in Week 3]" oninput="calcProgress()"></textarea>
+
+      <label class="reflection-label">Part 5 — First Ten Customers + Retention Plan:</label>
+      <textarea id="cap5" rows="5" placeholder="How I'll reach my first 10: ...&#10;What I'll offer them: ...&#10;How I'll keep them coming back: ...&#10;How I'll ask for reviews and referrals: ..." oninput="calcProgress()"></textarea>
+
+      <label class="reflection-label">What building this marketing plan revealed about your business idea:</label>
+      <textarea id="cap6" rows="3" placeholder="Something I didn't know about my business before this session: ...&#10;Something I changed because of what I learned: ..." oninput="calcProgress()"></textarea>
+    </div>
+  </div>
+
+  <div class="deliverable-card">
+    <div class="deliverable-eyebrow">Session 3 Capstone Deliverable</div>
+    <h4>Marketing Plan — Ground Up Plan Deliverable #3</h4>
+    <p>Present your Marketing Plan to your Mentor Lead and any Paddock or Awake leadership present. Deliver your origin story out loud — 60 seconds, no notes if possible. Walk through all five components. Be prepared for the question: "Why would someone in Shelbyville choose you over the alternative?" That's the marketing question. Have a real answer.</p>
+    <div class="checklist-item">All five capstone components completed and saved in Google Drive</div>
+    <div class="checklist-item">Google Business Profile live and shared with Mentor Lead</div>
+    <div class="checklist-item">First week of content planned and drafted</div>
+    <div class="checklist-item">Origin story practiced out loud at least three times</div>
+    <div class="checklist-item">Ready to answer: "Why would someone choose you?"</div>
+    <button class="submit-btn" style="margin-top:16px;" onclick="markDone('cap')">✓ Submit Session 3 Capstone</button>
+  </div>
+</section>
+
+</main>
+<div class="toast" id="toast">✅ Saved</div>
+
+<script>
+const SECTIONS = ['w1','w2','w3','w4','cap'];
+const TEXTAREA_IDS = [
+  'w1e1','w1e2','w1e3',
+  'w2e1','w2e2','w2e3',
+  'w3e1','w3e2','w3e3',
+  'w4e1','w4e2','w4e3',
+  'cap1','cap2','cap3','cap4','cap5','cap6'
+];
+const INPUT_IDS = ['brand-name','brand-tagline','brand-voice','brand-handle','brand-color','brand-diff'];
+
+function showTab(id, btn) {
+  document.querySelectorAll('.week-section').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('sec-' + id).classList.add('active');
+  btn.classList.add('active');
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function calcProgress() {
+  let filled = 0;
+  const total = TEXTAREA_IDS.length + INPUT_IDS.length;
+  TEXTAREA_IDS.forEach(id => {
+    const el = document.getElementById(id);
+    if (el && el.value.trim().length > 10) filled++;
+  });
+  INPUT_IDS.forEach(id => {
+    const el = document.getElementById(id);
+    if (el && el.value.trim().length > 2) filled++;
+  });
+  const pct = Math.round((filled / total) * 100);
+  document.getElementById('progress-fill').style.width = pct + '%';
+  document.getElementById('pct-label').textContent = pct + '%';
+}
+
+function markDone(key) {
+  const tabEl = document.getElementById('tab-' + key);
+  if (tabEl) tabEl.classList.add('complete');
+  showToast('✅ ' + getSectionName(key) + ' complete. Save your work to Google Drive.');
+  const next = SECTIONS[SECTIONS.indexOf(key) + 1];
+  if (next) {
+    setTimeout(() => {
+      const nextBtn = document.getElementById('tab-' + next);
+      if (nextBtn) { showTab(next, nextBtn); nextBtn.classList.add('active'); }
+    }, 1800);
+  }
+}
+
+function getSectionName(key) {
+  return { w1:'Week 1', w2:'Week 2', w3:'Week 3', w4:'Week 4', cap:'Session 3 Capstone' }[key] || key;
+}
+
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 3500);
+}
+
+// Also track brand canvas inputs in progress
+document.querySelectorAll('.brand-field input').forEach(el => {
+  el.addEventListener('input', calcProgress);
+});
+
+calcProgress();
+</script>
+</body>
+</html>
