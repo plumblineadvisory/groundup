@@ -1,0 +1,1706 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ground Up — Session 1: Customer Service & Communications</title>
+<style>
+/* ── TOKENS ────────────────────────────────────────────────────── */
+:root {
+  --forest:   #2C5F2D;
+  --moss:     #6B9E3F;
+  --gold:     #C8963E;
+  --cream:    #F7F4EF;
+  --sand:     #EDE8DC;
+  --charcoal: #2E2E2E;
+  --white:    #FFFFFF;
+  --border:   #D5D0C8;
+  --navy:     #1a1a2e;
+  --muted:    #666666;
+  --danger:   #8B2020;
+}
+
+/* ── RESET ─────────────────────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: 'Segoe UI', Arial, sans-serif;
+  background: var(--cream);
+  color: var(--charcoal);
+  font-size: 16px;
+  line-height: 1.6;
+}
+
+/* ── SITE HEADER ───────────────────────────────────────────────── */
+.site-header {
+  background: var(--forest);
+  padding: 0;
+}
+.header-top {
+  max-width: 860px;
+  margin: 0 auto;
+  padding: 24px 24px 16px;
+}
+.program-eyebrow {
+  font-size: 10px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--gold);
+  font-weight: 700;
+  margin-bottom: 6px;
+}
+.site-header h1 {
+  font-family: Georgia, serif;
+  font-size: 30px;
+  color: var(--white);
+  font-weight: 700;
+  line-height: 1.2;
+  margin-bottom: 4px;
+}
+.site-header .tagline {
+  font-style: italic;
+  color: #a8c4a8;
+  font-size: 14px;
+}
+
+/* ── SESSION BANNER ────────────────────────────────────────────── */
+.session-banner {
+  background: var(--gold);
+  padding: 14px 24px;
+}
+.session-banner-inner {
+  max-width: 860px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+.session-circle {
+  background: var(--forest);
+  color: var(--white);
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: Georgia, serif;
+  font-size: 20px;
+  font-weight: 700;
+  flex-shrink: 0;
+}
+.session-title {
+  font-family: Georgia, serif;
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--forest);
+}
+.session-subtitle {
+  font-size: 13px;
+  color: var(--forest);
+  opacity: 0.75;
+  margin-top: 2px;
+}
+
+/* ── YOUR IDEA BANNER ──────────────────────────────────────────── */
+.idea-banner {
+  background: var(--navy);
+  border-bottom: 3px solid var(--gold);
+}
+.idea-banner-inner {
+  max-width: 860px;
+  margin: 0 auto;
+  padding: 14px 24px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+.idea-label {
+  font-size: 10px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--gold);
+  font-weight: 700;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+.idea-label span {
+  display: block;
+  font-size: 9px;
+  color: #888;
+  letter-spacing: 1px;
+  margin-top: 2px;
+  font-weight: 400;
+}
+.idea-input-wrap {
+  flex: 1;
+  min-width: 200px;
+}
+.idea-input {
+  width: 100%;
+  background: rgba(255,255,255,0.08);
+  border: 1px solid rgba(200,150,62,0.4);
+  border-radius: 4px;
+  padding: 8px 12px;
+  font-size: 14px;
+  color: var(--white);
+  font-family: inherit;
+  font-style: italic;
+}
+.idea-input::placeholder { color: #666; }
+.idea-input:focus { outline: none; border-color: var(--gold); background: rgba(255,255,255,0.12); }
+.idea-save-btn {
+  background: var(--gold);
+  color: var(--forest);
+  border: none;
+  padding: 8px 16px;
+  border-radius: 4px;
+  font-size: 12px;
+  font-weight: 700;
+  cursor: pointer;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+.idea-save-btn:hover { opacity: 0.9; }
+
+/* ── WEEK NAV ──────────────────────────────────────────────────── */
+.week-nav {
+  background: var(--forest);
+  padding: 0 24px;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+.week-nav-inner {
+  display: flex;
+  max-width: 860px;
+  margin: 0 auto;
+  gap: 2px;
+}
+.tab-btn {
+  background: transparent;
+  border: none;
+  color: #7a9e7a;
+  padding: 12px 16px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  border-bottom: 3px solid transparent;
+  white-space: nowrap;
+  transition: all 0.2s;
+  font-family: inherit;
+}
+.tab-btn:hover { color: var(--white); }
+.tab-btn.active { color: var(--gold); border-bottom-color: var(--gold); }
+.tab-btn.complete { color: #7a9e7a; }
+.tab-btn.complete::after { content: ' ✓'; color: var(--moss); }
+
+/* ── PROGRESS ──────────────────────────────────────────────────── */
+.progress-wrap {
+  background: var(--sand);
+  padding: 12px 24px;
+  border-bottom: 1px solid var(--border);
+}
+.progress-inner {
+  max-width: 860px;
+  margin: 0 auto;
+}
+.progress-label {
+  font-size: 12px;
+  color: var(--forest);
+  font-weight: 600;
+  margin-bottom: 6px;
+  display: flex;
+  justify-content: space-between;
+}
+.progress-track {
+  background: var(--border);
+  height: 7px;
+  border-radius: 4px;
+  overflow: hidden;
+}
+.progress-fill {
+  background: linear-gradient(90deg, var(--moss), var(--forest));
+  height: 100%;
+  border-radius: 4px;
+  width: 0%;
+  transition: width 0.5s ease;
+}
+
+/* ── MAIN ──────────────────────────────────────────────────────── */
+.main {
+  max-width: 860px;
+  margin: 0 auto;
+  padding: 32px 24px 80px;
+}
+.week-section { display: none; }
+.week-section.active { display: block; }
+
+/* ── WEEK HEADER ───────────────────────────────────────────────── */
+.week-header { margin-bottom: 28px; }
+.week-eyebrow {
+  font-size: 10px;
+  letter-spacing: 3px;
+  color: var(--gold);
+  font-weight: 700;
+  text-transform: uppercase;
+  margin-bottom: 8px;
+}
+.week-header h2 {
+  font-family: Georgia, serif;
+  font-size: 26px;
+  color: var(--forest);
+  margin-bottom: 10px;
+}
+.week-objective {
+  background: var(--forest);
+  color: var(--white);
+  padding: 14px 18px;
+  border-radius: 6px;
+  font-size: 14px;
+  line-height: 1.6;
+}
+.week-objective strong {
+  color: var(--gold);
+  display: block;
+  font-size: 10px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  margin-bottom: 4px;
+}
+
+/* ── CARDS ─────────────────────────────────────────────────────── */
+.card {
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  margin-bottom: 20px;
+  overflow: hidden;
+}
+.card-header {
+  background: var(--sand);
+  padding: 12px 18px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  border-bottom: 1px solid var(--border);
+}
+.card-icon { font-size: 18px; }
+.card-header h3 {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--forest);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+.card-body { padding: 20px; }
+
+/* ── CONCEPTS ──────────────────────────────────────────────────── */
+.concept-item {
+  display: flex;
+  gap: 14px;
+  margin-bottom: 16px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid var(--sand);
+}
+.concept-item:last-child { border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
+.concept-dot {
+  width: 8px;
+  height: 8px;
+  background: var(--gold);
+  border-radius: 50%;
+  margin-top: 8px;
+  flex-shrink: 0;
+}
+.concept-text strong {
+  display: block;
+  color: var(--forest);
+  font-size: 15px;
+  margin-bottom: 3px;
+}
+.concept-text span { font-size: 14px; color: #555; }
+
+/* ── STATS ─────────────────────────────────────────────────────── */
+.stat-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+  margin-bottom: 20px;
+}
+.stat-box {
+  background: var(--forest);
+  border-radius: 8px;
+  padding: 18px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+.stat-number {
+  font-family: Georgia, serif;
+  font-size: 38px;
+  font-weight: 700;
+  color: var(--gold);
+  flex-shrink: 0;
+  line-height: 1;
+}
+.stat-label {
+  font-size: 13px;
+  color: #c8d8c8;
+  line-height: 1.5;
+}
+
+/* ── AI CALLOUTS ───────────────────────────────────────────────── */
+.ai-section {
+  background: var(--navy);
+  border-radius: 8px;
+  overflow: hidden;
+  margin-bottom: 20px;
+}
+.ai-section-header {
+  padding: 10px 18px;
+  border-bottom: 1px solid rgba(255,255,255,0.08);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.ai-section-header h3 {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--gold);
+}
+.ai-tracks {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0;
+}
+.ai-track {
+  padding: 16px 18px;
+}
+.ai-track + .ai-track {
+  border-left: 1px solid rgba(255,255,255,0.08);
+}
+.ai-track-label {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  margin-bottom: 8px;
+}
+.ai-track.basics .ai-track-label { color: #6ab187; }
+.ai-track.deeper .ai-track-label { color: #7b9fd4; }
+.ai-track p {
+  font-size: 13px;
+  color: #b8c8b8;
+  line-height: 1.6;
+}
+.ai-track.deeper p { color: #b0c0d8; }
+.ai-exercise {
+  margin-top: 10px;
+  background: rgba(255,255,255,0.05);
+  border-radius: 4px;
+  padding: 10px 12px;
+  font-size: 13px;
+  color: #c8d8c8;
+  line-height: 1.5;
+}
+.ai-exercise strong {
+  display: block;
+  font-size: 10px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 4px;
+}
+
+/* ── RESOURCES ─────────────────────────────────────────────────── */
+.resource-link {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 12px 0;
+  border-bottom: 1px solid var(--sand);
+  text-decoration: none;
+  color: inherit;
+}
+.resource-link:last-child { border-bottom: none; }
+.resource-link:hover .resource-title { color: var(--forest); text-decoration: underline; }
+.resource-type {
+  background: var(--forest);
+  color: var(--white);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  padding: 3px 8px;
+  border-radius: 3px;
+  white-space: nowrap;
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+.resource-type.video { background: #8B1A1A; }
+.resource-type.article { background: var(--moss); }
+.resource-title { font-size: 14px; color: var(--charcoal); font-weight: 600; }
+.resource-desc { font-size: 12px; color: #888; margin-top: 2px; }
+
+/* ── EXERCISES ─────────────────────────────────────────────────── */
+.exercise-item {
+  background: var(--cream);
+  border-left: 4px solid var(--gold);
+  padding: 14px 16px;
+  margin-bottom: 14px;
+  border-radius: 0 6px 6px 0;
+}
+.exercise-item h4 {
+  font-size: 14px;
+  color: var(--forest);
+  font-weight: 700;
+  margin-bottom: 6px;
+}
+.exercise-item p {
+  font-size: 13px;
+  color: #555;
+  line-height: 1.6;
+}
+.plan-tag {
+  display: inline-block;
+  background: var(--gold);
+  color: var(--forest);
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  padding: 2px 7px;
+  border-radius: 3px;
+  margin-bottom: 6px;
+}
+
+/* ── REFLECTION AREAS ──────────────────────────────────────────── */
+.reflection-label {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--forest);
+  margin-bottom: 6px;
+  display: block;
+}
+.reflection-hint {
+  font-size: 12px;
+  color: var(--muted);
+  margin-bottom: 6px;
+  display: block;
+  font-style: italic;
+}
+textarea {
+  width: 100%;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 12px;
+  font-family: inherit;
+  font-size: 14px;
+  resize: vertical;
+  min-height: 90px;
+  background: #fafaf8;
+  margin-bottom: 16px;
+  color: var(--charcoal);
+  line-height: 1.6;
+}
+textarea:focus { outline: none; border-color: var(--moss); background: var(--white); }
+
+/* ── SAVE REMINDER ─────────────────────────────────────────────── */
+.save-reminder {
+  background: #f0f7f0;
+  border: 1px solid #b8d4b8;
+  border-radius: 6px;
+  padding: 12px 16px;
+  margin-bottom: 16px;
+  font-size: 13px;
+  color: var(--forest);
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+}
+.save-reminder strong { display: block; margin-bottom: 2px; }
+
+/* ── DELIVERABLE ───────────────────────────────────────────────── */
+.deliverable-card {
+  background: var(--forest);
+  color: var(--white);
+  border-radius: 8px;
+  padding: 22px;
+  margin-bottom: 20px;
+}
+.deliverable-eyebrow {
+  font-size: 10px;
+  letter-spacing: 3px;
+  color: var(--gold);
+  font-weight: 700;
+  text-transform: uppercase;
+  margin-bottom: 8px;
+}
+.deliverable-card h4 {
+  font-family: Georgia, serif;
+  font-size: 20px;
+  margin-bottom: 8px;
+}
+.deliverable-card p {
+  font-size: 13px;
+  color: #c8d8c8;
+  line-height: 1.6;
+  margin-bottom: 16px;
+}
+.deliverable-card .checklist {
+  margin-bottom: 16px;
+}
+.checklist-item {
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+  margin-bottom: 8px;
+  font-size: 13px;
+  color: #c8d8c8;
+}
+.checklist-item::before {
+  content: '□';
+  color: var(--gold);
+  font-size: 16px;
+  line-height: 1.2;
+  flex-shrink: 0;
+}
+.submit-btn {
+  background: var(--gold);
+  color: var(--forest);
+  border: none;
+  padding: 12px 24px;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: opacity 0.2s;
+  font-family: inherit;
+}
+.submit-btn:hover { opacity: 0.88; }
+
+/* ── PLAN THREAD ───────────────────────────────────────────────── */
+.plan-thread {
+  background: var(--navy);
+  border: 1px solid rgba(200,150,62,0.3);
+  border-radius: 8px;
+  padding: 18px 20px;
+  margin-bottom: 20px;
+}
+.plan-thread-label {
+  font-size: 10px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--gold);
+  font-weight: 700;
+  margin-bottom: 6px;
+}
+.plan-thread h4 {
+  font-family: Georgia, serif;
+  font-size: 17px;
+  color: var(--white);
+  margin-bottom: 8px;
+}
+.plan-thread p {
+  font-size: 13px;
+  color: #b0b8c8;
+  line-height: 1.6;
+}
+
+/* ── SCENARIO BOX ──────────────────────────────────────────────── */
+.scenario-box {
+  background: #f0f7f0;
+  border: 1px solid #b8d4b8;
+  border-left: 4px solid var(--moss);
+  border-radius: 0 6px 6px 0;
+  padding: 14px 16px;
+  margin-bottom: 14px;
+  font-size: 13px;
+  color: var(--charcoal);
+  line-height: 1.7;
+}
+.scenario-box strong {
+  color: var(--forest);
+  display: block;
+  margin-bottom: 4px;
+  font-size: 12px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+
+/* ── CAPSTONE ──────────────────────────────────────────────────── */
+.capstone-intro {
+  background: var(--sand);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 20px;
+  margin-bottom: 20px;
+}
+.capstone-intro h3 {
+  font-family: Georgia, serif;
+  font-size: 20px;
+  color: var(--forest);
+  margin-bottom: 8px;
+}
+.capstone-intro p {
+  font-size: 14px;
+  color: #555;
+  line-height: 1.6;
+}
+.ground-up-plan-reveal {
+  background: linear-gradient(135deg, var(--forest) 0%, #1e3d1f 100%);
+  border-radius: 8px;
+  padding: 24px;
+  margin-bottom: 20px;
+  text-align: center;
+  border: 2px solid var(--gold);
+}
+.ground-up-plan-reveal .badge { font-size: 40px; margin-bottom: 12px; }
+.ground-up-plan-reveal h3 {
+  font-family: Georgia, serif;
+  font-size: 24px;
+  color: var(--gold);
+  margin-bottom: 8px;
+}
+.ground-up-plan-reveal p {
+  font-size: 14px;
+  color: #c8d8c8;
+  line-height: 1.6;
+  max-width: 560px;
+  margin: 0 auto;
+}
+
+/* ── TOAST ─────────────────────────────────────────────────────── */
+.toast {
+  position: fixed;
+  bottom: 24px;
+  left: 50%;
+  transform: translateX(-50%) translateY(80px);
+  background: var(--forest);
+  color: var(--white);
+  padding: 14px 24px;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 600;
+  z-index: 999;
+  transition: transform 0.3s ease;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.25);
+  pointer-events: none;
+}
+.toast.show { transform: translateX(-50%) translateY(0); }
+
+/* ── PRINT ─────────────────────────────────────────────────────── */
+@media print {
+  .week-nav, .progress-wrap, .tab-btn, .submit-btn, .idea-save-btn { display: none !important; }
+  .week-section { display: block !important; page-break-before: always; }
+  .week-section:first-child { page-break-before: auto; }
+  body { background: white; }
+}
+
+/* ── MOBILE ─────────────────────────────────────────────────────── */
+@media (max-width: 600px) {
+  .site-header h1 { font-size: 22px; }
+  .main { padding: 20px 16px 60px; }
+  .tab-btn { padding: 10px 10px; font-size: 12px; }
+  .ai-tracks { grid-template-columns: 1fr; }
+  .ai-track + .ai-track { border-left: none; border-top: 1px solid rgba(255,255,255,0.08); }
+  .stat-row { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body>
+
+<!-- ── SITE HEADER ──────────────────────────────────────────────── -->
+<header class="site-header">
+  <div class="header-top">
+    <div class="program-eyebrow">Ground Up — Where Rebuilding Begins.</div>
+    <h1>Session 1 Workbook</h1>
+    <div class="tagline">The Paddock Cafe &middot; Shelbyville, Kentucky &middot; In partnership with Awake Ministries</div>
+  </div>
+</header>
+
+<div class="session-banner">
+  <div class="session-banner-inner">
+    <div class="session-circle">1</div>
+    <div>
+      <div class="session-title">Customer Service &amp; Communications</div>
+      <div class="session-subtitle">4 Weeks + Capstone &middot; Your Ground Up Plan begins here.</div>
+    </div>
+  </div>
+</div>
+
+<!-- ── YOUR IDEA BANNER ──────────────────────────────────────────── -->
+<div class="idea-banner">
+  <div class="idea-banner-inner">
+    <div class="idea-label">
+      Your Business Idea
+      <span>The thread through everything</span>
+    </div>
+    <div class="idea-input-wrap">
+      <input type="text" class="idea-input" id="business-idea"
+        placeholder="I want to build / start / create..."
+        oninput="updateIdeaDisplay()" />
+    </div>
+    <button class="idea-save-btn" onclick="saveIdea()">Save Idea</button>
+  </div>
+</div>
+
+<!-- ── WEEK NAV ──────────────────────────────────────────────────── -->
+<nav class="week-nav">
+  <div class="week-nav-inner">
+    <button class="tab-btn active" onclick="showTab('start', this)" id="tab-start">📋 Start Here</button>
+    <button class="tab-btn" onclick="showTab('w1', this)" id="tab-w1">Week 1</button>
+    <button class="tab-btn" onclick="showTab('w2', this)" id="tab-w2">Week 2</button>
+    <button class="tab-btn" onclick="showTab('w3', this)" id="tab-w3">Week 3</button>
+    <button class="tab-btn" onclick="showTab('w4', this)" id="tab-w4">Week 4</button>
+    <button class="tab-btn" onclick="showTab('cap', this)" id="tab-cap">Capstone</button>
+  </div>
+</nav>
+
+<!-- ── PROGRESS BAR ──────────────────────────────────────────────── -->
+<div class="progress-wrap">
+  <div class="progress-inner">
+    <div class="progress-label">
+      <span>Session 1 Progress</span>
+      <span id="pct-label">0%</span>
+    </div>
+    <div class="progress-track">
+      <div class="progress-fill" id="progress-fill"></div>
+    </div>
+  </div>
+</div>
+
+<main class="main">
+
+<!-- ════════════════════════════════════════════════════════════════
+     START HERE
+════════════════════════════════════════════════════════════════ -->
+<section class="week-section active" id="sec-start">
+  <div class="week-header">
+    <div class="week-eyebrow">Session 1 &middot; Before You Begin</div>
+    <h2>Welcome to Ground Up.</h2>
+    <div class="week-objective">
+      <strong>Start Here</strong>
+      Before the curriculum, before the certifications, before anything else — we want to know what you want to build. This program exists to help you get there. Everything you learn at The Paddock over the next four weeks connects back to the idea you write down right now.
+    </div>
+  </div>
+
+  <!-- Plant your idea -->
+  <div class="card">
+    <div class="card-header"><span class="card-icon">🌱</span><h3>Plant Your Idea</h3></div>
+    <div class="card-body">
+      <p style="font-size:14px; color:#555; margin-bottom:16px; line-height:1.7;">
+        You don't need a perfect idea. You need a direction. A sentence. Something that's yours.<br><br>
+        If nothing comes immediately, try these questions:
+      </p>
+      <div class="scenario-box">
+        <strong>Find Your Direction</strong>
+        What did you love doing before things got hard? &nbsp;&bull;&nbsp;
+        What do people always ask you for help with? &nbsp;&bull;&nbsp;
+        What problem do you wish someone would solve? &nbsp;&bull;&nbsp;
+        What could you imagine doing every day and not hating?
+      </div>
+      <label class="reflection-label">My business idea — one sentence:</label>
+      <span class="reflection-hint">Write it in the banner at the top of this page too — it'll stay with you through every week.</span>
+      <textarea id="start-idea" rows="3" placeholder="I want to..." oninput="calcProgress()"></textarea>
+
+      <label class="reflection-label">Why this idea? What makes it feel like yours?</label>
+      <textarea id="start-why" rows="4" placeholder="This idea matters to me because..." oninput="calcProgress()"></textarea>
+
+      <label class="reflection-label">What's one thing you already know that would help you build it?</label>
+      <textarea id="start-know" rows="3" placeholder="I already know how to..." oninput="calcProgress()"></textarea>
+    </div>
+  </div>
+
+  <!-- What you're building -->
+  <div class="plan-thread">
+    <div class="plan-thread-label">🗂 Your Ground Up Plan</div>
+    <h4>What You'll Have by the End of This Program</h4>
+    <p>Over four sessions, you'll build four documents — one per session. By the time you graduate, those four documents become one complete package: <strong style="color:var(--gold)">Your Ground Up Plan</strong>. A real business plan, built on real knowledge, from the ground up.</p>
+  </div>
+
+  <div class="card">
+    <div class="card-header"><span class="card-icon">🗓</span><h3>The Four Sessions — Your Build Map</h3></div>
+    <div class="card-body">
+      <div class="concept-item">
+        <div class="concept-dot"></div>
+        <div class="concept-text">
+          <strong>Session 1 — Customer Service &amp; Communications</strong>
+          <span>You'll build your <strong>Personal Brand Statement</strong> — who you are, what you offer, and how you communicate your value to a guest, an employer, or a future customer.</span>
+        </div>
+      </div>
+      <div class="concept-item">
+        <div class="concept-dot"></div>
+        <div class="concept-text">
+          <strong>Session 2 — Basic Finance</strong>
+          <span>You'll build your <strong>Business Budget</strong> — what it costs to run your idea, how you'd price your product or service, and what financial stability actually looks like from the inside.</span>
+        </div>
+      </div>
+      <div class="concept-item">
+        <div class="concept-dot"></div>
+        <div class="concept-text">
+          <strong>Session 3 — Marketing &amp; Sales</strong>
+          <span>You'll build your <strong>Marketing Plan</strong> — your business name, your story, who your customer is, and how you'd attract your first ten of them.</span>
+        </div>
+      </div>
+      <div class="concept-item">
+        <div class="concept-dot"></div>
+        <div class="concept-text">
+          <strong>Session 4 — Leadership &amp; Personal Development</strong>
+          <span>You'll assemble everything into your <strong>Ground Up Plan</strong> — a complete business plan built on four sessions of real learning, ready to take with you into whatever comes next.</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Certifications -->
+  <div class="card">
+    <div class="card-header"><span class="card-icon">📜</span><h3>Required Certifications — Complete in Week 1</h3></div>
+    <div class="card-body">
+      <p style="font-size:14px; color:#555; margin-bottom:16px; line-height:1.7;">
+        Before diving into curriculum, every Fellow completes two food safety certifications. These are credentials you keep for life. The Paddock covers all costs — do not pay out of pocket.
+      </p>
+
+      <div class="exercise-item">
+        <h4>🍽 Certification 1 — Kentucky Food Handler Card</h4>
+        <p><strong>Cost:</strong> ~$6.95 (Paddock-covered) &nbsp;&bull;&nbsp; <strong>Time:</strong> ~1–2 hours &nbsp;&bull;&nbsp; <strong>Valid:</strong> 2–3 years<br><br>
+        <strong>How to complete:</strong><br>
+        1. Go to <strong>aaafoodhandler.com/kentucky/food-handler-card</strong><br>
+        2. Create a free account with your Google email<br>
+        3. Select Kentucky Food Handler — your Mentor Lead will arrange payment<br>
+        4. Complete the course and pass the exam<br>
+        5. Download your certificate and share a copy with your Mentor Lead</p>
+      </div>
+
+      <div class="exercise-item">
+        <h4>✅ Certification 2 — ServSafe Food Handler</h4>
+        <p><strong>Cost:</strong> $15 (Paddock-covered) &nbsp;&bull;&nbsp; <strong>Time:</strong> ~1.5–2 hours &nbsp;&bull;&nbsp; <strong>Valid:</strong> 3 years<br><br>
+        <strong>How to complete:</strong><br>
+        1. Go to <strong>servsafe.com/ServSafe-Food-Handler/Get-Certified</strong><br>
+        2. Create a ServSafe account with your Google email<br>
+        3. Select ServSafe Food Handler Online Course + Assessment — your Mentor Lead will arrange payment<br>
+        4. Complete the course (you can pause and resume) and pass the assessment<br>
+        5. Download your certificate and share a copy with your Mentor Lead</p>
+      </div>
+
+      <label class="reflection-label">Certification Tracker</label>
+      <textarea id="cert-tracker" rows="4"
+        placeholder="KY Food Handler: Completed __ / __ / __ | Certificate #: _______&#10;ServSafe: Completed __ / __ / __ | Certificate #: _______"
+        oninput="calcProgress()"></textarea>
+    </div>
+  </div>
+
+  <div class="deliverable-card">
+    <div class="deliverable-eyebrow">Before Week 1</div>
+    <h4>Three Things to Do Right Now</h4>
+    <p>Complete these before your first Week 1 session with your Mentor Lead.</p>
+    <div class="checklist">
+      <div class="checklist-item">Write your business idea in the banner at the top of this page and in the reflection above</div>
+      <div class="checklist-item">Complete both food safety certifications and log them in the tracker</div>
+      <div class="checklist-item">Save all your work — copy your responses into a Google Doc in your personal Drive folder</div>
+    </div>
+    <button class="submit-btn" onclick="markDone('start')">✓ Start Here Complete — Go to Week 1</button>
+  </div>
+</section>
+
+<!-- ════════════════════════════════════════════════════════════════
+     WEEK 1 — First Impressions & Guest Experience
+════════════════════════════════════════════════════════════════ -->
+<section class="week-section" id="sec-w1">
+  <div class="week-header">
+    <div class="week-eyebrow">Session 1 &middot; Week 1</div>
+    <h2>First Impressions &amp; Guest Experience</h2>
+    <div class="week-objective">
+      <strong>Weekly Objective</strong>
+      Understand why the first impression is the most powerful moment in any customer relationship — at The Paddock, in a job interview, or with your first customer. Learn the five elements of a remarkable guest experience and start applying them to your own business idea.
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header"><span class="card-icon">☕</span><h3>Key Concepts</h3></div>
+    <div class="card-body">
+      <div class="concept-item">
+        <div class="concept-dot"></div>
+        <div class="concept-text">
+          <strong>The first seven seconds decide almost everything</strong>
+          <span>Research consistently shows that people form a first impression within seven seconds of meeting someone or walking into a space. At The Paddock, that impression starts before a guest reaches the counter — with eye contact, a posture, an energy in the room. In any business, the first impression is the most expensive moment to get wrong and the most powerful moment to get right.</span>
+        </div>
+      </div>
+      <div class="concept-item">
+        <div class="concept-dot"></div>
+        <div class="concept-text">
+          <strong>The five elements of a remarkable guest experience</strong>
+          <span>Great hospitality isn't about being perfect — it's about being present. The five elements: (1) Acknowledgment — every guest is seen immediately; (2) Warmth — genuine, not scripted; (3) Competence — you know what you're doing; (4) Speed — you respect their time; (5) Recovery — when something goes wrong, how you handle it is the memory they keep.</span>
+        </div>
+      </div>
+      <div class="concept-item">
+        <div class="concept-dot"></div>
+        <div class="concept-text">
+          <strong>Service is a skill — and skills are learnable</strong>
+          <span>Nobody is born knowing how to serve people well. It is a set of observable, practicable behaviors. The best servers at The Paddock weren't the best servers on their first day. What separates people who get good fast from people who don't is whether they pay attention, ask questions, and take feedback seriously. Everything in this session is a skill you can build.</span>
+        </div>
+      </div>
+      <div class="concept-item">
+        <div class="concept-dot"></div>
+        <div class="concept-text">
+          <strong>Your own experience as a customer is your best research</strong>
+          <span>Think about the last time someone made you feel genuinely welcomed — at a restaurant, a store, a doctor's office, anywhere. What did they do specifically? That's a lesson. Now think about the last time you felt invisible or dismissed. That's also a lesson. Your lifetime of being served by other people is a data set. Learning to read it is one of the most practical things you can do as someone building a business.</span>
+        </div>
+      </div>
+      <div class="concept-item">
+        <div class="concept-dot"></div>
+        <div class="concept-text">
+          <strong>The guest experience and the customer experience are the same thing</strong>
+          <span>Whether you're serving coffee at The Paddock or running your own business someday, the person on the other side of the counter is your most important asset. A guest who leaves happy tells two or three people. A guest who leaves unhappy tells ten. In a small town like Shelbyville, your reputation is built one interaction at a time. That's true for The Paddock. It will be true for your business too.</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="stat-row">
+    <div class="stat-box">
+      <div class="stat-number">70%</div>
+      <div class="stat-label">of customers leave a business because of how they were treated — not because of price or product quality.</div>
+    </div>
+    <div class="stat-box">
+      <div class="stat-number">7 sec</div>
+      <div class="stat-label">is how long it takes someone to form a first impression — of a person, a business, or a brand.</div>
+    </div>
+  </div>
+
+  <div class="ai-section">
+    <div class="ai-section-header">
+      <span style="font-size:18px;">🤖</span>
+      <h3>AI &amp; Customer Experience — Week 1</h3>
+    </div>
+    <div class="ai-tracks">
+      <div class="ai-track basics">
+        <div class="ai-track-label">🌱 AI Basics — Start Here</div>
+        <p>AI stands for Artificial Intelligence. It's software that can understand your questions and respond in plain language — like texting with someone who knows a lot about almost everything. The most useful free AI tools right now are <strong style="color:#9fd4b8">Claude.ai</strong>, <strong style="color:#9fd4b8">ChatGPT</strong>, and <strong style="color:#9fd4b8">Gemini</strong>. You access all of them in a browser — no app download needed.</p>
+        <div class="ai-exercise">
+          <strong>Try This Right Now</strong>
+          Open a browser tab and go to <strong>claude.ai</strong>. Sign in with your Google account. In the chat box, type: <em>"What are three things a small coffee shop can do to make guests feel welcome the moment they walk in?"</em> — Read what it says. Does anything surprise you? Write down one thing you'd actually use at The Paddock.
+        </div>
+      </div>
+      <div class="ai-track deeper">
+        <div class="ai-track-label">🚀 Going Deeper</div>
+        <p>AI can help you research what great customer experience looks like in your specific industry — before you spend a dollar. It can also help you draft scripts, greeting language, and service standards for your own business. The key is learning to ask specific questions, not vague ones.</p>
+        <div class="ai-exercise">
+          <strong>Apply It to Your Idea</strong>
+          In Claude.ai or ChatGPT, type: <em>"I'm planning to start [your business idea]. What does an excellent first impression look like for that type of business? Give me three specific, practical things I could do."</em> — Save the response in your Google Drive folder. This is your first research note for your Ground Up Plan.
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header"><span class="card-icon">📚</span><h3>Resources</h3></div>
+    <div class="card-body">
+      <a class="resource-link" href="https://pos.toasttab.com/blog/on-the-line/restaurant-customer-service" target="_blank">
+        <span class="resource-type article">Article</span>
+        <div><div class="resource-title">Restaurant Customer Service: The Complete Guide</div><div class="resource-desc">Toast — Free · Everything from greeting scripts to handling complaints, written for real restaurant workers</div></div>
+      </a>
+      <a class="resource-link" href="https://www.7shifts.com/blog/restaurant-guest-experience/" target="_blank">
+        <span class="resource-type article">Article</span>
+        <div><div class="resource-title">How to Create a Better Restaurant Guest Experience</div><div class="resource-desc">7shifts — Free · 2025 · Practical, specific actions any team member can take to elevate the guest experience</div></div>
+      </a>
+      <a class="resource-link" href="https://www.youtube.com/@TheRealDanHenry" target="_blank">
+        <span class="resource-type video">Video</span>
+        <div><div class="resource-title">How to Make Customers Feel Valued</div><div class="resource-desc">YouTube — Free · Search "how to make customers feel valued small business" · 5–10 min · Practical and direct</div></div>
+      </a>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header"><span class="card-icon">✏️</span><h3>Exercises</h3></div>
+    <div class="card-body">
+      <div class="exercise-item">
+        <h4>Exercise 1 — The Seven-Second Audit</h4>
+        <p>Next shift at The Paddock, watch the first seven seconds of three different guest interactions — yours or a coworker's. What happens in those seven seconds? Eye contact? Greeting? Posture? Energy? Write down exactly what you observed — not what you think should happen, but what actually happened.</p>
+      </div>
+      <label class="reflection-label">What you observed in those seven seconds:</label>
+      <textarea id="w1e1" placeholder="Guest 1: ...&#10;Guest 2: ...&#10;Guest 3: ..." oninput="calcProgress()"></textarea>
+
+      <div class="exercise-item">
+        <div class="plan-tag">Ground Up Plan</div>
+        <h4>Exercise 2 — Your Customer's First Impression</h4>
+        <p>Think about your business idea. When your first customer encounters your business — whether that's a booth at a market, a website, a social media post, or a front door — what do you want them to feel in the first seven seconds? What would you need to do or create to make that happen? Be specific.</p>
+      </div>
+      <label class="reflection-label">Your customer's ideal first impression — and how you'd create it:</label>
+      <span class="reflection-hint">This goes into your Ground Up Plan. Save a copy in your Google Drive folder.</span>
+      <textarea id="w1e2" placeholder="When someone first encounters my business, I want them to feel...&#10;To create that impression I would..." oninput="calcProgress()"></textarea>
+
+      <div class="exercise-item">
+        <h4>Exercise 3 — Your Best and Worst Customer Experience</h4>
+        <p>Describe the best customer experience you've personally had as a customer — anywhere, any industry. What made it memorable? Now describe the worst. What went wrong? What do both experiences tell you about what actually matters to people when they're being served?</p>
+      </div>
+      <label class="reflection-label">Best experience, worst experience, and what they taught you:</label>
+      <textarea id="w1e3" placeholder="Best: ...&#10;Worst: ...&#10;What it taught me: ..." oninput="calcProgress()"></textarea>
+    </div>
+  </div>
+
+  <div class="save-reminder">
+    <span style="font-size:20px;">💾</span>
+    <div><strong>Before you submit — review your responses above.</strong> The submission form will ask you to type or paste your answers. Take a moment to make sure your responses are complete and honest before clicking Submit.</div>
+  </div>
+
+  <div class="deliverable-card">
+    <div class="deliverable-eyebrow">Week 1 Deliverable</div>
+    <h4>Guest Experience Observation Report</h4>
+    <p>Review your three exercises above. When you're ready, click the button below to open your Week 1 submission form. Fill in your responses and hit Submit — your Mentor Lead will be notified automatically.</p>
+    <div style="margin-bottom:12px; font-size:13px; color:#c8d8c8;">💡 Tip: Review your notes above before opening the form — you'll type your responses directly into the form.</div>
+    <a href="https://docs.google.com/forms/d/e/1FAIpQLSfe3zbLI-BVR0P3BscbaUqeAOsV_iCtWaCc6LJ1ZU7uYdayqA/viewform" target="_blank" style="display:inline-block; background:var(--gold); color:var(--forest); border:none; padding:14px 28px; border-radius:6px; font-size:15px; font-weight:700; cursor:pointer; text-decoration:none; margin-bottom:12px;">📋 Submit Week 1 Exercises →</a>
+    <div style="font-size:12px; color:#7a9e7a;">Opens in a new tab. After submitting, come back here and continue to Week 2.</div>
+  </div>
+</section>
+
+<!-- ════════════════════════════════════════════════════════════════
+     WEEK 2 — Communication Skills
+════════════════════════════════════════════════════════════════ -->
+<section class="week-section" id="sec-w2">
+  <div class="week-header">
+    <div class="week-eyebrow">Session 1 &middot; Week 2</div>
+    <h2>Communication Skills That Open Doors</h2>
+    <div class="week-objective">
+      <strong>Weekly Objective</strong>
+      Understand the difference between talking and communicating — and why that gap matters at The Paddock, in your career, and in your business. Learn to listen actively, speak clearly, and begin using AI to help you find the right words.
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header"><span class="card-icon">☕</span><h3>Key Concepts</h3></div>
+    <div class="card-body">
+      <div class="concept-item">
+        <div class="concept-dot"></div>
+        <div class="concept-text">
+          <strong>Communication is not the same as talking</strong>
+          <span>Talking is making sounds. Communicating is making sure the other person understands what you mean, feels heard themselves, and walks away knowing what to do next. Most misunderstandings — at work, in relationships, in business — happen not because people disagree but because they're not actually communicating. The gap between what you said and what the other person heard is where most problems live.</span>
+        </div>
+      </div>
+      <div class="concept-item">
+        <div class="concept-dot"></div>
+        <div class="concept-text">
+          <strong>Listening is the most underrated professional skill</strong>
+          <span>In a busy café like The Paddock, it's easy to half-listen while you're doing three other things. But the guests who feel most valued are almost always the ones who feel most heard. Active listening means: eye contact, no interrupting, reflecting back what you heard, and asking one follow-up question. It takes practice. It changes how people experience you. It is also, not coincidentally, the foundation of every good business relationship.</span>
+        </div>
+      </div>
+      <div class="concept-item">
+        <div class="concept-dot"></div>
+        <div class="concept-text">
+          <strong>How you say something matters as much as what you say</strong>
+          <span>Tone, speed, volume, and body language carry as much information as your words — sometimes more. "I'll check on that" said warmly is reassurance. Said flatly while walking away, it's dismissal. In any service environment, you are communicating constantly — even when you're not speaking. Learning to be intentional about your non-verbal communication is one of the things that separates good workers from great ones.</span>
+        </div>
+      </div>
+      <div class="concept-item">
+        <div class="concept-dot"></div>
+        <div class="concept-text">
+          <strong>Written communication is now part of every job</strong>
+          <span>Texts, emails, social media captions, online reviews, Google business responses — every business communicates in writing constantly. If you can write clearly, warmly, and professionally, you have a skill that sets you apart. Many people who are excellent in person struggle to translate that to writing. AI can help with this — significantly — but the voice still has to be yours.</span>
+        </div>
+      </div>
+      <div class="concept-item">
+        <div class="concept-dot"></div>
+        <div class="concept-text">
+          <strong>Your story is your most powerful communication tool</strong>
+          <span>People remember stories. They forget bullet points. If you can tell the story of who you are, why you do what you do, and what you're building — clearly and authentically — you will be more memorable than 90% of the people in any room. This is true in a job interview, a sales conversation, a pitch to an investor, or a caption on Instagram. Your story, told well, is the foundation of your personal brand.</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="stat-row">
+    <div class="stat-box">
+      <div class="stat-number">93%</div>
+      <div class="stat-label">of communication is non-verbal — tone, body language, and facial expression carry more than words alone.</div>
+    </div>
+    <div class="stat-box">
+      <div class="stat-number">2x</div>
+      <div class="stat-label">more likely to be hired — candidates who clearly communicate their story outperform those with stronger résumés but weaker presence.</div>
+    </div>
+  </div>
+
+  <div class="ai-section">
+    <div class="ai-section-header">
+      <span style="font-size:18px;">🤖</span>
+      <h3>AI &amp; Communication — Week 2</h3>
+    </div>
+    <div class="ai-tracks">
+      <div class="ai-track basics">
+        <div class="ai-track-label">🌱 AI Basics</div>
+        <p>AI is excellent at helping you find the right words when you know what you want to say but can't quite get it out. Think of it as a writing partner who never gets tired of helping you edit. You write a rough draft — even just a few messy sentences — and AI helps you shape it into something clearer and more professional.</p>
+        <div class="ai-exercise">
+          <strong>Try This</strong>
+          Think about a time you had to explain something important but felt like you couldn't find the right words. In Claude.ai, type: <em>"Help me explain this more clearly: [write your messy version]."</em> — What did it suggest? Did it capture what you meant? If not, how would you change it?
+        </div>
+      </div>
+      <div class="ai-track deeper">
+        <div class="ai-track-label">🚀 Going Deeper</div>
+        <p>AI can help you draft the written communication your business will need — social media bios, response scripts for customer questions, even your first "about us" paragraph. The goal isn't to let AI write your story for you. It's to use AI to get a first draft on the page faster, then make it sound like you.</p>
+        <div class="ai-exercise">
+          <strong>Draft Your Story</strong>
+          In Claude.ai, type: <em>"Help me write a 3-sentence personal introduction for someone who works in a café and is building [your business idea]. The tone should be warm, honest, and confident — not corporate."</em> — Edit the output until it sounds like you. Save it in your Google Drive. This is the first draft of your Personal Brand Statement.
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header"><span class="card-icon">📚</span><h3>Resources</h3></div>
+    <div class="card-body">
+      <a class="resource-link" href="https://www.mindtools.com/az4wxv7/active-listening" target="_blank">
+        <span class="resource-type article">Article</span>
+        <div><div class="resource-title">Active Listening — MindTools</div><div class="resource-desc">Free · The most practical breakdown of what active listening actually looks like in a real conversation</div></div>
+      </a>
+      <a class="resource-link" href="https://hbr.org/2014/11/the-art-of-giving-and-receiving-advice" target="_blank">
+        <span class="resource-type article">Article</span>
+        <div><div class="resource-title">The Skill of Listening Well at Work</div><div class="resource-desc">Harvard Business Review — Free · Why the best communicators in any workplace are almost always the best listeners</div></div>
+      </a>
+      <a class="resource-link" href="https://www.youtube.com/@TEDx" target="_blank">
+        <span class="resource-type video">Video</span>
+        <div><div class="resource-title">How to Speak So That People Want to Listen — Julian Treasure</div><div class="resource-desc">YouTube — Free · Search "Julian Treasure how to speak" · 10 min · One of the most watched TED talks on communication</div></div>
+      </a>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header"><span class="card-icon">✏️</span><h3>Exercises</h3></div>
+    <div class="card-body">
+      <div class="exercise-item">
+        <h4>Exercise 1 — The Active Listening Test</h4>
+        <p>In your next shift at The Paddock, choose one guest interaction where you practice full active listening — eye contact, no phone, no half-attention. After they leave, write down exactly what they told you (their order, yes, but also anything else — were they in a hurry? Did they mention something about their day?). Then reflect: did you actually hear them, or were you waiting for your turn to speak?</p>
+      </div>
+      <label class="reflection-label">What you heard and what you noticed:</label>
+      <textarea id="w2e1" placeholder="The guest said / showed: ...&#10;What I actually heard beyond the order: ...&#10;What I noticed about my own listening: ..." oninput="calcProgress()"></textarea>
+
+      <div class="exercise-item">
+        <div class="plan-tag">Ground Up Plan</div>
+        <h4>Exercise 2 — Your Personal Story (First Draft)</h4>
+        <p>Write the first draft of your story — who you are, what you're building, and why. Don't make it perfect. Make it honest. Three to five sentences. Then use the AI exercise above (or your own AI session) to refine it. Your final version of this exercise becomes the core of your Personal Brand Statement capstone at the end of this session.</p>
+      </div>
+      <label class="reflection-label">Your personal story — rough draft and refined version:</label>
+      <span class="reflection-hint">Save both versions in your Google Drive. The rough draft matters — it's where the real you shows up.</span>
+      <textarea id="w2e2" rows="6" placeholder="Rough draft: ...&#10;&#10;Refined version (after AI assistance): ..." oninput="calcProgress()"></textarea>
+
+      <div class="exercise-item">
+        <h4>Exercise 3 — What Does The Paddock Communicate?</h4>
+        <p>Look at The Paddock's social media, its physical space, and how the team talks to guests. What is The Paddock communicating — not just in words but in atmosphere, design, and tone? What does it say about the kind of place it is? What does it say about the people it's trying to serve? What would you do differently if it were your café?</p>
+      </div>
+      <label class="reflection-label">What The Paddock communicates — and what you'd do differently:</label>
+      <textarea id="w2e3" placeholder="The Paddock's message feels like: ...&#10;If it were my business I would: ..." oninput="calcProgress()"></textarea>
+    </div>
+  </div>
+
+  <div class="save-reminder">
+    <span style="font-size:20px;">💾</span>
+    <div><strong>Before you submit — review Exercise 2.</strong> Make sure you have both your rough draft AND your refined personal story written above. You will paste both into the submission form.</div>
+  </div>
+
+  <div class="deliverable-card">
+    <div class="deliverable-eyebrow">Week 2 Deliverable</div>
+    <h4>Your Personal Story — Written &amp; Spoken</h4>
+    <p>Review your exercises above — especially your personal story draft from Exercise 2. When you're ready, click below to open your Week 2 submission form. After submitting, practice saying your personal story out loud until it feels natural. Your Mentor Lead will give you feedback at your weekly check-in.</p>
+    <div style="margin-bottom:12px; font-size:13px; color:#c8d8c8;">💡 Tip: Make sure you've written both your rough draft AND your refined version in Exercise 2 before submitting.</div>
+    <a href="https://docs.google.com/forms/d/e/1FAIpQLSeOH3ULLknYP8GEH2KyQeo6FhnweLmzmlvan-GTlk2VwZR3zA/viewform" target="_blank" style="display:inline-block; background:var(--gold); color:var(--forest); border:none; padding:14px 28px; border-radius:6px; font-size:15px; font-weight:700; cursor:pointer; text-decoration:none; margin-bottom:12px;">📋 Submit Week 2 Exercises →</a>
+    <div style="font-size:12px; color:#7a9e7a;">Opens in a new tab. After submitting, come back here and continue to Week 3.</div>
+  </div>
+</section>
+
+<!-- ════════════════════════════════════════════════════════════════
+     WEEK 3 — Handling Difficult Situations
+════════════════════════════════════════════════════════════════ -->
+<section class="week-section" id="sec-w3">
+  <div class="week-header">
+    <div class="week-eyebrow">Session 1 &middot; Week 3</div>
+    <h2>Handling Hard Conversations with Grace</h2>
+    <div class="week-objective">
+      <strong>Weekly Objective</strong>
+      Learn how to handle complaints, difficult guests, and tense situations at The Paddock without losing your composure — and understand why how you recover from a problem is more memorable than the problem itself. Apply the same skills to your business idea.
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header"><span class="card-icon">☕</span><h3>Key Concepts</h3></div>
+    <div class="card-body">
+      <div class="concept-item">
+        <div class="concept-dot"></div>
+        <div class="concept-text">
+          <strong>A complaint is a gift — if you treat it that way</strong>
+          <span>Most unhappy customers don't complain — they just leave and tell everyone they know. The guest who complains is actually giving you something valuable: a chance to fix it. Research shows that customers whose problems are resolved well become more loyal than customers who never had a problem at all. At The Paddock and in any business you run, learning to welcome a complaint with grace is a competitive advantage.</span>
+        </div>
+      </div>
+      <div class="concept-item">
+        <div class="concept-dot"></div>
+        <div class="concept-text">
+          <strong>The LAST framework — Listen, Apologize, Solve, Thank</strong>
+          <span>When a guest is upset: Listen without interrupting — let them finish. Apologize sincerely — not defensively. Solve the problem — even if it wasn't your fault. Thank them — for bringing it to your attention. This sequence works because it meets the guest's emotional needs first, then their practical needs. Most people who complain want to feel heard before they want a refund.</span>
+        </div>
+      </div>
+      <div class="concept-item">
+        <div class="concept-dot"></div>
+        <div class="concept-text">
+          <strong>Your emotional state is contagious</strong>
+          <span>If you come into work anxious, irritable, or distracted — your guests and your team will feel it, even if they can't name it. If you're calm, grounded, and present — that travels too. In a recovery context, emotional regulation is something you're already working on. It turns out that the same skills that help you stay sober under pressure — pause, breathe, respond instead of react — are exactly the skills that make a great hospitality professional.</span>
+        </div>
+      </div>
+      <div class="concept-item">
+        <div class="concept-dot"></div>
+        <div class="concept-text">
+          <strong>Not every difficult situation involves a difficult person</strong>
+          <span>Sometimes the hard conversation is with a coworker, a manager, or yourself. Telling a manager about a mistake you made. Asking for help when you're overwhelmed. Giving a teammate feedback that they might not want to hear. These conversations feel harder than complaints from guests — but the same principles apply: be honest, be calm, focus on the solution, and don't make it personal.</span>
+        </div>
+      </div>
+      <div class="concept-item">
+        <div class="concept-dot"></div>
+        <div class="concept-text">
+          <strong>Scripts are a starting point, not a script</strong>
+          <span>Every good customer service training program gives you scripts. Scripts are useful because they give you language when your brain goes blank under pressure. But the best service professionals internalize the purpose of the script — make the guest feel valued — and then speak naturally from that place. A script delivered robotically is worse than no script. The goal is to sound like yourself while hitting all the right marks.</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="stat-row">
+    <div class="stat-box">
+      <div class="stat-number">95%</div>
+      <div class="stat-label">of customers will give a business a second chance if their complaint was handled well and quickly.</div>
+    </div>
+    <div class="stat-box">
+      <div class="stat-number">1 in 26</div>
+      <div class="stat-label">unhappy customers actually complains. The other 25 just leave — and tell their friends. Every complaint you get represents many more you'll never hear.</div>
+    </div>
+  </div>
+
+  <div class="ai-section">
+    <div class="ai-section-header">
+      <span style="font-size:18px;">🤖</span>
+      <h3>AI &amp; Difficult Situations — Week 3</h3>
+    </div>
+    <div class="ai-tracks">
+      <div class="ai-track basics">
+        <div class="ai-track-label">🌱 AI Basics</div>
+        <p>AI can help you practice difficult conversations before they happen. You can describe a scenario — "A guest is upset that their order was wrong" — and ask AI to roleplay as the guest so you can practice your response. It's like rehearsing before the performance, with a patient partner who never gets actually angry.</p>
+        <div class="ai-exercise">
+          <strong>Practice a Difficult Conversation</strong>
+          In Claude.ai, type: <em>"Roleplay as a frustrated café customer whose order was wrong. I'm going to practice responding to your complaint using the LAST framework — Listen, Apologize, Solve, Thank. Start by telling me what went wrong with your order."</em> — Go back and forth at least three times. How did it feel? What would you do differently next time?
+        </div>
+      </div>
+      <div class="ai-track deeper">
+        <div class="ai-track-label">🚀 Going Deeper</div>
+        <p>Every business eventually faces a public complaint — a negative online review, a social media comment, an angry email. How you respond publicly is as important as how you respond in person. AI can help you draft professional, empathetic responses to negative feedback that protect your reputation while making the customer feel heard.</p>
+        <div class="ai-exercise">
+          <strong>Draft a Response Policy</strong>
+          In Claude.ai, type: <em>"Help me write a short, professional response to a negative online review for my business: [describe your business idea]. The review says: 'The service was slow and I felt ignored.' The response should be warm, take responsibility without being defensive, and invite the customer back."</em> — Save this in your Ground Up Plan folder. Every business needs a complaint response template.
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header"><span class="card-icon">📚</span><h3>Resources</h3></div>
+    <div class="card-body">
+      <a class="resource-link" href="https://pos.toasttab.com/blog/on-the-line/handling-customer-complaints" target="_blank">
+        <span class="resource-type article">Article</span>
+        <div><div class="resource-title">How to Handle Customer Complaints in a Restaurant</div><div class="resource-desc">Toast — Free · Real scenarios, real scripts, and what actually works when guests are upset</div></div>
+      </a>
+      <a class="resource-link" href="https://www.indeed.com/career-advice/career-development/conflict-resolution-skills" target="_blank">
+        <span class="resource-type article">Article</span>
+        <div><div class="resource-title">Conflict Resolution Skills: Definition and Examples</div><div class="resource-desc">Indeed — Free · How to handle difficult situations professionally — at work and in your own business</div></div>
+      </a>
+      <a class="resource-link" href="https://www.youtube.com/@Yelp" target="_blank">
+        <span class="resource-type video">Video</span>
+        <div><div class="resource-title">How to Respond to Negative Reviews</div><div class="resource-desc">YouTube — Free · Search "how to respond to negative reviews small business" · Essential for any business owner</div></div>
+      </a>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header"><span class="card-icon">✏️</span><h3>Exercises</h3></div>
+    <div class="card-body">
+      <div class="exercise-item">
+        <h4>Exercise 1 — The LAST Framework in Practice</h4>
+        <p>Think of a difficult guest interaction you've witnessed or been part of at The Paddock — or anywhere you've worked before. Walk through how it was handled and how it should have been handled using the LAST framework. What step was missing? What would have changed if LAST had been applied?</p>
+      </div>
+      <label class="reflection-label">The situation and how LAST would have changed it:</label>
+      <textarea id="w3e1" placeholder="What happened: ...&#10;What step was missing: ...&#10;How LAST would have changed the outcome: ..." oninput="calcProgress()"></textarea>
+
+      <div class="exercise-item">
+        <div class="plan-tag">Ground Up Plan</div>
+        <h4>Exercise 2 — Your Customer Service Standards</h4>
+        <p>Every business needs a set of service standards — the non-negotiable behaviors you expect from everyone who represents your business. Write three to five customer service standards for your business idea. These aren't rules — they're commitments. How will every customer feel when they interact with your business? Use what you've learned in Weeks 1–3 to inform them.</p>
+      </div>
+      <label class="reflection-label">Your customer service standards:</label>
+      <span class="reflection-hint">Save these in your Ground Up Plan folder — they'll become part of your Personal Brand Statement.</span>
+      <textarea id="w3e2" rows="6" placeholder="1. Every customer will feel...&#10;2. When something goes wrong, we will always...&#10;3. Our team will never...&#10;4. ...&#10;5. ..." oninput="calcProgress()"></textarea>
+
+      <div class="exercise-item">
+        <h4>Exercise 3 — The Hard Conversation You've Been Avoiding</h4>
+        <p>Is there a conversation you've been putting off — at work, with your Mentor Lead, or in your personal life? You don't have to name the person. Describe the situation and what's making it hard to start. Then write out exactly what you'd say if you had the courage to say it clearly and calmly. Use the AI practice exercise if it helps you prepare.</p>
+      </div>
+      <label class="reflection-label">The conversation and what you'd say:</label>
+      <textarea id="w3e3" placeholder="The situation: ...&#10;What's making it hard: ...&#10;What I'd say if I said it clearly: ..." oninput="calcProgress()"></textarea>
+    </div>
+  </div>
+
+  <div class="save-reminder">
+    <span style="font-size:20px;">💾</span>
+    <div><strong>Save your work.</strong> Copy Exercise 2 — your customer service standards — into your Ground Up Plan document. These go directly into your Personal Brand Statement.</div>
+  </div>
+
+  <div class="deliverable-card">
+    <div class="deliverable-eyebrow">Week 3 Deliverable</div>
+    <h4>Customer Service Standards + Complaint Response Template</h4>
+    <p>Review your exercises above — especially your customer service standards from Exercise 2 and your complaint response from the AI exercise. When you're ready, click below to submit your Week 3 work. Your Mentor Lead will be notified automatically.</p>
+    <div style="margin-bottom:12px; font-size:13px; color:#c8d8c8;">💡 Tip: Have your customer service standards written out before opening the form — you'll paste them directly in.</div>
+    <a href="https://docs.google.com/forms/d/e/1FAIpQLSeDu6XRC_rMGxPRrQyt7ZCGV9EtoMD3w36FXghPn4L2DmYoVw/viewform" target="_blank" style="display:inline-block; background:var(--gold); color:var(--forest); border:none; padding:14px 28px; border-radius:6px; font-size:15px; font-weight:700; cursor:pointer; text-decoration:none; margin-bottom:12px;">📋 Submit Week 3 Exercises →</a>
+    <div style="font-size:12px; color:#7a9e7a;">Opens in a new tab. After submitting, come back here and continue to Week 4.</div>
+  </div>
+</section>
+
+<!-- ════════════════════════════════════════════════════════════════
+     WEEK 4 — Team Communication
+════════════════════════════════════════════════════════════════ -->
+<section class="week-section" id="sec-w4">
+  <div class="week-header">
+    <div class="week-eyebrow">Session 1 &middot; Week 4</div>
+    <h2>Team Communication &amp; Showing Up Professionally</h2>
+    <div class="week-objective">
+      <strong>Weekly Objective</strong>
+      Understand what it means to be a reliable, trustworthy team member — and why those qualities are the foundation of every successful business. Learn how professional communication at The Paddock translates directly into the kind of business owner, partner, or employee you'll be in the future.
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header"><span class="card-icon">☕</span><h3>Key Concepts</h3></div>
+    <div class="card-body">
+      <div class="concept-item">
+        <div class="concept-dot"></div>
+        <div class="concept-text">
+          <strong>Reliability is a communication act</strong>
+          <span>Every time you show up on time, finish what you said you'd finish, and follow through on a commitment, you are communicating something: I can be counted on. In any workplace — and in any business — trust is built through small, repeated acts of reliability over time. It takes months to build and one broken promise to damage. The most professionally valuable thing you can be is someone people don't have to worry about.</span>
+        </div>
+      </div>
+      <div class="concept-item">
+        <div class="concept-dot"></div>
+        <div class="concept-text">
+          <strong>Feedback is a professional skill on both sides</strong>
+          <span>Giving feedback that helps someone improve without making them feel attacked, and receiving feedback without becoming defensive — these are skills that most people never fully develop. At The Paddock, you'll receive feedback from managers and give feedback to teammates. In your own business, you'll receive it from customers and give it to employees or partners. The ability to engage with feedback as information rather than criticism is one of the most valuable professional capacities you can build.</span>
+        </div>
+      </div>
+      <div class="concept-item">
+        <div class="concept-dot"></div>
+        <div class="concept-text">
+          <strong>Psychological safety makes teams perform better</strong>
+          <span>Research from Google's Project Aristotle found that the single biggest predictor of team performance isn't talent, experience, or intelligence — it's whether team members feel safe to speak up, make mistakes, and ask questions without fear of embarrassment. At The Paddock, you are part of a team. The way you treat your teammates — whether you make it easier or harder for them to show up fully — shapes how the whole team performs.</span>
+        </div>
+      </div>
+      <div class="concept-item">
+        <div class="concept-dot"></div>
+        <div class="concept-text">
+          <strong>Professionalism isn't about perfection — it's about ownership</strong>
+          <span>Professional people make mistakes. What makes them professional is how they handle those mistakes: they own them, they fix them, and they don't repeat them. The opposite of professional isn't imperfect — it's someone who deflects, blames, or hides. In a recovery context, ownership is something you already know something about. The same honesty and accountability that recovery asks of you is exactly what professional life asks of you too.</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="stat-row">
+    <div class="stat-box">
+      <div class="stat-number">#1</div>
+      <div class="stat-label">predictor of team success, per Google's research: psychological safety — feeling safe to speak up and take risks without fear.</div>
+    </div>
+    <div class="stat-box">
+      <div class="stat-number">46%</div>
+      <div class="stat-label">of new hires fail within 18 months — and 89% of those failures are due to attitude and communication, not skills or knowledge.</div>
+    </div>
+  </div>
+
+  <div class="ai-section">
+    <div class="ai-section-header">
+      <span style="font-size:18px;">🤖</span>
+      <h3>AI &amp; Professional Communication — Week 4</h3>
+    </div>
+    <div class="ai-tracks">
+      <div class="ai-track basics">
+        <div class="ai-track-label">🌱 AI Basics</div>
+        <p>AI can help you write professional messages — texts to a manager about being late, emails to a supplier, or responses to a customer inquiry — when you're not sure how to phrase something. You describe the situation and what you want to say, and AI helps you say it professionally. This is one of the most practical everyday uses of AI for anyone running or working in a business.</p>
+        <div class="ai-exercise">
+          <strong>Write a Professional Message</strong>
+          Think of a message you've had to send at work — asking a manager a question, letting someone know about a problem, or following up on something. In Claude.ai, type: <em>"Help me write a professional, respectful text/email to [describe the situation]. I want to sound confident but not aggressive."</em> — How does the AI version compare to how you would have written it?
+        </div>
+      </div>
+      <div class="ai-track deeper">
+        <div class="ai-track-label">🚀 Going Deeper</div>
+        <p>If you're building a business, you'll eventually need to communicate with vendors, partners, investors, or employees. AI can help you draft any of these communications — but the most important skill is learning to review and edit AI output so it sounds like you, not a template. Practice finding where the AI's voice and your voice differ, and adjusting.</p>
+        <div class="ai-exercise">
+          <strong>Build Your Communication Templates</strong>
+          In Claude.ai, ask it to help you draft three short templates for your business: (1) A welcome message to a new customer, (2) A message when something goes wrong, (3) A follow-up message after a purchase or service. Save these in your Ground Up Plan folder — every business needs these, and having them ready before you need them is the professional move.
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header"><span class="card-icon">📚</span><h3>Resources</h3></div>
+    <div class="card-body">
+      <a class="resource-link" href="https://rework.withgoogle.com/guides/understanding-team-effectiveness/steps/introduction/" target="_blank">
+        <span class="resource-type article">Article</span>
+        <div><div class="resource-title">Google's Project Aristotle — What Makes a Team Effective?</div><div class="resource-desc">Google re:Work — Free · The research behind psychological safety and why it matters on any team</div></div>
+      </a>
+      <a class="resource-link" href="https://www.7shifts.com/blog/restaurant-team-communication/" target="_blank">
+        <span class="resource-type article">Article</span>
+        <div><div class="resource-title">Restaurant Team Communication — Best Practices</div><div class="resource-desc">7shifts — Free · 2025 · How the best restaurant teams stay aligned, give feedback, and handle problems together</div></div>
+      </a>
+      <a class="resource-link" href="https://www.youtube.com/@SimonSinek" target="_blank">
+        <span class="resource-type video">Video</span>
+        <div><div class="resource-title">Simon Sinek — Why Good Leaders Make You Feel Safe</div><div class="resource-desc">YouTube — Free · Search "Simon Sinek feel safe" · 12 min · On trust, team culture, and why people do their best work when they feel secure</div></div>
+      </a>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header"><span class="card-icon">✏️</span><h3>Exercises</h3></div>
+    <div class="card-body">
+      <div class="exercise-item">
+        <h4>Exercise 1 — Your Reliability Record</h4>
+        <p>Look back at the past four weeks. Where have you shown up consistently and reliably? Where have you struggled? Be honest — this isn't a report card, it's a self-assessment. What pattern do you see? What would you change, and what's one specific thing you'll do differently in Session 2 to strengthen your reliability?</p>
+      </div>
+      <label class="reflection-label">Honest self-assessment of your reliability and what you'll change:</label>
+      <textarea id="w4e1" placeholder="Where I've been consistent: ...&#10;Where I've struggled: ...&#10;What I'll do differently: ..." oninput="calcProgress()"></textarea>
+
+      <div class="exercise-item">
+        <div class="plan-tag">Ground Up Plan</div>
+        <h4>Exercise 2 — The Kind of Business Owner You Want to Be</h4>
+        <p>Based on everything you've learned in Session 1 — guest experience, communication, handling difficulty, team dynamics — describe the kind of business owner you want to be. Not what your business does, but how you'll show up for your customers, your employees, and yourself. Three to five sentences. Use the communication skills you've been developing to make it clear and specific.</p>
+      </div>
+      <label class="reflection-label">The kind of business owner you want to be:</label>
+      <span class="reflection-hint">This is the final piece of your Personal Brand Statement. Save it in your Ground Up Plan document.</span>
+      <textarea id="w4e2" rows="5" placeholder="As a business owner I will always...&#10;My customers will know me for...&#10;My team will say that I..." oninput="calcProgress()"></textarea>
+
+      <div class="exercise-item">
+        <h4>Exercise 3 — Feedback You've Received</h4>
+        <p>Think of a piece of feedback you've received in this program — from your Mentor Lead, from a manager at The Paddock, or from someone in your life. Write it down honestly. How did you receive it in the moment? How do you receive it now, looking back? What did you do with it? What does it tell you about where you're growing?</p>
+      </div>
+      <label class="reflection-label">The feedback, how you received it, and what you did with it:</label>
+      <textarea id="w4e3" placeholder="The feedback was: ...&#10;In the moment I felt: ...&#10;Looking back, I think: ...&#10;What I did with it: ..." oninput="calcProgress()"></textarea>
+    </div>
+  </div>
+
+  <div class="save-reminder">
+    <span style="font-size:20px;">💾</span>
+    <div><strong>Before submitting Week 4 — review all four weeks.</strong> Your capstone will ask you to pull together everything from this session. Make sure your exercises from Weeks 1–3 are complete and that you can recall the key points from each one.</div>
+  </div>
+
+  <div class="deliverable-card">
+    <div class="deliverable-eyebrow">Week 4 Deliverable</div>
+    <h4>Communication Templates + Business Owner Statement</h4>
+    <p>Review your exercises above — especially your business owner statement from Exercise 2 and your communication templates from the AI exercise. When you're ready, click below to submit your Week 4 work. After submitting, move to the Capstone tab to begin assembling your Personal Brand Statement.</p>
+    <div style="margin-bottom:12px; font-size:13px; color:#c8d8c8;">💡 Tip: This is your last week before the capstone — make sure your responses are your best work yet.</div>
+    <a href="https://docs.google.com/forms/d/e/1FAIpQLSeSpHVDF6hRKyeWkesPtotuYQKuKq-f6f79Twcmh7kYEEbdQQ/viewform" target="_blank" style="display:inline-block; background:var(--gold); color:var(--forest); border:none; padding:14px 28px; border-radius:6px; font-size:15px; font-weight:700; cursor:pointer; text-decoration:none; margin-bottom:12px;">📋 Submit Week 4 Exercises →</a>
+    <div style="font-size:12px; color:#7a9e7a;">Opens in a new tab. After submitting, click the Capstone tab to complete your Personal Brand Statement.</div>
+  </div>
+</section>
+
+<!-- ════════════════════════════════════════════════════════════════
+     CAPSTONE
+════════════════════════════════════════════════════════════════ -->
+<section class="week-section" id="sec-cap">
+  <div class="week-header">
+    <div class="week-eyebrow">Session 1 &middot; Capstone</div>
+    <h2>Your Personal Brand Statement</h2>
+    <div class="week-objective">
+      <strong>Capstone Objective</strong>
+      Bring together everything you've built over four weeks into your first Ground Up Plan deliverable: a Personal Brand Statement that tells the world who you are, what you offer, and why someone would want to do business with you.
+    </div>
+  </div>
+
+  <div class="ground-up-plan-reveal">
+    <div class="badge">🗂</div>
+    <h3>Ground Up Plan — Deliverable #1</h3>
+    <p>You've spent four weeks studying customer service and communication through the lens of The Paddock — and through the lens of your own business idea. Everything you've reflected on, drafted, and refined comes together now into one document: your Personal Brand Statement.</p>
+  </div>
+
+  <div class="capstone-intro">
+    <h3>What Is a Personal Brand Statement?</h3>
+    <p style="margin-bottom:10px;">A Personal Brand Statement is a short, clear, powerful description of who you are professionally — what you do, how you do it, and why someone would choose you over anyone else. It's used in job interviews, on a résumé, in a business pitch, on a social media bio, and anywhere else you need to introduce yourself in a way that sticks.</p>
+    <p>Yours will pull directly from the work you've done in Weeks 1–4: your personal story (Week 2), your customer service standards (Week 3), and your description of the kind of business owner you want to be (Week 4). You've already written most of it. Today you assemble it.</p>
+  </div>
+
+  <div class="plan-thread">
+    <div class="plan-thread-label">🤖 AI at the Capstone</div>
+    <h4>Let AI Help You Assemble and Refine</h4>
+    <p style="color:#b0b8c8;">In Claude.ai, paste in your personal story draft, your customer service standards, and your business owner statement. Then type: <em>"Help me combine these into a single Personal Brand Statement — about 100 words — that I could use as a professional introduction. Keep my voice. Make it honest and confident, not corporate."</em> — Review the output. Edit anything that doesn't sound like you. The final version should feel like something you could say out loud and mean every word.</p>
+  </div>
+
+  <div class="card">
+    <div class="card-header"><span class="card-icon">📋</span><h3>Capstone Components</h3></div>
+    <div class="card-body">
+      <div class="concept-item">
+        <div class="concept-dot"></div>
+        <div class="concept-text">
+          <strong>Part 1 — Your Personal Story (3–5 sentences)</strong>
+          <span>Who you are, what you've been through, and what you're building. Honest. Human. Yours.</span>
+        </div>
+      </div>
+      <div class="concept-item">
+        <div class="concept-dot"></div>
+        <div class="concept-text">
+          <strong>Part 2 — What You Offer (2–3 sentences)</strong>
+          <span>The skills, qualities, and approach you bring to any guest, employer, or customer. What can someone count on when they work with you?</span>
+        </div>
+      </div>
+      <div class="concept-item">
+        <div class="concept-dot"></div>
+        <div class="concept-text">
+          <strong>Part 3 — Your Business Idea and Why It's Yours (2–3 sentences)</strong>
+          <span>What you want to build and why this particular idea connects to who you are and where you've been. The "why" matters more than the "what" here.</span>
+        </div>
+      </div>
+      <div class="concept-item">
+        <div class="concept-dot"></div>
+        <div class="concept-text">
+          <strong>Part 4 — Your Customer Service Standards (3–5 bullet points)</strong>
+          <span>The non-negotiable commitments you'll make to every customer of your business. Brief, specific, and real.</span>
+        </div>
+      </div>
+      <div class="concept-item">
+        <div class="concept-dot"></div>
+        <div class="concept-text">
+          <strong>Part 5 — What's Next (1–2 sentences)</strong>
+          <span>Where you're headed. What Session 2 — Basic Finance — means for your Ground Up Plan, and what question about your business finances you most want answered.</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header"><span class="card-icon">✏️</span><h3>Capstone Workspace</h3></div>
+    <div class="card-body">
+      <label class="reflection-label">Part 1 — Your Personal Story:</label>
+      <textarea id="cap1" rows="4" placeholder="Who I am and what I'm building..." oninput="calcProgress()"></textarea>
+
+      <label class="reflection-label">Part 2 — What You Offer:</label>
+      <textarea id="cap2" rows="3" placeholder="What someone can count on when they work with me..." oninput="calcProgress()"></textarea>
+
+      <label class="reflection-label">Part 3 — Your Business Idea and Why It's Yours:</label>
+      <textarea id="cap3" rows="3" placeholder="What I want to build and why this idea is mine..." oninput="calcProgress()"></textarea>
+
+      <label class="reflection-label">Part 4 — Your Customer Service Standards:</label>
+      <textarea id="cap4" rows="5" placeholder="1. Every customer will feel...&#10;2. When something goes wrong...&#10;3. I will always...&#10;4. I will never...&#10;5. ..." oninput="calcProgress()"></textarea>
+
+      <label class="reflection-label">Part 5 — What's Next:</label>
+      <textarea id="cap5" rows="2" placeholder="Heading into Session 2, the question I most want to answer about my business finances is..." oninput="calcProgress()"></textarea>
+
+      <label class="reflection-label">Assembled Personal Brand Statement (100–150 words — refined with AI):</label>
+      <span class="reflection-hint">This is the polished version that goes into your Ground Up Plan document. Save it in Google Drive.</span>
+      <textarea id="cap6" rows="6" placeholder="My Personal Brand Statement..." oninput="calcProgress()"></textarea>
+    </div>
+  </div>
+
+  <div class="deliverable-card">
+    <div class="deliverable-eyebrow">Session 1 Capstone Deliverable</div>
+    <h4>Personal Brand Statement — Ground Up Plan Deliverable #1</h4>
+    <p>Present your Personal Brand Statement to your Mentor Lead and any Paddock or Awake leadership present. You'll share the written version (saved in Google Drive) and deliver it out loud — 2 to 3 minutes. Then walk through your customer service standards and explain the business idea that runs through all of it. This is not a performance. It's an introduction. Show up as yourself.</p>
+    <div class="checklist">
+      <div class="checklist-item">All five capstone components completed in the workspace above</div>
+      <div class="checklist-item">Assembled Personal Brand Statement saved in Google Drive Ground Up Plan folder</div>
+      <div class="checklist-item">Ready to present out loud — practiced at least twice</div>
+      <div class="checklist-item">Both certifications (KY Food Handler + ServSafe) logged and certificates shared with Mentor Lead</div>
+    </div>
+    <div style="margin-top:16px; margin-bottom:12px; font-size:13px; color:#c8d8c8;">💡 Tip: Complete all five capstone components in the workspace above before opening the submission form. Use Claude.ai to assemble your final Personal Brand Statement — then paste it into the form.</div>
+    <a href="https://docs.google.com/forms/d/e/1FAIpQLSc90cgwuj8tjApS_2U42U0JCSGCT7IJMe8fRed78svcEq-45Q/viewform" target="_blank" style="display:inline-block; background:var(--gold); color:var(--forest); border:none; padding:14px 28px; border-radius:6px; font-size:15px; font-weight:700; cursor:pointer; text-decoration:none; margin-bottom:12px;">🌱 Submit Session 1 Capstone →</a>
+    <div style="font-size:12px; color:#7a9e7a;">Opens in a new tab. After submitting your capstone your Mentor Lead and program leadership will be notified. You're ready to present.</div>
+  </div>
+</section>
+
+</main>
+
+<div class="toast" id="toast">✅ Saved</div>
+
+<script>
+// ── STATE ──────────────────────────────────────────────────────────
+const SECTIONS = ['start','w1','w2','w3','w4','cap'];
+const TEXTAREA_IDS = [
+  'start-idea','start-why','start-know','cert-tracker',
+  'w1e1','w1e2','w1e3',
+  'w2e1','w2e2','w2e3',
+  'w3e1','w3e2','w3e3',
+  'w4e1','w4e2','w4e3',
+  'cap1','cap2','cap3','cap4','cap5','cap6'
+];
+
+// ── NAVIGATION ─────────────────────────────────────────────────────
+function showTab(id, btn) {
+  document.querySelectorAll('.week-section').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('sec-' + id).classList.add('active');
+  btn.classList.add('active');
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+// ── IDEA BANNER ────────────────────────────────────────────────────
+function updateIdeaDisplay() {
+  const val = document.getElementById('business-idea').value;
+  const ta = document.getElementById('start-idea');
+  if (ta && !ta.value && val) ta.value = val;
+}
+
+function saveIdea() {
+  const val = document.getElementById('business-idea').value.trim();
+  if (val) showToast('💡 Idea saved — it travels with you through every week.');
+}
+
+// ── PROGRESS ───────────────────────────────────────────────────────
+function calcProgress() {
+  let filled = 0;
+  TEXTAREA_IDS.forEach(id => {
+    const el = document.getElementById(id);
+    if (el && el.value.trim().length > 15) filled++;
+  });
+  const pct = Math.round((filled / TEXTAREA_IDS.length) * 100);
+  document.getElementById('progress-fill').style.width = pct + '%';
+  document.getElementById('pct-label').textContent = pct + '%';
+}
+
+// ── MARK DONE ──────────────────────────────────────────────────────
+function markDone(key) {
+  const tabEl = document.getElementById('tab-' + key);
+  if (tabEl) {
+    tabEl.classList.add('complete');
+  }
+  showToast('✅ ' + getSectionName(key) + ' marked complete. Save your work to Google Drive.');
+  calcProgress();
+
+  // Auto-advance to next section
+  const next = SECTIONS[SECTIONS.indexOf(key) + 1];
+  if (next) {
+    setTimeout(() => {
+      const nextBtn = document.getElementById('tab-' + next);
+      if (nextBtn) {
+        showTab(next, nextBtn);
+        nextBtn.classList.add('active');
+      }
+    }, 1800);
+  }
+}
+
+function getSectionName(key) {
+  const names = {
+    start: 'Start Here', w1: 'Week 1', w2: 'Week 2',
+    w3: 'Week 3', w4: 'Week 4', cap: 'Session 1 Capstone'
+  };
+  return names[key] || key;
+}
+
+// ── TOAST ──────────────────────────────────────────────────────────
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 3500);
+}
+
+// ── INIT ───────────────────────────────────────────────────────────
+calcProgress();
+</script>
+</body>
+</html>
